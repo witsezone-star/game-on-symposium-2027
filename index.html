@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GO Game-On! Symposium 2027 | ImbizoHub · Wits University Hybrid Conference Platform</title>
+  <meta name="description" content="Official Hybrid Conference Platform for the GO Game-On! Symposium 2027 (11–12 March 2027) — Playing Our Stories: Educational, Digital and Traditional Games for Learning, Teaching and Community. Hosted by Wits University, School of Therapeutic Sciences & eFundanathi eZone." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top University Multi-Event Umbrella Bar (Subdomain Architecture) -->
+  <div class="platform-topbar">
+    <div class="topbar-inner">
+      <div class="platform-brand-cluster">
+        <span class="platform-pill">🎲 ImbizoHub · Wits Event Cloud</span>
+        <span class="subdomain-badge" id="activeSubdomainDisplay">
+          <span class="subdomain-dot"></span>
+          <span id="subdomainText">gameon2027.imbizo.wits.ac.za</span>
+        </span>
+        <span style="opacity:0.85; font-size:0.76rem;">University of the Witwatersrand · Multi-Event Hybrid Platform</span>
+      </div>
+      <div class="topbar-actions">
+        <label for="eventSwitcherSelect" style="font-size:0.75rem; opacity:0.85;">Switch University Event:</label>
+        <select id="eventSwitcherSelect" class="topbar-select" aria-label="Switch University Event"></select>
+        <button class="topbar-btn" id="openNewSubdomainModalBtn">+ Create University Event Subdomain</button>
+        <button class="topbar-btn" id="resetDemoDataBtn" title="Reset demo data to initial state">↺ Reset Demo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Navigation Header -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="brand-logo-wrap" data-goto-tab="overview">
+        <img src="assets/game-on-logo.png" alt="GO Game-On! Symposium 2027 Logo" class="brand-logo-img" />
+        <div class="brand-meta">
+          <span class="brand-meta-date">11–12 March 2027 · Hybrid</span>
+          <span class="brand-meta-venue">eFundanathi eZone, Wits Education Campus</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Main conference navigation">
+        <button class="nav-tab active" data-tab="overview">🏠 Overview & Tracks</button>
+        <button class="nav-tab" data-tab="agenda">📅 Agenda & Calendar <span class="nav-badge" id="navAgendaCount">9</span></button>
+        <button class="nav-tab" data-tab="speakers">🎓 Speakers & Bios <span class="nav-badge" id="navSpeakerCount">7</span></button>
+        <button class="nav-tab" data-tab="abstracts">📄 Abstracts & Uploads <span class="nav-badge" id="navAbstractCount">4</span></button>
+        <button class="nav-tab" data-tab="review">⚖️ Peer Review</button>
+        <button class="nav-tab" data-tab="stream">📡 Live Stream <span class="nav-badge" style="background:#ff4d4d;color:#fff;">LIVE</span></button>
+        <button class="nav-tab" data-tab="gamification">🏆 Amazing Race & Hunt</button>
+        <button class="nav-tab" data-tab="sponsors">🤝 Sponsors & Partners</button>
+      </nav>
+
+      <div class="header-user-cluster">
+        <div class="xp-pill" data-goto-tab="gamification" title="Your Gamification XP — Click to play Amazing Race & Scavenger Hunt!">
+          <span>⚡</span>
+          <span id="headerUserXP">250 XP</span>
+        </div>
+        <button class="user-profile-btn" id="openAuthModalBtn">
+          <span class="user-avatar-sm" id="headerUserInitials">GUEST</span>
+          <span id="headerUserName">Login / Register</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Container -->
+  <main class="main-container">
+
+    <!-- ==========================================
+         TAB 1: OVERVIEW, SAVE THE DATE & 4 TRACKS
+         ========================================== -->
+    <section class="tab-panel active" id="tab-overview">
+      <div class="hero-card">
+        <div class="hero-grid">
+          <div>
+            <div class="save-date-kicker">
+              <span>✨ SAVE THE DATE & CALL FOR ABSTRACTS</span>
+              <span>·</span>
+              <span>HYBRID SYMPOSIUM 2027</span>
+            </div>
+            <img src="assets/game-on-logo.svg" alt="GO Game-On! Symposium 2027" class="hero-logo-banner" />
+
+            <div class="hero-theme-box">
+              <div class="hero-theme-label">Official 2027 Symposium Theme</div>
+              <h1 class="hero-theme-title" id="heroEventTheme">
+                Playing Our Stories: Educational, Digital &amp; Traditional Games for Learning, Teaching and Community
+              </h1>
+              <p style="font-size:0.86rem; color:var(--ink-brown); margin-top:0.35rem; font-weight:600;">
+                Celebrating Board Games, African Indigenous Games (Morabaraba, Mancala/Oware, Diketo), Clinical Simulations, XR &amp; Playful Pedagogies across Universities.
+              </p>
+            </div>
+
+            <div class="hero-badges-row">
+              <span class="info-chip">📍 Venue: eFundanathi eZone, Wits Education Campus</span>
+              <span class="info-chip">🌐 Format: Hybrid (In-Person &amp; Online via Zoom + MS Teams)</span>
+              <span class="info-chip">🏛️ Inter-University Academic &amp; Student Hub</span>
+            </div>
+
+            <div class="hero-cta-row">
+              <button class="btn btn-primary" id="heroRegisterBtn">🎟️ Register / Participant Login</button>
+              <button class="btn btn-accent" data-goto-tab="abstracts">📤 Submit Abstract &amp; Presentation</button>
+              <button class="btn btn-mustard" data-goto-tab="gamification">🏁 Join Campus Amazing Race</button>
+              <button class="btn btn-outline" data-goto-tab="stream">📡 Enter Hybrid Stream Stage</button>
+            </div>
+          </div>
+
+          <div class="hero-visual-col">
+            <img src="assets/dates-illustration.png" alt="11 - 12 March 2027 Board Game Cards" class="hero-dates-art" />
+            <div class="hero-march-title">MARCH <span>2027</span></div>
+            <div class="countdown-bar" id="symposiumCountdown" aria-label="Countdown to 11 March 2027">
+              <div class="countdown-cell">
+                <div class="countdown-num" id="cdDays">120</div>
+                <div class="countdown-lbl">Days</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-num" id="cdHours">08</div>
+                <div class="countdown-lbl">Hours</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-num" id="cdMins">45</div>
+                <div class="countdown-lbl">Mins</div>
+              </div>
+              <div class="countdown-cell">
+                <div class="countdown-num" id="cdSecs">12</div>
+                <div class="countdown-lbl">Secs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="host-banner-wrap">
+          <img src="assets/host-logos.png" alt="Your Host: Wits University, Therapeutic Sciences, eFundanathi Learn with us" class="host-logos-img" />
+          <div style="display:flex; gap:0.65rem; align-items:center; flex-wrap:wrap;">
+            <img src="assets/morabaraba.svg" alt="Morabaraba Board" style="height:56px; width:auto;" />
+            <div style="font-size:0.8rem; max-width:290px; color:var(--ink-brown); font-weight:600;">
+              Hosted by <strong>Wits University</strong>, <strong>School of Therapeutic Sciences</strong> &amp; <strong>eFundanathi eZone</strong> ("Learn with us").
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="african-pattern-bar"></div>
+
+      <!-- Call for Abstracts Key Dates Board Cards -->
+      <div class="section-header" style="margin-top:1.75rem;">
+        <div>
+          <h2 class="section-title">📢 Call for Abstracts &amp; Key Milestones</h2>
+          <p class="section-subtitle">Submit your abstract, playable game demo, workshop, or digital poster across our 4 peer-reviewed symposium tracks.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" data-goto-tab="abstracts">Go to Submission Portal →</button>
+      </div>
+
+      <div class="board-cards-grid">
+        <div class="board-card">
+          <div class="board-card-trim"></div>
+          <div class="board-card-body">
+            <span class="badge badge-mustard">MILESTONE 1 · OPENS</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; margin:0.45rem 0;">09 November 2026</h3>
+            <p style="font-size:0.86rem; color:var(--ink-brown);">Call for Abstracts &amp; Playable Game Demos officially opens for all universities and practitioners.</p>
+          </div>
+        </div>
+
+        <div class="board-card teal-variant">
+          <div class="board-card-trim"></div>
+          <div class="board-card-body">
+            <span class="badge badge-mustard">MILESTONE 2 · SUBMISSION DEADLINE</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; margin:0.45rem 0;" id="abstractCloseDateDisplay">18 February 2027*</h3>
+            <p style="font-size:0.84rem; opacity:0.95;">Abstract &amp; workshop submissions close for peer review. <em>(*Poster draft notes 18 April — configurable in Admin)</em>.</p>
+          </div>
+        </div>
+
+        <div class="board-card peach-variant">
+          <div class="board-card-trim"></div>
+          <div class="board-card-body">
+            <span class="badge badge-terracotta">MILESTONE 3 · NOTIFICATIONS</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; margin:0.45rem 0;">01 March 2027</h3>
+            <p style="font-size:0.86rem; color:var(--ink-brown);">Notifications of Acceptance sent to authors; accepted presentations auto-sync to the Agenda Center.</p>
+          </div>
+        </div>
+
+        <div class="board-card navy-variant">
+          <div class="board-card-trim"></div>
+          <div class="board-card-body">
+            <span class="badge badge-navy">MILESTONE 4 · SYMPOSIUM DAYS</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; margin:0.45rem 0;">11–12 March 2027</h3>
+            <p style="font-size:0.86rem; color:var(--ink-brown);">2-Day Hybrid Symposium at eFundanathi eZone (Wits Education Campus) + Online Live Streams.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Official Symposium Tracks (Directly from Call for Abstracts p2.ai) -->
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🎯 Official Symposium Tracks (Tracks 1–4)</h2>
+          <p class="section-subtitle">Click any topic pill below to start an abstract submission pre-tagged with that track and sub-topic.</p>
+        </div>
+      </div>
+
+      <div class="tracks-grid" id="overviewTracksContainer"></div>
+
+      <!-- Whova-Style Platform Capabilities & Official Poster Gallery -->
+      <div class="grid-2" style="margin-top:2rem;">
+        <div class="card">
+          <span class="badge badge-teal" style="margin-bottom:0.5rem;">ALL-IN-ONE HYBRID PLATFORM</span>
+          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.65rem;">Everything Built for Wits &amp; Partner Universities</h3>
+          <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1rem;">
+            Inspired by leading academic conference suites (Whova, Ex Ordo &amp; Oxford Abstracts) and tailored for <strong>eFundanathi eZone</strong>:
+          </p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.84rem;">
+            <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
+              <strong>📅 Smart Agenda &amp; .ICS Sync</strong><br/>Bookmark sessions, filter by track, &amp; export directly to Outlook/Google Calendar.
+            </div>
+            <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
+              <strong>⚖️ Double-Blind Peer Review</strong><br/>4-criterion academic rubric &amp; 1-click promotion of accepted abstracts to the schedule.
+            </div>
+            <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
+              <strong>📡 Zoom &amp; MS Teams Stage</strong><br/>Integrated hybrid live streaming, upvotable Q&amp;A, polls, and slide deck downloads.
+            </div>
+            <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
+              <strong>🏆 Amazing Race &amp; QR Hunt</strong><br/>5-leg campus &amp; online puzzle race + inter-university trophy leaderboard.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-mustard" style="margin-bottom:0.5rem;">OFFICIAL ARTWORK GALLERY</span>
+          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.65rem;">Official Symposium Posters (.AI Vector Exports)</h3>
+          <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:0.85rem;">Click any official poster below to inspect full-screen or download for university distribution:</p>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem;">
+            <div>
+              <img src="assets/save-the-date-latest.png" alt="Save the Date Poster" class="poster-thumb" data-lightbox-src="assets/save-the-date-latest.png" />
+              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Save The Date</div>
+            </div>
+            <div>
+              <img src="assets/call-for-abstracts-p1.jpg" alt="Call for Abstracts Page 1" class="poster-thumb" data-lightbox-src="assets/call-for-abstracts-p1.jpg" />
+              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Call for Abstracts (P1)</div>
+            </div>
+            <div>
+              <img src="assets/call-for-abstracts-p2.png" alt="Call for Abstracts Page 2 Tracks" class="poster-thumb" data-lightbox-src="assets/call-for-abstracts-p2.png" />
+              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Symposium Tracks (P2)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 2: INTERACTIVE AGENDA & CALENDAR
+         ========================================== -->
+    <section class="tab-panel" id="tab-agenda">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📅 Symposium Agenda &amp; Personal Calendar Manager</h2>
+          <p class="section-subtitle">11–12 March 2027 · Hybrid Schedule across eFundanathi eZone (Wits Education Campus), Zoom &amp; Microsoft Teams.</p>
+        </div>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+          <button class="btn btn-mustard btn-sm" id="exportIcsBtn">📥 Export My Schedule (.ICS)</button>
+          <button class="btn btn-primary btn-sm" id="openAddSessionModalBtn">+ Add Session to Calendar</button>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-group" id="agendaDayFilters">
+          <button class="chip-btn active" data-day="ALL">All Days (11–12 Mar)</button>
+          <button class="chip-btn" data-day="Day 1">Day 1 · Thu 11 Mar</button>
+          <button class="chip-btn" data-day="Day 2">Day 2 · Fri 12 Mar</button>
+          <button class="chip-btn" data-day="SAVED">⭐ My Saved Agenda (<span id="savedAgendaCount">5</span>)</button>
+        </div>
+        <div class="filter-group">
+          <select id="agendaTrackFilter" class="select-field" aria-label="Filter by Track">
+            <option value="ALL">All Tracks &amp; Plenaries</option>
+            <option value="TRACK 1">Track 1: Educational Games &amp; Playful Pedagogies</option>
+            <option value="TRACK 2">Track 2: Simulation, Immersive Tech &amp; AI</option>
+            <option value="TRACK 3">Track 3: Games, Health &amp; Society</option>
+            <option value="TRACK 4">Track 4: Research, Innovation &amp; Partnerships</option>
+            <option value="Gamification">Amazing Race &amp; Gamification</option>
+          </select>
+          <input type="search" id="agendaSearchInput" class="input-field" placeholder="Search title, speaker, university..." />
+        </div>
+      </div>
+
+      <div class="session-list" id="agendaSessionsContainer"></div>
+    </section>
+
+    <!-- ==========================================
+         TAB 3: SPEAKERS, BIOS & UNIVERSITY HUB
+         ========================================== -->
+    <section class="tab-panel" id="tab-speakers">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🎓 Speakers, Presenters &amp; Inter-University Bio Directory</h2>
+          <p class="section-subtitle">Connect with keynote speakers, game designers, and researchers from Wits, UCT, UP, UJ, Stellenbosch, UKZN &amp; beyond.</p>
+        </div>
+        <button class="btn btn-accent" id="toggleBioCreatorBtn">✍️ Create / Update Speaker or Participant Bio</button>
+      </div>
+
+      <!-- Collapsible Speaker & Participant Bio Builder -->
+      <div class="card" id="bioCreatorCard" style="display:none; margin-bottom:1.5rem; background:#fff9ea;">
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.35rem;">Create Your Speaker / Participant Bio &amp; Upload Presentation</h3>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1rem;">Add your profile to the inter-university symposium directory so fellow delegates can discover your work and download your slides.</p>
+        <form id="speakerBioForm" class="grid-2">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Full Name &amp; Academic Title *</label>
+            <input type="text" id="bioName" class="input-field" style="width:100%;" placeholder="e.g., Dr. Rethabile Mokoena" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">University / Institution *</label>
+            <input type="text" id="bioUniversity" class="input-field" style="width:100%;" placeholder="e.g., University of the Witwatersrand (Wits)" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Faculty / Department / Unit *</label>
+            <input type="text" id="bioDept" class="input-field" style="width:100%;" placeholder="e.g., School of Therapeutic Sciences / eFundanathi" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Role at Symposium *</label>
+            <select id="bioRole" class="select-field" style="width:100%;">
+              <option value="Speaker / Presenter">Speaker / Paper Presenter</option>
+              <option value="Game Demo Exhibitor">Playable Game Demo Creator</option>
+              <option value="Keynote Speaker">Keynote / Invited Speaker</option>
+              <option value="Scientific Committee">Scientific Review Committee</option>
+              <option value="Participant / Delegate">University Delegate / Participant</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Primary Symposium Track</label>
+            <select id="bioTrack" class="select-field" style="width:100%;">
+              <option value="TRACK 1">Track 1: Educational Games &amp; Playful Pedagogies</option>
+              <option value="TRACK 2">Track 2: Simulation, Immersive Technologies &amp; AI</option>
+              <option value="TRACK 3">Track 3: Games, Health &amp; Society</option>
+              <option value="TRACK 4">Track 4: Research, Innovation &amp; Partnerships</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Presentation Title / Research Focus</label>
+            <input type="text" id="bioSessionTitle" class="input-field" style="width:100%;" placeholder="e.g., Gamified Physiotherapy Rehab Board Game" />
+          </div>
+          <div style="grid-column: 1 / -1;">
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Short Academic &amp; Game Design Bio *</label>
+            <textarea id="bioText" class="textarea-field" rows="3" style="width:100%;" placeholder="Share your background, research interests, and what games or simulations you are working on..." required></textarea>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Research &amp; Gaming Tags (comma-separated)</label>
+            <input type="text" id="bioTags" class="input-field" style="width:100%;" placeholder="Morabaraba, VR Simulation, Escape Rooms, Health" />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Upload Presentation Slides / Poster (PDF, PPTX, ZIP)</label>
+            <input type="file" id="bioPresentationFile" class="input-field" style="width:100%;" accept=".pdf,.ppt,.pptx,.zip" />
+          </div>
+          <div style="grid-column: 1 / -1; display:flex; gap:0.75rem; justify-content:flex-end;">
+            <button type="button" class="btn btn-outline btn-sm" id="cancelBioBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm">💾 Publish Speaker / Participant Bio (+50 XP)</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-group" id="speakerUniFilters">
+          <button class="chip-btn active" data-uni="ALL">All Universities</button>
+          <button class="chip-btn" data-uni="Wits">Wits University</button>
+          <button class="chip-btn" data-uni="UCT">UCT</button>
+          <button class="chip-btn" data-uni="UP">Univ. of Pretoria</button>
+          <button class="chip-btn" data-uni="UJ">UJ</button>
+          <button class="chip-btn" data-uni="Stellenbosch">Stellenbosch</button>
+          <button class="chip-btn" data-uni="UKZN">UKZN</button>
+        </div>
+        <div class="filter-group">
+          <input type="search" id="speakerSearchInput" class="input-field" placeholder="Search by name, topic, department..." />
+        </div>
+      </div>
+
+      <div class="grid-3" id="speakersDirectoryContainer"></div>
+    </section>
+
+    <!-- ==========================================
+         TAB 4: ABSTRACT SUBMISSION & PRESENTATIONS
+         ========================================== -->
+    <section class="tab-panel" id="tab-abstracts">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📄 Call for Abstracts &amp; Presentation Upload Portal</h2>
+          <p class="section-subtitle">Submit your structured abstract, playable board/digital game demo, or workshop proposal and upload your presentation slides.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" data-goto-tab="review">⚖️ View Peer Review Queue →</button>
+      </div>
+
+      <div class="grid-2">
+        <!-- Left Column: Submission Form -->
+        <div class="card">
+          <span class="badge badge-teal" style="margin-bottom:0.5rem;">NEW SUBMISSION · 2027 SYMPOSIUM</span>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.85rem;">Submit Abstract &amp; Upload Presentation</h3>
+          <form id="abstractSubmissionForm" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Presentation / Abstract Title *</label>
+              <input type="text" id="absTitle" class="input-field" style="width:100%;" placeholder="e.g., Playing Our Stories: Designing an Indigenous Board Game for..." required />
+            </div>
+
+            <div class="grid-2" style="gap:0.75rem;">
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Lead &amp; Co-Authors *</label>
+                <input type="text" id="absAuthors" class="input-field" style="width:100%;" placeholder="Dr. A. Mokoena, Prof. B. Smith" required />
+              </div>
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">University / Institution *</label>
+                <input type="text" id="absUniversity" class="input-field" style="width:100%;" placeholder="e.g., Wits University" required />
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap:0.75rem;">
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Symposium Track (1–4) *</label>
+                <select id="absTrackSelect" class="select-field" style="width:100%;" required>
+                  <option value="TRACK 1">Track 1: Educational Games &amp; Playful Pedagogies</option>
+                  <option value="TRACK 2">Track 2: Simulation, Immersive Technologies &amp; AI</option>
+                  <option value="TRACK 3">Track 3: Games, Health &amp; Society</option>
+                  <option value="TRACK 4">Track 4: Research, Innovation &amp; Partnerships</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Official Sub-Topic *</label>
+                <select id="absTopicSelect" class="select-field" style="width:100%;" required></select>
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap:0.75rem;">
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Presentation Format *</label>
+                <select id="absFormatSelect" class="select-field" style="width:100%;">
+                  <option value="Oral Presentation (15 min + 5 min Q&A)">Oral Presentation (15 min + 5 min Q&amp;A)</option>
+                  <option value="Interactive Game Demo & Playtest Table">Interactive Game Demo &amp; Playtest Table</option>
+                  <option value="Hands-On Hybrid Workshop (45 min)">Hands-On Hybrid Workshop (45 min)</option>
+                  <option value="Digital & Physical Poster + Lightning Pitch">Digital &amp; Physical Poster + Lightning Pitch</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Corresponding Email *</label>
+                <input type="email" id="absEmail" class="input-field" style="width:100%;" placeholder="author@wits.ac.za" required />
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+                <label style="font-size:0.8rem; font-weight:700;">Structured Abstract (250–350 words) *</label>
+                <span id="absWordCount" style="font-size:0.74rem; color:var(--ink-muted); font-weight:700;">0 words</span>
+              </div>
+              <textarea id="absText" class="textarea-field" rows="5" style="width:100%;" placeholder="Include BACKGROUND, GAME DESIGN / METHODS, FINDINGS, and COMMUNITY / EDUCATIONAL IMPACT..." required></textarea>
+            </div>
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Upload Presentation Deck, Poster PDF, or Game Rulebook (Optional at Abstract Stage)</label>
+              <input type="file" id="absFileInput" class="input-field" style="width:100%;" accept=".pdf,.ppt,.pptx,.docx,.zip" />
+            </div>
+
+            <button type="submit" class="btn btn-accent" style="width:100%;">🚀 Submit Abstract &amp; Upload Presentation (+100 XP)</button>
+          </form>
+        </div>
+
+        <!-- Right Column: Live Submissions & Presentation Repository -->
+        <div>
+          <div class="card" style="margin-bottom:1rem; background:var(--mustard-light);">
+            <h4 style="font-family:var(--font-display); font-size:1.05rem;">📌 Author &amp; Presenter Guidelines</h4>
+            <ul style="font-size:0.83rem; color:var(--ink-brown); padding-left:1.15rem; margin-top:0.35rem;">
+              <li>All submissions undergo peer review by the Inter-University Scientific Committee.</li>
+              <li>Accepted authors can upload updated slides (<code>.pptx</code> / <code>.pdf</code>) or playable game links at any time.</li>
+              <li>Accepted papers &amp; playtest demos automatically sync into the <strong>Agenda Center</strong>.</li>
+            </ul>
+          </div>
+
+          <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.75rem;">Submitted Abstracts &amp; Presentations (<span id="submittedAbstractsCount">4</span>)</h3>
+          <div id="abstractsListContainer" style="display:flex; flex-direction:column; gap:0.9rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 5: ACADEMIC PEER REVIEW WORKSPACE
+         ========================================== -->
+    <section class="tab-panel" id="tab-review">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">⚖️ Scientific Committee &amp; Peer Review Center</h2>
+          <p class="section-subtitle">Evaluate submitted abstracts across 4 academic &amp; game-design criteria and promote accepted submissions directly to the Symposium Calendar.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Left: Abstract Queue to Select -->
+        <div>
+          <h3 style="font-family:var(--font-display); font-size:1.2rem; margin-bottom:0.75rem;">Select Submission to Review</h3>
+          <div id="reviewQueueContainer" style="display:flex; flex-direction:column; gap:0.85rem;"></div>
+        </div>
+
+        <!-- Right: Peer Review Evaluation Scorecard -->
+        <div class="card" id="reviewScorecardBox">
+          <span class="badge badge-navy" id="reviewActiveIdBadge">SELECT AN ABSTRACT</span>
+          <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:0.4rem 0;" id="reviewActiveTitle">Click any submission on the left to score</h3>
+          <p style="font-size:0.82rem; color:var(--ink-muted); margin-bottom:0.75rem;" id="reviewActiveMeta"></p>
+          <div id="reviewActiveAbstractText" style="background:var(--bg-cream); border:1.5px solid #e4d9c5; padding:0.85rem; border-radius:10px; font-size:0.84rem; margin-bottom:1rem;"></div>
+
+          <form id="peerReviewForm" style="display:flex; flex-direction:column; gap:0.85rem;">
+            <input type="hidden" id="reviewTargetAbstractId" />
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:flex; justify-content:space-between;">
+                <span>1. Alignment with Symposium Theme &amp; Track (1–5)</span>
+                <strong id="valThemeFit">5 / 5</strong>
+              </label>
+              <input type="range" id="scoreThemeFit" min="1" max="5" step="1" value="5" style="width:100%;" />
+            </div>
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:flex; justify-content:space-between;">
+                <span>2. Pedagogical, Theoretical or Methodological Rigor (1–5)</span>
+                <strong id="valRigor">4 / 5</strong>
+              </label>
+              <input type="range" id="scoreRigor" min="1" max="5" step="1" value="4" style="width:100%;" />
+            </div>
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:flex; justify-content:space-between;">
+                <span>3. Playful Innovation &amp; Game / Simulation Mechanics (1–5)</span>
+                <strong id="valInnovation">5 / 5</strong>
+              </label>
+              <input type="range" id="scoreInnovation" min="1" max="5" step="1" value="5" style="width:100%;" />
+            </div>
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:flex; justify-content:space-between;">
+                <span>4. Community, Health or Educational Impact (1–5)</span>
+                <strong id="valImpact">5 / 5</strong>
+              </label>
+              <input type="range" id="scoreImpact" min="1" max="5" step="1" value="5" style="width:100%;" />
+            </div>
+
+            <div class="grid-2" style="gap:0.75rem;">
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Reviewer Name &amp; University *</label>
+                <input type="text" id="reviewerNameInput" class="input-field" style="width:100%;" value="Prof. H. van der Merwe (UJ)" required />
+              </div>
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Committee Recommendation *</label>
+                <select id="reviewRecommendation" class="select-field" style="width:100%;">
+                  <option value="Accept - Oral & Playtest">Accept — Oral &amp; Playtest</option>
+                  <option value="Accept - Poster / Demo">Accept — Poster / Playtest Demo</option>
+                  <option value="Revise & Resubmit">Minor Revisions Required</option>
+                  <option value="Decline">Decline</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Constructive Feedback to Authors *</label>
+              <textarea id="reviewComments" class="textarea-field" rows="3" style="width:100%;" placeholder="Provide actionable feedback for the presenters..." required></textarea>
+            </div>
+
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <button type="submit" class="btn btn-primary">✅ Submit Peer Review Score</button>
+              <button type="button" class="btn btn-mustard" id="promoteToAgendaBtn">📅 Accept &amp; Auto-Schedule in Calendar</button>
+            </div>
+          </form>
+
+          <div id="existingReviewsList" style="margin-top:1.25rem; border-top:2px dashed #e4d9c5; padding-top:1rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 6: HYBRID LIVE STREAM (ZOOM & MS TEAMS)
+         ========================================== -->
+    <section class="tab-panel" id="tab-stream">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📡 Hybrid Live Stream &amp; Virtual Stage (Zoom + Microsoft Teams)</h2>
+          <p class="section-subtitle">Watch live broadcasts from eFundanathi eZone, join interactive MS Teams / Zoom breakout rooms, upvote Q&amp;A, and download slides.</p>
+        </div>
+        <div class="filter-group" id="streamRoomSelector"></div>
+      </div>
+
+      <div class="stream-layout">
+        <!-- Main Video Stage -->
+        <div class="video-stage-box">
+          <div class="video-viewport" id="streamViewport">
+            <span class="live-indicator"><span class="pulse-dot"></span> <span id="streamPlatformBadge">ZOOM HYBRID LIVE</span></span>
+            <div style="max-width:560px;">
+              <img src="assets/game-on-logo.png" alt="Game-On Symposium" style="height:64px; margin-bottom:0.75rem;" />
+              <h3 style="font-family:var(--font-display); font-size:1.5rem; margin-bottom:0.4rem;" id="streamStageTitle">
+                Opening Keynote: Playing Our Stories — Indigenous African Games &amp; Tabletop Design
+              </h3>
+              <p style="font-size:0.92rem; color:#cbd5e1; margin-bottom:1.1rem;" id="streamStageSpeaker">
+                Prof. Nomsa Dlamini-Mokoena (Wits) &amp; Dr. Tshepo Khumalo (UCT)
+              </p>
+              <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem;">
+                <span class="subdomain-badge">👥 <span id="streamRoomCount">120</span> in eZone Auditorium</span>
+                <span class="subdomain-badge">🌐 <span id="streamOnlineCount">184</span> Streaming Online</span>
+                <span class="subdomain-badge" id="streamMeetingIdBadge">Meeting ID: 894 2027 1112</span>
+              </div>
+              <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+                <a href="https://zoom.us" target="_blank" rel="noopener" class="btn btn-primary" id="launchExternalStreamBtn">🎥 Launch in Zoom / MS Teams App</a>
+                <button class="btn btn-mustard" id="downloadStageSlidesBtn">📥 Download Session Slides</button>
+                <button class="btn btn-outline" id="configureStreamUrlBtn" style="color:var(--ink-espresso);">⚙️ Configure Custom Zoom/Teams Link</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organizer Custom Embed Bar -->
+          <div id="streamConfigDrawer" style="display:none; padding:1rem; background:#1e293b; border-bottom:2px solid var(--ink-espresso);">
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+              <select id="customStreamPlatform" class="select-field" style="width:150px;">
+                <option value="Zoom">Zoom Events / SDK</option>
+                <option value="MS Teams">Microsoft Teams Live</option>
+              </select>
+              <input type="url" id="customStreamUrl" class="input-field" style="flex:1;" placeholder="Paste Zoom or Microsoft Teams meeting/embed URL..." />
+              <button class="btn btn-accent btn-sm" id="saveStreamConfigBtn">Update Live Stage</button>
+            </div>
+          </div>
+
+          <!-- Bottom Stream Bar -->
+          <div style="padding:1rem 1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+            <div>
+              <strong style="font-family:var(--font-display);">🎧 Audio &amp; Captions:</strong>
+              <span style="font-size:0.82rem; color:#cbd5e1;">Live English / isiZulu / Sesotho AI Captions Enabled · eFundanathi eZone AV Feed</span>
+            </div>
+            <button class="btn btn-accent btn-sm" id="claimStreamAttendanceBtn">🏅 Claim Stream Check-In (+50 XP)</button>
+          </div>
+        </div>
+
+        <!-- Right Interactive Sidebar: Live Q&A + Live Poll -->
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <h3 style="font-family:var(--font-display); font-size:1.15rem;">💬 Live Audience Q&amp;A (Whova-Style)</h3>
+              <span class="badge badge-teal">Upvotable</span>
+            </div>
+            <form id="liveQaForm" style="display:flex; gap:0.5rem; margin-bottom:0.9rem;">
+              <input type="text" id="liveQaInput" class="input-field" style="flex:1;" placeholder="Ask the speaker a question..." required />
+              <button type="submit" class="btn btn-primary btn-sm">Ask</button>
+            </form>
+            <div id="liveQaContainer" style="display:flex; flex-direction:column; gap:0.65rem; max-height:310px; overflow-y:auto;"></div>
+          </div>
+
+          <div class="card" style="background:var(--mustard-light);">
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; margin-bottom:0.4rem;">📊 Live Plenary Poll</h3>
+            <p style="font-size:0.84rem; font-weight:600; margin-bottom:0.75rem;">Which game modality has the biggest untapped potential at your university?</p>
+            <div id="livePollOptions" style="display:flex; flex-direction:column; gap:0.5rem;">
+              <button class="btn btn-outline btn-sm poll-vote-btn" data-option="0" style="justify-content:space-between; width:100%;">
+                <span>♟️ Indigenous &amp; Tabletop Board Games</span>
+                <strong id="pollPct0">42%</strong>
+              </button>
+              <button class="btn btn-outline btn-sm poll-vote-btn" data-option="1" style="justify-content:space-between; width:100%;">
+                <span>🥽 Clinical VR, Digital Twins &amp; AI Patients</span>
+                <strong id="pollPct1">31%</strong>
+              </button>
+              <button class="btn btn-outline btn-sm poll-vote-btn" data-option="2" style="justify-content:space-between; width:100%;">
+                <span>🔐 Physical &amp; Digital Escape Rooms</span>
+                <strong id="pollPct2">27%</strong>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 7: AMAZING RACE & SCAVENGER HUNT
+         ========================================== -->
+    <section class="tab-panel" id="tab-gamification">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🏆 Wits Education Campus Amazing Race &amp; Scavenger Hunt</h2>
+          <p class="section-subtitle">Solve the 5-leg hybrid Amazing Race across eFundanathi eZone, redeem Scavenger Hunt QR codes, and propel your university up the Game-On Cup Leaderboard!</p>
+        </div>
+        <div class="xp-pill" style="font-size:1rem; padding:0.45rem 1rem;">
+          <span>⚡ Your Score:</span>
+          <strong id="gamificationUserXP">250 XP</strong>
+        </div>
+      </div>
+
+      <!-- Part 1: 5-Leg Campus & Online Amazing Race -->
+      <div class="card" style="margin-bottom:1.75rem; background:linear-gradient(145deg, #fffdf9 0%, #f7ecd5 100%);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:1rem;">
+          <div>
+            <span class="badge badge-terracotta">INTERACTIVE 5-LEG CAMPUS &amp; ONLINE QUEST</span>
+            <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-top:0.25rem;">🏁 The Great Game-On! Amazing Race Trail</h3>
+          </div>
+          <div style="font-size:0.86rem; font-weight:700; color:var(--teal-dark);" id="raceProgressSummary">
+            1 of 5 Checkpoints Completed
+          </div>
+        </div>
+
+        <div class="race-trail" id="amazingRaceContainer"></div>
+      </div>
+
+      <!-- Part 2: Scavenger Hunt & Inter-University Leaderboard -->
+      <div class="grid-2">
+        <div class="card">
+          <span class="badge badge-teal" style="margin-bottom:0.4rem;">WHOVA-STYLE PASSPORT &amp; QR CODES</span>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.5rem;">🔍 Symposium Scavenger Hunt</h3>
+          <p style="font-size:0.84rem; color:var(--ink-muted); margin-bottom:0.85rem;">
+            Scan QR codes at eFundanathi eZone booths or click a demo code below to test instant XP redemption:
+          </p>
+
+          <form id="scavengerCodeForm" style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+            <input type="text" id="scavengerCodeInput" class="input-field" style="flex:1; text-transform:uppercase;" placeholder="Enter Hunt Code (e.g. MORABARABA27)" required />
+            <button type="submit" class="btn btn-accent btn-sm">Redeem Code</button>
+          </form>
+
+          <div id="scavengerListContainer" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-mustard" style="margin-bottom:0.4rem;">INTER-UNIVERSITY CUP</span>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.5rem;">🏛️ Live University Leaderboard</h3>
+          <p style="font-size:0.84rem; color:var(--ink-muted); margin-bottom:0.85rem;">
+            Every abstract, review, Amazing Race checkpoint, and Scavenger Hunt stamp adds points to your university's tally!
+          </p>
+          <div id="universityLeaderboardContainer" style="display:flex; flex-direction:column; gap:0.65rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 8: UNIVERSITY PARTNERSHIPS & SPONSORS
+         ========================================== -->
+    <section class="tab-panel" id="tab-sponsors">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🤝 University Partnerships, Sponsors &amp; Exhibitor Portal</h2>
+          <p class="section-subtitle">Co-create impact with Wits University, School of Therapeutic Sciences &amp; eFundanathi eZone through tailored academic-industry sponsorship tiers.</p>
+        </div>
+        <button class="btn btn-accent btn-sm" id="scrollToSponsorFormBtn">📩 Become a 2027 Sponsor / Partner</button>
+      </div>
+
+      <!-- Sponsorship Tiers Grid -->
+      <div class="grid-4" id="sponsorTiersContainer" style="margin-bottom:2rem;"></div>
+
+      <div class="grid-2">
+        <!-- Interactive Exhibitor Booths (with Scavenger Hunt Stamp!) -->
+        <div>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.75rem;">🎪 Virtual &amp; eZone Exhibitor Booths</h3>
+          <div id="exhibitorBoothsContainer" style="display:flex; flex-direction:column; gap:0.85rem;"></div>
+        </div>
+
+        <!-- Sponsor / Partnership Proposal Form -->
+        <div class="card" id="sponsorInquiryCard" style="background:#fff9ea;">
+          <span class="badge badge-mustard" style="margin-bottom:0.4rem;">PARTNERSHIP &amp; SPONSORSHIP DESK</span>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.4rem;">Partner with Wits for Game-On! 2027</h3>
+          <p style="font-size:0.84rem; color:var(--ink-muted); margin-bottom:1rem;">
+            Whether you are an EdTech company, board game publisher, healthcare simulation provider, SETA, or NRF/DHET grant partner, pledge your partnership below:
+          </p>
+          <form id="sponsorInquiryForm" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Organization / Company / Grant Body *</label>
+              <input type="text" id="spOrgName" class="input-field" style="width:100%;" placeholder="e.g., African Tabletop & XR Studios" required />
+            </div>
+            <div class="grid-2" style="gap:0.65rem;">
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Contact Person *</label>
+                <input type="text" id="spContactName" class="input-field" style="width:100%;" placeholder="Full Name" required />
+              </div>
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Work Email *</label>
+                <input type="email" id="spEmail" class="input-field" style="width:100%;" placeholder="partner@company.co.za" required />
+              </div>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Sponsorship Tier / Partnership Type *</label>
+              <select id="spTierSelect" class="select-field" style="width:100%;">
+                <option value="Platinum Title Partner (R 75,000)">Platinum Title Partner (R 75,000)</option>
+                <option value="Gold Playtest & XR Partner (R 45,000)">Gold Playtest &amp; XR Partner (R 45,000)</option>
+                <option value="Silver Academic / Studio Partner (R 20,000)">Silver Academic / Studio Partner (R 20,000)</option>
+                <option value="Community & Indigenous Games Grant Partner">Community &amp; Indigenous Games Grant / In-Kind</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">How would you like to collaborate or showcase at eFundanathi eZone?</label>
+              <textarea id="spNotes" class="textarea-field" rows="3" style="width:100%;" placeholder="Tell us about your demo booth, student prizes, or research collaboration goals..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">🤝 Submit Partnership Pledge &amp; Create Booth</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: PARTICIPANT LOGIN & REGISTRATION
+       ========================================== -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family:var(--font-display); font-size:1.35rem;">🎟️ Participant Login &amp; Event Registration</h3>
+        <button class="btn btn-outline btn-sm" data-close-modal="authModal">✕</button>
+      </div>
+
+      <!-- Quick Role Switcher for Demo / Preview Evaluators -->
+      <div style="background:var(--teal-soft); border:2px solid var(--teal-primary); border-radius:12px; padding:0.9rem; margin-bottom:1.15rem;">
+        <div style="font-size:0.78rem; font-weight:800; color:var(--teal-dark); text-transform:uppercase; margin-bottom:0.4rem;">
+          ⚡ Instant Demo Login (Test Platform Roles with 1 Click)
+        </div>
+        <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+          <button class="chip-btn" data-quick-role="Wits Delegate|Dr. Kabelo Mokoena|Wits University|Delegate">🎓 Wits Delegate</button>
+          <button class="chip-btn" data-quick-role="Keynote Speaker|Prof. Nomsa Dlamini-Mokoena|Wits University|Speaker">🎤 Speaker (Wits)</button>
+          <button class="chip-btn" data-quick-role="External Presenter|Dr. Tshepo Khumalo|University of Cape Town (UCT)|Speaker">🌍 UCT Presenter</button>
+          <button class="chip-btn" data-quick-role="Peer Reviewer|Prof. Helene van der Merwe|University of Johannesburg (UJ)|Reviewer">⚖️ Peer Reviewer (UJ)</button>
+          <button class="chip-btn" data-quick-role="eZone Organizer|eFundanathi eZone Admin|Wits Therapeutic Sciences|Admin">🛠️ eZone Admin</button>
+        </div>
+      </div>
+
+      <form id="registrationForm" style="display:flex; flex-direction:column; gap:0.8rem;">
+        <h4 style="font-family:var(--font-display); font-size:1.1rem;">Or Register / Sign In with Your University Profile</h4>
+        <div class="grid-2" style="gap:0.75rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Full Name &amp; Title *</label>
+            <input type="text" id="regName" class="input-field" style="width:100%;" placeholder="e.g., Dr. Thandiwe Ndlovu" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">University / Organization *</label>
+            <select id="regUniversity" class="select-field" style="width:100%;">
+              <option value="University of the Witwatersrand (Wits)">University of the Witwatersrand (Wits)</option>
+              <option value="University of Cape Town (UCT)">University of Cape Town (UCT)</option>
+              <option value="University of Pretoria (UP)">University of Pretoria (UP)</option>
+              <option value="University of Johannesburg (UJ)">University of Johannesburg (UJ)</option>
+              <option value="Stellenbosch University (SU)">Stellenbosch University (SU)</option>
+              <option value="University of KwaZulu-Natal (UKZN)">University of KwaZulu-Natal (UKZN)</option>
+              <option value="Rhodes University">Rhodes University</option>
+              <option value="North-West University (NWU)">North-West University (NWU)</option>
+              <option value="Other Partner University / Studio">Other Partner University / Studio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:0.75rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Academic Email *</label>
+            <input type="email" id="regEmail" class="input-field" style="width:100%;" placeholder="name@wits.ac.za" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Attendance Mode *</label>
+            <select id="regMode" class="select-field" style="width:100%;">
+              <option value="In-Person (eFundanathi eZone, Wits) + Online">In-Person (eFundanathi eZone, Wits) + Online</option>
+              <option value="Online Only (Zoom & MS Teams Global Pass)">Online Only (Zoom &amp; MS Teams Global Pass)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:0.75rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Participant Category *</label>
+            <select id="regRole" class="select-field" style="width:100%;">
+              <option value="Speaker / Presenter">Speaker / Abstract Presenter</option>
+              <option value="Academic Delegate">Academic Staff / Researcher</option>
+              <option value="Student Presenter / Participant">Postgrad / Undergrad Student</option>
+              <option value="Scientific Peer Reviewer">Scientific Peer Reviewer</option>
+              <option value="Sponsor / Industry Partner">Sponsor / Game Studio Partner</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Also Create Public Directory Bio?</label>
+            <select id="regCreateBio" class="select-field" style="width:100%;">
+              <option value="yes">Yes — List me in the Inter-University Directory</option>
+              <option value="no">No — Keep profile private</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:0.4rem;">🎉 Complete Registration &amp; Sign In (+100 XP)</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: ADD NEW SESSION TO CALENDAR
+       ========================================== -->
+  <div class="modal-backdrop" id="addSessionModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family:var(--font-display); font-size:1.3rem;">📅 Add Session to Symposium Calendar</h3>
+        <button class="btn btn-outline btn-sm" data-close-modal="addSessionModal">✕</button>
+      </div>
+      <form id="addSessionForm" style="display:flex; flex-direction:column; gap:0.75rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Session Title *</label>
+          <input type="text" id="newSessTitle" class="input-field" style="width:100%;" placeholder="e.g., Indigenous Board Game Design Jam" required />
+        </div>
+        <div class="grid-2" style="gap:0.65rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Symposium Day *</label>
+            <select id="newSessDay" class="select-field" style="width:100%;">
+              <option value="Day 1 · Thu 11 Mar 2027">Day 1 · Thu 11 Mar 2027</option>
+              <option value="Day 2 · Fri 12 Mar 2027">Day 2 · Fri 12 Mar 2027</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Time Slot *</label>
+            <input type="text" id="newSessTime" class="input-field" style="width:100%;" value="11:30 - 12:30" required />
+          </div>
+        </div>
+        <div class="grid-2" style="gap:0.65rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Track *</label>
+            <select id="newSessTrack" class="select-field" style="width:100%;">
+              <option value="TRACK 1">TRACK 1: Educational Games</option>
+              <option value="TRACK 2">TRACK 2: Simulation, XR &amp; AI</option>
+              <option value="TRACK 3">TRACK 3: Games, Health &amp; Society</option>
+              <option value="TRACK 4">TRACK 4: Research &amp; Partnerships</option>
+              <option value="Gamification">Gamification / Amazing Race</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Hybrid Stream Platform *</label>
+            <select id="newSessStream" class="select-field" style="width:100%;">
+              <option value="Zoom">eZone Room + Zoom</option>
+              <option value="MS Teams">eZone Room + MS Teams</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:0.65rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Speaker(s) *</label>
+            <input type="text" id="newSessSpeaker" class="input-field" style="width:100%;" placeholder="Speaker Name" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">University *</label>
+            <input type="text" id="newSessUni" class="input-field" style="width:100%;" placeholder="e.g., Wits University" required />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Session Abstract / Summary *</label>
+          <textarea id="newSessDesc" class="textarea-field" rows="3" style="width:100%;" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">💾 Publish Session to Agenda</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: CREATE NEW UNIVERSITY SUBDOMAIN
+       ========================================== -->
+  <div class="modal-backdrop" id="subdomainModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family:var(--font-display); font-size:1.3rem;">🏛️ Spin Up a New Wits University Event Subdomain</h3>
+        <button class="btn btn-outline btn-sm" data-close-modal="subdomainModal">✕</button>
+      </div>
+      <p style="font-size:0.86rem; color:var(--ink-muted); margin-bottom:1rem;">
+        <strong>ImbizoHub · Wits Hybrid Event Cloud</strong> is built as a reusable multi-tenant platform so faculties and schools across Wits can launch dedicated event subdomains (<code>&lt;event&gt;.imbizo.wits.ac.za</code>) with abstract management, peer review, and hybrid streaming built in.
+      </p>
+      <form id="newSubdomainForm" style="display:flex; flex-direction:column; gap:0.75rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Event Title *</label>
+          <input type="text" id="subEventTitle" class="input-field" style="width:100%;" placeholder="e.g., Wits Health Sciences Research Symposium 2028" required />
+        </div>
+        <div class="grid-2" style="gap:0.65rem;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Subdomain Slug *</label>
+            <input type="text" id="subSlug" class="input-field" style="width:100%;" placeholder="e.g., health2028" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Event Dates *</label>
+            <input type="text" id="subDates" class="input-field" style="width:100%;" placeholder="e.g., 15–16 May 2028" required />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Host School / Department *</label>
+          <input type="text" id="subHost" class="input-field" style="width:100%;" placeholder="e.g., School of Therapeutic Sciences & eFundanathi eZone" required />
+        </div>
+        <button type="submit" class="btn btn-primary">🚀 Provision University Event Subdomain</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 4: POSTER LIGHTBOX VIEWER
+       ========================================== -->
+  <div class="modal-backdrop" id="lightboxModal">
+    <div class="modal-box" style="max-width:780px; text-align:center;">
+      <div class="modal-header">
+        <h3 style="font-family:var(--font-display); font-size:1.2rem;">🎨 Official Symposium Artwork Preview</h3>
+        <button class="btn btn-outline btn-sm" data-close-modal="lightboxModal">✕ Close</button>
+      </div>
+      <img id="lightboxImage" src="" alt="Poster Preview" style="max-width:100%; max-height:74vh; border-radius:12px; border:2px solid var(--ink-espresso);" />
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
