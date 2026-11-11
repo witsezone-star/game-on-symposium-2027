@@ -175,9 +175,9 @@ body {
 }
 
 .header-inner {
-  max-width: 1520px;
+  max-width: 1540px;
   margin: 0 auto;
-  padding: 0.7rem 1.5rem;
+  padding: 0.65rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -194,14 +194,14 @@ body {
 }
 
 .brand-logo-img {
-  height: 54px;
+  height: 50px;
   width: auto;
   object-fit: contain;
   transition: transform 0.2s ease;
 }
 
 .brand-logo-wrap:hover .brand-logo-img {
-  transform: scale(1.03) rotate(-1deg);
+  transform: scale(1.03);
 }
 
 /* Navigation Pills */
@@ -267,8 +267,8 @@ body {
   border: 2.5px solid var(--ink-espresso);
   box-shadow: 0 3px 0 var(--ink-espresso);
   border-radius: var(--radius-pill);
-  padding: 0.44rem 1.15rem;
-  min-width: 122px;
+  padding: 0.44rem 1.2rem;
+  min-width: 126px;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.88rem;
@@ -293,8 +293,8 @@ body {
   border: 2.5px solid var(--ink-espresso);
   box-shadow: 0 3px 0 var(--ink-espresso);
   border-radius: var(--radius-pill);
-  padding: 0.36rem 1.25rem 0.36rem 0.45rem;
-  min-width: 225px;
+  padding: 0.36rem 1.3rem 0.36rem 0.45rem;
+  min-width: 235px;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -400,7 +400,7 @@ body {
   border-radius: var(--radius-sm);
 }
 
-/* African Geometric Pattern Divider (Matching Poster Zig-Zag Triangles) */
+/* African Geometric Pattern Divider */
 .african-pattern-bar {
   height: 18px;
   width: 100%;
@@ -415,7 +415,7 @@ body {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 2.5rem;
+  padding: 1.5rem 1.5rem 2rem;
   flex: 1;
 }
 
@@ -445,24 +445,25 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Centered Top Block: Logo First, Then SAVE THE DATE & CALL FOR ABSTRACTS */
+/* Centralized Top Hero Block: Logo First on Top, Then SAVE THE DATE & CALL FOR ABSTRACTS */
 .hero-top-center {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-bottom: 1.75rem;
-  padding-bottom: 1.35rem;
+  margin: 0 auto 1.85rem;
+  padding-bottom: 1.45rem;
   border-bottom: 2px dashed #e2d3ba;
 }
 
 .hero-logo-banner {
-  max-width: 580px;
+  max-width: 560px;
   width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.1rem auto;
   filter: drop-shadow(0 4px 10px rgba(59, 31, 22, 0.08));
 }
 
@@ -474,13 +475,14 @@ body {
   background: var(--mustard-light);
   border: 2.5px solid var(--ink-espresso);
   box-shadow: 0 4px 0 var(--ink-espresso);
-  padding: 0.48rem 1.35rem;
+  padding: 0.5rem 1.45rem;
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   color: var(--ink-espresso);
   letter-spacing: 0.02em;
+  margin: 0 auto;
 }
 
 .hero-grid {
@@ -639,7 +641,7 @@ body {
   max-width: 100%;
 }
 
-/* Key Dates Cards (Matching Call for Abstracts Poster Board Cards!) */
+/* Key Dates Cards */
 .section-header {
   display: flex;
   align-items: flex-end;
@@ -1168,176 +1170,120 @@ body {
   justify-content: center;
 }
 
-/* ==========================================
-   SPONSORS WIDGET SLIDER / CAROUSEL SECTION
-   ========================================== */
-.sponsor-slider-section {
-  max-width: 1440px;
+/* ========================================================
+   MINIMAL FULL-WIDTH SPONSOR LOGO SLIDER (Matches Reference)
+   ======================================================== */
+.minimal-logo-slider-wrap {
   width: 100%;
-  margin: 0 auto 2.5rem;
-  padding: 0 1.5rem;
+  max-width: 1320px;
+  margin: 1rem auto 2.2rem;
+  padding: 1.25rem 1.5rem 0.5rem;
+  text-align: center;
 }
 
-.sponsor-slider-box {
-  background: linear-gradient(180deg, #fffdf9 0%, #f5ecdc 100%);
-  border: 3px solid var(--ink-espresso);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: 1.5rem 1.75rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.sponsor-slider-header {
+.minimal-logo-slider-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.15rem;
+  gap: 1.5rem;
 }
 
-.sponsor-carousel-viewport {
+.minimal-slider-arrow {
+  background: transparent;
+  border: none;
+  color: #1f2937;
+  font-size: 1.9rem;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.4rem 0.65rem;
+  opacity: 0.75;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+.minimal-slider-arrow:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.minimal-logo-viewport {
+  flex: 1;
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  padding-bottom: 0.35rem;
 }
 
-.sponsor-carousel-viewport::-webkit-scrollbar {
+.minimal-logo-viewport::-webkit-scrollbar {
   display: none;
 }
 
-.sponsor-carousel-track {
+.minimal-logo-track {
   display: flex;
-  gap: 1.1rem;
-  width: max-content;
+  align-items: center;
+  justify-content: space-around;
+  gap: 3.2rem;
+  min-width: 100%;
+  padding: 0.5rem 0.5rem;
 }
 
-.sponsor-slide-card {
-  width: 265px;
-  background: var(--bg-card);
-  border: 2.5px solid var(--ink-espresso);
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 0 var(--ink-espresso);
-  padding: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.65rem;
-  transition: transform 0.2s ease;
+.minimal-partner-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1e2022;
+  white-space: nowrap;
+  opacity: 0.86;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
 }
 
-.sponsor-slide-card:hover {
-  transform: translateY(-3px);
-  background: var(--mustard-light);
+.minimal-partner-logo:hover {
+  opacity: 1;
+  transform: translateY(-2px);
 }
 
-.sponsor-logo-placeholder {
-  height: 74px;
-  border-radius: 10px;
-  border: 2px dashed #cbb89d;
-  background: var(--bg-cream);
+.minimal-slider-dots {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.95rem;
-  color: var(--ink-espresso);
-  text-align: center;
-  padding: 0.5rem;
-}
-
-/* ==========================================
-   SITE FOOTER WITH EMAIL & QUICK LINKS
-   ========================================== */
-.site-footer {
-  background: var(--navy-dark);
-  color: #f8f5ee;
-  border-top: 4px solid var(--mustard);
-  padding: 3rem 1.5rem 2rem;
-  margin-top: auto;
-}
-
-.footer-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.35fr 1fr 1fr 1.2fr;
-  gap: 2rem;
-}
-
-.footer-col h4 {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--mustard);
-  margin-bottom: 0.85rem;
-}
-
-.footer-email-box {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem 0.95rem;
-  margin-bottom: 0.65rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 0.5rem;
+  margin-top: 0.9rem;
 }
 
-.footer-email-link {
-  color: #8be9ee;
-  font-weight: 700;
-  font-size: 0.88rem;
-  text-decoration: none;
-  word-break: break-all;
-}
-
-.footer-email-link:hover {
-  text-decoration: underline;
-}
-
-.footer-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.footer-links a,
-.footer-links button {
-  background: none;
+.minimal-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #b5b5b5;
   border: none;
-  color: #e2e8f0;
-  font-size: 0.86rem;
-  font-family: var(--font-sans);
-  text-align: left;
   cursor: pointer;
-  text-decoration: none;
-  transition: color 0.15s ease;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.footer-links a:hover,
-.footer-links button:hover {
-  color: var(--mustard);
+.minimal-dot.active {
+  background: #1e2022;
+  transform: scale(1.15);
 }
 
-.footer-bottom {
-  max-width: 1440px;
-  margin: 2rem auto 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.8rem;
-  color: #cbd5e1;
+/* ========================================================
+   ULTRA-SIMPLE, CLEAN SINGLE-LINE FOOTER
+   ======================================================== */
+.site-footer {
+  width: 100%;
+  padding: 1.35rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid #e2d7c5;
+  background: var(--bg-cream);
+  color: var(--ink-espresso);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: auto;
 }
 
 /* Modal System */
@@ -1424,8 +1370,7 @@ body {
   .hero-grid,
   .tracks-grid,
   .stream-layout,
-  .grid-2,
-  .footer-inner {
+  .grid-2 {
     grid-template-columns: 1fr;
   }
   .session-card {

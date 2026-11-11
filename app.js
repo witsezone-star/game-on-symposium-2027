@@ -1482,27 +1482,20 @@
       });
     }
 
-    // Render Bottom Sponsors Widget Slider / Carousel
+    // Render Minimal Full-Width Sponsor Logo Slider (Matches Attached Reference Image)
     if (sliderTrack) {
       sliderTrack.innerHTML = state.sponsorsList
         .map(
           sp => `
-        <div class="sponsor-slide-card" data-id="${sp.id}">
-          <div class="sponsor-logo-placeholder">
-            <span>${sp.logoPlaceholder || "🤝 PARTNER LOGO"}</span>
-          </div>
-          <div>
-            <span class="badge badge-teal" style="font-size:0.66rem;">${sp.tier}</span>
-            <h4 style="font-family:var(--font-display); font-size:1rem; margin-top:0.25rem;">${sp.name}</h4>
-            <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:0.15rem;">${sp.category}</p>
-          </div>
+        <div class="minimal-partner-logo" data-id="${sp.id}" title="${sp.name} (${sp.tier})">
+          <span>${sp.logoPlaceholder || sp.name}</span>
         </div>
       `
         )
         .join("");
 
-      sliderTrack.querySelectorAll(".sponsor-slide-card").forEach(card => {
-        card.addEventListener("click", () => {
+      sliderTrack.querySelectorAll(".minimal-partner-logo").forEach(item => {
+        item.addEventListener("click", () => {
           switchTab("sponsors");
           showToast("Viewing Symposium Sponsors & Partnership Tiers", "🤝");
         });
@@ -1510,25 +1503,31 @@
     }
   }
 
-  // Sponsor Slider Prev / Next & Auto-Scroll
+  // Minimal Sponsor Slider Prev / Next & Dots
   const sponsorViewport = document.getElementById("sponsorCarouselViewport");
+  const dots = document.querySelectorAll("#sponsorSliderDots .minimal-dot");
+
+  function setActiveDot(idx) {
+    dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+  }
+
   document.getElementById("slideSponsorsPrevBtn")?.addEventListener("click", () => {
-    sponsorViewport?.scrollBy({ left: -290, behavior: "smooth" });
+    sponsorViewport?.scrollTo({ left: 0, behavior: "smooth" });
+    setActiveDot(0);
   });
+
   document.getElementById("slideSponsorsNextBtn")?.addEventListener("click", () => {
-    sponsorViewport?.scrollBy({ left: 290, behavior: "smooth" });
+    sponsorViewport?.scrollTo({ left: sponsorViewport.scrollWidth, behavior: "smooth" });
+    setActiveDot(1);
   });
 
-  let sponsorAutoScroll = setInterval(() => {
-    if (!sponsorViewport) return;
-    if (sponsorViewport.scrollLeft + sponsorViewport.clientWidth >= sponsorViewport.scrollWidth - 20) {
-      sponsorViewport.scrollTo({ left: 0, behavior: "smooth" });
-    } else {
-      sponsorViewport.scrollBy({ left: 280, behavior: "smooth" });
-    }
-  }, 4500);
-
-  sponsorViewport?.addEventListener("mouseenter", () => clearInterval(sponsorAutoScroll));
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const page = Number(dot.dataset.slidePage || 0);
+      sponsorViewport?.scrollTo({ left: page === 0 ? 0 : sponsorViewport.scrollWidth, behavior: "smooth" });
+      setActiveDot(page);
+    });
+  });
 
   document.getElementById("scrollToSponsorFormBtn")?.addEventListener("click", () => {
     document.getElementById("sponsorInquiryCard")?.scrollIntoView({ behavior: "smooth" });

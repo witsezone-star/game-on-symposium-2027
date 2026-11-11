@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -33,11 +33,11 @@
     </div>
   </div>
 
-  <!-- Main Sticky Navigation Header (Clean Logo Only on Left, Wider XP & User Profile on Right) -->
+  <!-- Main Sticky Navigation Header (Inserted Original Symposium Logo from Logo Sysmposiun.ai) -->
   <header class="main-header">
     <div class="header-inner">
       <div class="brand-logo-wrap" data-goto-tab="overview" title="GO Game-On! Symposium 2027 Home">
-        <img src="assets/game-on-logo.png" alt="GO Game-On! Symposium 2027 Logo" class="brand-logo-img" />
+        <img src="assets/symposium-header-logo.svg" alt="GO Game-On! Symposium Official Logo" class="brand-logo-img" />
       </div>
 
       <nav class="nav-tabs" aria-label="Main conference navigation">
@@ -54,11 +54,11 @@
       <div class="header-user-cluster">
         <div class="xp-pill" data-goto-tab="gamification" title="Your Gamification XP — Click to play Amazing Race & Scavenger Hunt!">
           <span>⚡</span>
-          <span id="headerUserXP">250 XP</span>
+          <span id="headerUserXP">300 XP</span>
         </div>
         <button class="user-profile-btn" id="openAuthModalBtn">
-          <span class="user-avatar-sm" id="headerUserInitials">GD</span>
-          <span id="headerUserName">Login / Register</span>
+          <span class="user-avatar-sm" id="headerUserInitials">KM</span>
+          <span id="headerUserName">Dr. Kabelo Mokoena · Delegate</span>
         </button>
       </div>
     </div>
@@ -73,10 +73,10 @@
     <section class="tab-panel active" id="tab-overview">
       <div class="hero-card">
 
-        <!-- Centered Top Block: Logo First on Top, then SAVE THE DATE & CALL FOR ABSTRACTS underneath -->
-        <div class="hero-top-center">
-          <img src="assets/game-on-logo.svg" alt="GO Game-On! Symposium 2027" class="hero-logo-banner" />
-          <div class="save-date-kicker">
+        <!-- Strictly Centralized Top Block: Logo First on Top, then SAVE THE DATE & CALL FOR ABSTRACTS underneath -->
+        <div class="hero-top-center" style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; margin:0 auto 1.85rem;">
+          <img src="assets/game-on-logo.svg" alt="GO Game-On! Symposium 2027" class="hero-logo-banner" style="display:block; margin:0 auto 1.1rem auto; max-width:560px; width:100%; height:auto;" />
+          <div class="save-date-kicker" style="margin:0 auto; justify-content:center; text-align:center;">
             <span>✨ SAVE THE DATE &amp; CALL FOR ABSTRACTS</span>
             <span>·</span>
             <span>HYBRID SYMPOSIUM 2027</span>
@@ -651,7 +651,7 @@
           <div class="video-viewport" id="streamViewport">
             <span class="live-indicator"><span class="pulse-dot"></span> <span id="streamPlatformBadge">ZOOM HYBRID LIVE</span></span>
             <div style="max-width:560px;">
-              <img src="assets/game-on-logo.png" alt="Game-On Symposium" style="height:64px; margin-bottom:0.75rem;" />
+              <img src="assets/symposium-header-logo.svg" alt="Game-On Symposium" style="height:60px; margin-bottom:0.75rem; background:#fffdf9; padding:0.35rem 0.75rem; border-radius:12px;" />
               <h3 style="font-family:var(--font-display); font-size:1.5rem; margin-bottom:0.4rem;" id="streamStageTitle">
                 Opening Keynote: Playing Our Stories — Indigenous African Games &amp; Tabletop Design
               </h3>
@@ -740,7 +740,7 @@
         </div>
         <div class="xp-pill" style="font-size:1rem; padding:0.45rem 1.2rem;">
           <span>⚡ Your Score:</span>
-          <strong id="gamificationUserXP">250 XP</strong>
+          <strong id="gamificationUserXP">300 XP</strong>
         </div>
       </div>
 
@@ -856,102 +856,28 @@
 
   </main>
 
-  <!-- ==========================================
-       SPONSORS & PARTNERS WIDGET SLIDER CAROUSEL
-       ========================================== -->
-  <section class="sponsor-slider-section" aria-label="Symposium Sponsors and Partners Slider">
-    <div class="sponsor-slider-box">
-      <div class="sponsor-slider-header">
-        <div>
-          <span class="badge badge-mustard">UNIVERSITY &amp; INDUSTRY PARTNERSHIP SHOWCASE</span>
-          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-top:0.2rem;">
-            🤝 Symposium Sponsors &amp; Partner Placeholders
-          </h3>
-        </div>
-        <div style="display:flex; gap:0.5rem; align-items:center;">
-          <button class="btn btn-outline btn-sm" id="slideSponsorsPrevBtn" aria-label="Slide Sponsors Left">◀ Prev</button>
-          <button class="btn btn-outline btn-sm" id="slideSponsorsNextBtn" aria-label="Slide Sponsors Right">Next ▶</button>
-          <button class="btn btn-accent btn-sm" data-goto-tab="sponsors">+ Become a Sponsor</button>
-        </div>
+  <!-- ========================================================
+       MINIMAL FULL-WIDTH SPONSOR LOGO SLIDER (Matches Reference)
+       ======================================================== -->
+  <section class="minimal-logo-slider-wrap" aria-label="Sponsors Slider">
+    <div class="minimal-logo-slider-row">
+      <button type="button" class="minimal-slider-arrow" id="slideSponsorsPrevBtn" aria-label="Previous Sponsors">&#10094;</button>
+      <div class="minimal-logo-viewport" id="sponsorCarouselViewport">
+        <div class="minimal-logo-track" id="sponsorSliderTrack"></div>
       </div>
-
-      <div class="sponsor-carousel-viewport" id="sponsorCarouselViewport">
-        <div class="sponsor-carousel-track" id="sponsorSliderTrack"></div>
-      </div>
+      <button type="button" class="minimal-slider-arrow" id="slideSponsorsNextBtn" aria-label="Next Sponsors">&#10095;</button>
+    </div>
+    <div class="minimal-slider-dots" id="sponsorSliderDots">
+      <button type="button" class="minimal-dot active" data-slide-page="0" aria-label="Slide 1"></button>
+      <button type="button" class="minimal-dot" data-slide-page="1" aria-label="Slide 2"></button>
     </div>
   </section>
 
-  <!-- ==========================================
-       SITE FOOTER WITH EMAILS & QUICK CONTACT
-       ========================================== -->
+  <!-- ========================================================
+       SIMPLE, MINIMAL FOOTER (ONLY THE REQUESTED COPYRIGHT TEXT)
+       ======================================================== -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-col">
-        <img src="assets/game-on-logo.png" alt="GO Game-On! Symposium 2027" style="height:52px; margin-bottom:0.75rem; background:#fffdf9; padding:0.35rem 0.65rem; border-radius:10px;" />
-        <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:0.85rem;">
-          <strong>GO Game-On! Symposium 2027 (11–12 March 2027)</strong><br/>
-          Theme: <em>Playing Our Stories: Educational, Digital &amp; Traditional Games for Learning, Teaching and Community.</em>
-        </p>
-        <div style="font-size:0.8rem; color:#94a3b8;">
-          📍 <strong>Venue:</strong> eFundanathi eZone, Wits Education Campus, Parktown, Johannesburg &amp; Online (Zoom / Microsoft Teams).
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>📧 Official Contact &amp; Inquiries</h4>
-        <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:0.65rem;">
-          Reach out to the Wits eFundanathi eZone Organizing Committee for abstract, sponsorship, or registration queries:
-        </p>
-
-        <div class="footer-email-box">
-          <div>
-            <div style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; font-weight:700;">Primary Symposium Desk</div>
-            <a href="mailto:wits.ezone@gmail.com?subject=GO%20Game-On!%20Symposium%202027%20Inquiry" class="footer-email-link">wits.ezone@gmail.com</a>
-          </div>
-          <button class="topbar-btn copy-email-btn" data-email="wits.ezone@gmail.com">Copy</button>
-        </div>
-
-        <div class="footer-email-box">
-          <div>
-            <div style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; font-weight:700;">Wits eFundanathi eZone</div>
-            <a href="mailto:efundanathi.ezone@wits.ac.za?subject=GO%20Game-On!%20Symposium%202027%20Inquiry" class="footer-email-link">efundanathi.ezone@wits.ac.za</a>
-          </div>
-          <button class="topbar-btn copy-email-btn" data-email="efundanathi.ezone@wits.ac.za">Copy</button>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>🧭 EventHub Quick Navigation</h4>
-        <ul class="footer-links">
-          <li><button data-goto-tab="overview">🏠 Overview &amp; 4 Symposium Tracks</button></li>
-          <li><button data-goto-tab="agenda">📅 Hybrid Agenda &amp; .ICS Calendar</button></li>
-          <li><button data-goto-tab="speakers">🎓 Speakers &amp; University Bios</button></li>
-          <li><button data-goto-tab="abstracts">📄 Submit Abstract &amp; Google Drive</button></li>
-          <li><button data-goto-tab="review">⚖️ Scientific Peer Review Portal</button></li>
-          <li><button data-goto-tab="stream">📡 Zoom &amp; MS Teams Live Stage</button></li>
-          <li><button data-goto-tab="gamification">🏆 Campus Amazing Race &amp; Hunt</button></li>
-          <li><button data-goto-tab="sponsors">🤝 Sponsorship Tiers &amp; Partners</button></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>✉️ Quick Message to Organizers</h4>
-        <form id="footerQuickContactForm" style="display:flex; flex-direction:column; gap:0.5rem;">
-          <input type="email" id="footerSenderEmail" class="input-field" placeholder="Your academic email..." style="padding:0.45rem 0.7rem; font-size:0.82rem;" required />
-          <textarea id="footerSenderMsg" class="textarea-field" rows="2" placeholder="Ask about abstracts, sponsorship, or group registration..." style="padding:0.45rem 0.7rem; font-size:0.82rem;" required></textarea>
-          <button type="submit" class="btn btn-mustard btn-sm" style="width:100%;">📨 Send Email to Wits eZone</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div>
-        © 2026–2027 <strong>University of the Witwatersrand (Wits)</strong> · <strong>School of Therapeutic Sciences</strong> · <strong>eFundanathi eZone ("Learn with us")</strong>. Powered by <strong>EventHub</strong> (<code>gameon2027.eventhub.wits.ac.za</code>).
-      </div>
-      <div style="display:flex; gap:0.75rem; align-items:center;">
-        <span class="subdomain-badge"><span class="subdomain-dot"></span> Google Drive Auto-Folder Routing Active</span>
-      </div>
-    </div>
+    Copyright &copy; - 2026 - University of the Witwatersrand - All rights reserved.
   </footer>
 
   <!-- ==========================================
@@ -1215,7 +1141,7 @@ function getOrCreateFolder_(parent, name) {
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
