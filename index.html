@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GO Game-On! Symposium 2027 | ImbizoHub · Wits University Hybrid Conference Platform</title>
+  <title>GO Game-On! Symposium 2027 | EventHub · Wits University Hybrid Conference Platform</title>
   <meta name="description" content="Official Hybrid Conference Platform for the GO Game-On! Symposium 2027 (11–12 March 2027) — Playing Our Stories: Educational, Digital and Traditional Games for Learning, Teaching and Community. Hosted by Wits University, School of Therapeutic Sciences & eFundanathi eZone." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,46 +12,43 @@
 </head>
 <body>
 
-  <!-- Top University Multi-Event Umbrella Bar (Subdomain Architecture) -->
+  <!-- Top University Multi-Event Umbrella Bar (EventHub Subdomain Architecture) -->
   <div class="platform-topbar">
     <div class="topbar-inner">
       <div class="platform-brand-cluster">
-        <span class="platform-pill">🎲 ImbizoHub · Wits Event Cloud</span>
+        <span class="platform-pill">🎲 EventHub · Wits Event Cloud</span>
         <span class="subdomain-badge" id="activeSubdomainDisplay">
           <span class="subdomain-dot"></span>
-          <span id="subdomainText">gameon2027.imbizo.wits.ac.za</span>
+          <span id="subdomainText">gameon2027.eventhub.wits.ac.za</span>
         </span>
         <span style="opacity:0.85; font-size:0.76rem;">University of the Witwatersrand · Multi-Event Hybrid Platform</span>
       </div>
       <div class="topbar-actions">
         <label for="eventSwitcherSelect" style="font-size:0.75rem; opacity:0.85;">Switch University Event:</label>
         <select id="eventSwitcherSelect" class="topbar-select" aria-label="Switch University Event"></select>
+        <button class="topbar-btn" id="openGDriveConfigModalBtn">☁️ Google Drive Folders (<span id="topGDriveFileCount">5</span>)</button>
         <button class="topbar-btn" id="openNewSubdomainModalBtn">+ Create University Event Subdomain</button>
         <button class="topbar-btn" id="resetDemoDataBtn" title="Reset demo data to initial state">↺ Reset Demo</button>
       </div>
     </div>
   </div>
 
-  <!-- Main Sticky Navigation Header -->
+  <!-- Main Sticky Navigation Header (Clean Logo Only on Left, Wider XP & User Profile on Right) -->
   <header class="main-header">
     <div class="header-inner">
-      <div class="brand-logo-wrap" data-goto-tab="overview">
+      <div class="brand-logo-wrap" data-goto-tab="overview" title="GO Game-On! Symposium 2027 Home">
         <img src="assets/game-on-logo.png" alt="GO Game-On! Symposium 2027 Logo" class="brand-logo-img" />
-        <div class="brand-meta">
-          <span class="brand-meta-date">11–12 March 2027 · Hybrid</span>
-          <span class="brand-meta-venue">eFundanathi eZone, Wits Education Campus</span>
-        </div>
       </div>
 
       <nav class="nav-tabs" aria-label="Main conference navigation">
-        <button class="nav-tab active" data-tab="overview">🏠 Overview & Tracks</button>
-        <button class="nav-tab" data-tab="agenda">📅 Agenda & Calendar <span class="nav-badge" id="navAgendaCount">9</span></button>
-        <button class="nav-tab" data-tab="speakers">🎓 Speakers & Bios <span class="nav-badge" id="navSpeakerCount">7</span></button>
-        <button class="nav-tab" data-tab="abstracts">📄 Abstracts & Uploads <span class="nav-badge" id="navAbstractCount">4</span></button>
+        <button class="nav-tab active" data-tab="overview">🏠 Overview &amp; Tracks</button>
+        <button class="nav-tab" data-tab="agenda">📅 Agenda &amp; Calendar <span class="nav-badge" id="navAgendaCount">9</span></button>
+        <button class="nav-tab" data-tab="speakers">🎓 Speakers &amp; Bios <span class="nav-badge" id="navSpeakerCount">7</span></button>
+        <button class="nav-tab" data-tab="abstracts">📄 Abstracts &amp; Drive <span class="nav-badge" id="navAbstractCount">4</span></button>
         <button class="nav-tab" data-tab="review">⚖️ Peer Review</button>
         <button class="nav-tab" data-tab="stream">📡 Live Stream <span class="nav-badge" style="background:#ff4d4d;color:#fff;">LIVE</span></button>
-        <button class="nav-tab" data-tab="gamification">🏆 Amazing Race & Hunt</button>
-        <button class="nav-tab" data-tab="sponsors">🤝 Sponsors & Partners</button>
+        <button class="nav-tab" data-tab="gamification">🏆 Amazing Race &amp; Hunt</button>
+        <button class="nav-tab" data-tab="sponsors">🤝 Sponsors &amp; Partners</button>
       </nav>
 
       <div class="header-user-cluster">
@@ -60,7 +57,7 @@
           <span id="headerUserXP">250 XP</span>
         </div>
         <button class="user-profile-btn" id="openAuthModalBtn">
-          <span class="user-avatar-sm" id="headerUserInitials">GUEST</span>
+          <span class="user-avatar-sm" id="headerUserInitials">GD</span>
           <span id="headerUserName">Login / Register</span>
         </button>
       </div>
@@ -75,21 +72,25 @@
          ========================================== -->
     <section class="tab-panel active" id="tab-overview">
       <div class="hero-card">
+
+        <!-- Centered Top Block: Logo First on Top, then SAVE THE DATE & CALL FOR ABSTRACTS underneath -->
+        <div class="hero-top-center">
+          <img src="assets/game-on-logo.svg" alt="GO Game-On! Symposium 2027" class="hero-logo-banner" />
+          <div class="save-date-kicker">
+            <span>✨ SAVE THE DATE &amp; CALL FOR ABSTRACTS</span>
+            <span>·</span>
+            <span>HYBRID SYMPOSIUM 2027</span>
+          </div>
+        </div>
+
         <div class="hero-grid">
           <div>
-            <div class="save-date-kicker">
-              <span>✨ SAVE THE DATE & CALL FOR ABSTRACTS</span>
-              <span>·</span>
-              <span>HYBRID SYMPOSIUM 2027</span>
-            </div>
-            <img src="assets/game-on-logo.svg" alt="GO Game-On! Symposium 2027" class="hero-logo-banner" />
-
             <div class="hero-theme-box">
               <div class="hero-theme-label">Official 2027 Symposium Theme</div>
               <h1 class="hero-theme-title" id="heroEventTheme">
                 Playing Our Stories: Educational, Digital &amp; Traditional Games for Learning, Teaching and Community
               </h1>
-              <p style="font-size:0.86rem; color:var(--ink-brown); margin-top:0.35rem; font-weight:600;">
+              <p style="font-size:0.88rem; color:var(--ink-brown); margin-top:0.4rem; font-weight:600;">
                 Celebrating Board Games, African Indigenous Games (Morabaraba, Mancala/Oware, Diketo), Clinical Simulations, XR &amp; Playful Pedagogies across Universities.
               </p>
             </div>
@@ -97,12 +98,12 @@
             <div class="hero-badges-row">
               <span class="info-chip">📍 Venue: eFundanathi eZone, Wits Education Campus</span>
               <span class="info-chip">🌐 Format: Hybrid (In-Person &amp; Online via Zoom + MS Teams)</span>
-              <span class="info-chip">🏛️ Inter-University Academic &amp; Student Hub</span>
+              <span class="info-chip">☁️ Auto-Routed Google Drive Upload Folders</span>
             </div>
 
             <div class="hero-cta-row">
               <button class="btn btn-primary" id="heroRegisterBtn">🎟️ Register / Participant Login</button>
-              <button class="btn btn-accent" data-goto-tab="abstracts">📤 Submit Abstract &amp; Presentation</button>
+              <button class="btn btn-accent" data-goto-tab="abstracts">📤 Submit Abstract &amp; Upload Files</button>
               <button class="btn btn-mustard" data-goto-tab="gamification">🏁 Join Campus Amazing Race</button>
               <button class="btn btn-outline" data-goto-tab="stream">📡 Enter Hybrid Stream Stage</button>
             </div>
@@ -132,14 +133,15 @@
           </div>
         </div>
 
+        <!-- Swapped Host Banner: Left = Hosted by Wits University, School of Therapeutic Sciences & eFundanathi eZone ("Learn with us") | Right = "your host" badge -->
         <div class="host-banner-wrap">
-          <img src="assets/host-logos.png" alt="Your Host: Wits University, Therapeutic Sciences, eFundanathi Learn with us" class="host-logos-img" />
-          <div style="display:flex; gap:0.65rem; align-items:center; flex-wrap:wrap;">
+          <div class="host-left-credit">
             <img src="assets/morabaraba.svg" alt="Morabaraba Board" style="height:56px; width:auto;" />
-            <div style="font-size:0.8rem; max-width:290px; color:var(--ink-brown); font-weight:600;">
-              Hosted by <strong>Wits University</strong>, <strong>School of Therapeutic Sciences</strong> &amp; <strong>eFundanathi eZone</strong> ("Learn with us").
+            <div style="font-size:0.9rem; max-width:460px; color:var(--ink-espresso); font-weight:600; line-height:1.4;">
+              Hosted by <strong>Wits University</strong>, <strong>School of Therapeutic Sciences</strong> &amp; <strong>eFundanathi eZone ("Learn with us")</strong>.
             </div>
           </div>
+          <img src="assets/host-logos.png" alt="Your Host: Wits University, Therapeutic Sciences, eFundanathi Learn with us" class="host-logos-img" />
         </div>
       </div>
 
@@ -151,7 +153,7 @@
           <h2 class="section-title">📢 Call for Abstracts &amp; Key Milestones</h2>
           <p class="section-subtitle">Submit your abstract, playable game demo, workshop, or digital poster across our 4 peer-reviewed symposium tracks.</p>
         </div>
-        <button class="btn btn-primary btn-sm" data-goto-tab="abstracts">Go to Submission Portal →</button>
+        <button class="btn btn-primary btn-sm" data-goto-tab="abstracts">Go to Submission &amp; Drive Portal →</button>
       </div>
 
       <div class="board-cards-grid">
@@ -169,7 +171,7 @@
           <div class="board-card-body">
             <span class="badge badge-mustard">MILESTONE 2 · SUBMISSION DEADLINE</span>
             <h3 style="font-family:var(--font-display); font-size:1.45rem; margin:0.45rem 0;" id="abstractCloseDateDisplay">18 February 2027*</h3>
-            <p style="font-size:0.84rem; opacity:0.95;">Abstract &amp; workshop submissions close for peer review. <em>(*Poster draft notes 18 April — configurable in Admin)</em>.</p>
+            <p style="font-size:0.84rem; opacity:0.95;">Abstract &amp; workshop submissions close for peer review. <em>(*All uploads auto-sort into Google Drive track folders)</em>.</p>
           </div>
         </div>
 
@@ -196,7 +198,7 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">🎯 Official Symposium Tracks (Tracks 1–4)</h2>
-          <p class="section-subtitle">Click any topic pill below to start an abstract submission pre-tagged with that track and sub-topic.</p>
+          <p class="section-subtitle">Click any topic pill below to start an abstract submission pre-tagged with that track and its dedicated Google Drive folder.</p>
         </div>
       </div>
 
@@ -205,17 +207,17 @@
       <!-- Whova-Style Platform Capabilities & Official Poster Gallery -->
       <div class="grid-2" style="margin-top:2rem;">
         <div class="card">
-          <span class="badge badge-teal" style="margin-bottom:0.5rem;">ALL-IN-ONE HYBRID PLATFORM</span>
-          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.65rem;">Everything Built for Wits &amp; Partner Universities</h3>
+          <span class="badge badge-teal" style="margin-bottom:0.5rem;">EVENTHUB · ALL-IN-ONE HYBRID PLATFORM</span>
+          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.65rem;">Built for Wits &amp; Partner Universities</h3>
           <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1rem;">
-            Inspired by leading academic conference suites (Whova, Ex Ordo &amp; Oxford Abstracts) and tailored for <strong>eFundanathi eZone</strong>:
+            Combining the best of Whova, Ex Ordo, and structured Google Drive cloud file management for <strong>eFundanathi eZone</strong>:
           </p>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.84rem;">
             <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
-              <strong>📅 Smart Agenda &amp; .ICS Sync</strong><br/>Bookmark sessions, filter by track, &amp; export directly to Outlook/Google Calendar.
+              <strong>☁️ Google Drive Folder Routing</strong><br/>Uploads automatically sort into dedicated folders for Tracks 1–4, Slide Decks, Bios &amp; Game Builds.
             </div>
             <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
-              <strong>⚖️ Double-Blind Peer Review</strong><br/>4-criterion academic rubric &amp; 1-click promotion of accepted abstracts to the schedule.
+              <strong>⚖️ Academic Peer Review</strong><br/>4-criterion rubric &amp; 1-click promotion of accepted abstracts straight to the calendar.
             </div>
             <div style="padding:0.65rem; background:var(--bg-cream); border-radius:10px; border:1.5px solid var(--ink-espresso);">
               <strong>📡 Zoom &amp; MS Teams Stage</strong><br/>Integrated hybrid live streaming, upvotable Q&amp;A, polls, and slide deck downloads.
@@ -300,8 +302,10 @@
 
       <!-- Collapsible Speaker & Participant Bio Builder -->
       <div class="card" id="bioCreatorCard" style="display:none; margin-bottom:1.5rem; background:#fff9ea;">
-        <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.35rem;">Create Your Speaker / Participant Bio &amp; Upload Presentation</h3>
-        <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1rem;">Add your profile to the inter-university symposium directory so fellow delegates can discover your work and download your slides.</p>
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.35rem;">Create Your Speaker / Participant Bio &amp; Upload to Google Drive</h3>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1rem;">
+          Your bio profile is automatically saved to <code>/EventHub_GameOn_2027/03_Speaker_&_Participant_Bios_&_Photos/</code> and your presentation deck routes to <code>/02_Speaker_Presentations_&_Slide_Decks/</code>.
+        </p>
         <form id="speakerBioForm" class="grid-2">
           <div>
             <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Full Name &amp; Academic Title *</label>
@@ -347,12 +351,12 @@
             <input type="text" id="bioTags" class="input-field" style="width:100%;" placeholder="Morabaraba, VR Simulation, Escape Rooms, Health" />
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Upload Presentation Slides / Poster (PDF, PPTX, ZIP)</label>
-            <input type="file" id="bioPresentationFile" class="input-field" style="width:100%;" accept=".pdf,.ppt,.pptx,.zip" />
+            <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Upload Presentation Slides / Bio PDF (Auto-routed to Google Drive)</label>
+            <input type="file" id="bioPresentationFile" class="input-field" style="width:100%;" accept=".pdf,.ppt,.pptx,.zip,.doc,.docx" />
           </div>
           <div style="grid-column: 1 / -1; display:flex; gap:0.75rem; justify-content:flex-end;">
             <button type="button" class="btn btn-outline btn-sm" id="cancelBioBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary btn-sm">💾 Publish Speaker / Participant Bio (+50 XP)</button>
+            <button type="submit" class="btn btn-primary btn-sm">💾 Publish Bio &amp; Sync to Google Drive (+50 XP)</button>
           </div>
         </form>
       </div>
@@ -376,22 +380,25 @@
     </section>
 
     <!-- ==========================================
-         TAB 4: ABSTRACT SUBMISSION & PRESENTATIONS
+         TAB 4: ABSTRACT SUBMISSION & GOOGLE DRIVE FOLDERS
          ========================================== -->
     <section class="tab-panel" id="tab-abstracts">
       <div class="section-header">
         <div>
-          <h2 class="section-title">📄 Call for Abstracts &amp; Presentation Upload Portal</h2>
-          <p class="section-subtitle">Submit your structured abstract, playable board/digital game demo, or workshop proposal and upload your presentation slides.</p>
+          <h2 class="section-title">📄 Call for Abstracts &amp; Google Drive Multi-Folder Upload Portal</h2>
+          <p class="section-subtitle">Every uploaded abstract, slide deck, bio, and playable game build automatically routes into its dedicated Google Drive folder.</p>
         </div>
-        <button class="btn btn-outline btn-sm" data-goto-tab="review">⚖️ View Peer Review Queue →</button>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+          <button class="btn btn-mustard btn-sm" id="openGDriveModalFromTabBtn">☁️ Configure Google Drive Sync</button>
+          <button class="btn btn-outline btn-sm" data-goto-tab="review">⚖️ View Peer Review Queue →</button>
+        </div>
       </div>
 
       <div class="grid-2">
-        <!-- Left Column: Submission Form -->
+        <!-- Left Column: Submission Form with Live Google Drive Folder Routing -->
         <div class="card">
-          <span class="badge badge-teal" style="margin-bottom:0.5rem;">NEW SUBMISSION · 2027 SYMPOSIUM</span>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.85rem;">Submit Abstract &amp; Upload Presentation</h3>
+          <span class="badge badge-teal" style="margin-bottom:0.5rem;">NEW SUBMISSION · AUTO-ROUTED TO GOOGLE DRIVE</span>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.85rem;">Submit Abstract &amp; Upload Presentation Files</h3>
           <form id="abstractSubmissionForm" style="display:flex; flex-direction:column; gap:0.85rem;">
             <div>
               <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Presentation / Abstract Title *</label>
@@ -411,7 +418,7 @@
 
             <div class="grid-2" style="gap:0.75rem;">
               <div>
-                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Symposium Track (1–4) *</label>
+                <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Symposium Track (Determines Drive Subfolder) *</label>
                 <select id="absTrackSelect" class="select-field" style="width:100%;" required>
                   <option value="TRACK 1">Track 1: Educational Games &amp; Playful Pedagogies</option>
                   <option value="TRACK 2">Track 2: Simulation, Immersive Technologies &amp; AI</option>
@@ -446,31 +453,90 @@
                 <label style="font-size:0.8rem; font-weight:700;">Structured Abstract (250–350 words) *</label>
                 <span id="absWordCount" style="font-size:0.74rem; color:var(--ink-muted); font-weight:700;">0 words</span>
               </div>
-              <textarea id="absText" class="textarea-field" rows="5" style="width:100%;" placeholder="Include BACKGROUND, GAME DESIGN / METHODS, FINDINGS, and COMMUNITY / EDUCATIONAL IMPACT..." required></textarea>
+              <textarea id="absText" class="textarea-field" rows="4" style="width:100%;" placeholder="Include BACKGROUND, GAME DESIGN / METHODS, FINDINGS, and COMMUNITY / EDUCATIONAL IMPACT..." required></textarea>
             </div>
 
-            <div>
-              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.25rem;">Upload Presentation Deck, Poster PDF, or Game Rulebook (Optional at Abstract Stage)</label>
-              <input type="file" id="absFileInput" class="input-field" style="width:100%;" accept=".pdf,.ppt,.pptx,.docx,.zip" />
+            <!-- Multi-File Upload Routed to Separate Google Drive Folders -->
+            <div style="background:var(--teal-soft); border:2px dashed var(--teal-primary); border-radius:12px; padding:0.9rem;">
+              <div style="font-size:0.78rem; font-weight:800; color:var(--teal-dark); margin-bottom:0.35rem;">
+                ☁️ AUTOMATIC GOOGLE DRIVE FOLDER ROUTING
+              </div>
+              <div style="font-size:0.76rem; color:var(--ink-brown); margin-bottom:0.6rem;">
+                Target Abstract Folder: <code id="liveTargetDriveFolder" style="font-weight:700; color:var(--teal-dark);">/EventHub_GameOn_2027/01_Abstracts/Track_1_Playful_Pedagogies/</code>
+              </div>
+
+              <div class="grid-2" style="gap:0.65rem;">
+                <div>
+                  <label style="font-size:0.76rem; font-weight:700; display:block; margin-bottom:0.2rem;">1. Abstract PDF / Word Doc → Track Folder</label>
+                  <input type="file" id="absFileInput" class="input-field" style="width:100%; font-size:0.78rem;" accept=".pdf,.doc,.docx" />
+                </div>
+                <div>
+                  <label style="font-size:0.76rem; font-weight:700; display:block; margin-bottom:0.2rem;">2. Slide Deck / Game Build → Presentations Folder</label>
+                  <input type="file" id="absSlidesFileInput" class="input-field" style="width:100%; font-size:0.78rem;" accept=".ppt,.pptx,.pdf,.zip" />
+                </div>
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-accent" style="width:100%;">🚀 Submit Abstract &amp; Upload Presentation (+100 XP)</button>
+            <button type="submit" class="btn btn-accent" style="width:100%;">🚀 Submit Abstract &amp; Route Files to Google Drive (+100 XP)</button>
           </form>
         </div>
 
         <!-- Right Column: Live Submissions & Presentation Repository -->
         <div>
-          <div class="card" style="margin-bottom:1rem; background:var(--mustard-light);">
-            <h4 style="font-family:var(--font-display); font-size:1.05rem;">📌 Author &amp; Presenter Guidelines</h4>
-            <ul style="font-size:0.83rem; color:var(--ink-brown); padding-left:1.15rem; margin-top:0.35rem;">
-              <li>All submissions undergo peer review by the Inter-University Scientific Committee.</li>
-              <li>Accepted authors can upload updated slides (<code>.pptx</code> / <code>.pdf</code>) or playable game links at any time.</li>
-              <li>Accepted papers &amp; playtest demos automatically sync into the <strong>Agenda Center</strong>.</li>
-            </ul>
-          </div>
-
-          <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.75rem;">Submitted Abstracts &amp; Presentations (<span id="submittedAbstractsCount">4</span>)</h3>
+          <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:0.75rem;">Submitted Abstracts &amp; Drive Links (<span id="submittedAbstractsCount">4</span>)</h3>
           <div id="abstractsListContainer" style="display:flex; flex-direction:column; gap:0.9rem;"></div>
+        </div>
+      </div>
+
+      <!-- Dedicated Google Drive Multi-Folder Explorer -->
+      <div class="gdrive-hub-card" id="gdriveExplorerSection">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <span class="badge badge-teal">GOOGLE DRIVE CLOUD REPOSITORY · WITS EZONE</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; margin-top:0.25rem;">
+              ☁️ Structured Google Drive Folders for Symposium Files
+            </h3>
+            <p style="font-size:0.86rem; color:var(--ink-brown);">
+              Every upload on EventHub is automatically separated into its respective Google Drive folder so the Organizing &amp; Scientific Committees have clean, categorized files. Click any folder below to inspect or upload directly to it:
+            </p>
+          </div>
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+            <a href="https://drive.google.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm" id="openExternalGDriveBtn">📂 Open Google Drive</a>
+            <button class="btn btn-outline btn-sm" id="openGDriveDirectUploadBtn">+ Direct Upload to Specific Folder</button>
+          </div>
+        </div>
+
+        <!-- Direct Upload Drawer -->
+        <div id="directGDriveUploadDrawer" style="display:none; background:#fff; border:2px solid var(--ink-espresso); border-radius:12px; padding:1rem; margin-top:1rem;">
+          <form id="directGDriveUploadForm" style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:flex-end;">
+            <div style="flex:1; min-width:220px;">
+              <label style="font-size:0.78rem; font-weight:700; display:block; margin-bottom:0.2rem;">Destination Google Drive Folder *</label>
+              <select id="directGDriveFolderSelect" class="select-field" style="width:100%;"></select>
+            </div>
+            <div style="flex:1; min-width:180px;">
+              <label style="font-size:0.78rem; font-weight:700; display:block; margin-bottom:0.2rem;">Uploader Name &amp; University *</label>
+              <input type="text" id="directGDriveUploader" class="input-field" style="width:100%;" placeholder="e.g., Dr. K. Mokoena (Wits)" required />
+            </div>
+            <div style="flex:1; min-width:220px;">
+              <label style="font-size:0.78rem; font-weight:700; display:block; margin-bottom:0.2rem;">Choose File to Upload *</label>
+              <input type="file" id="directGDriveFileInput" class="input-field" style="width:100%;" required />
+            </div>
+            <button type="submit" class="btn btn-accent btn-sm">☁️ Upload to Selected Folder</button>
+          </form>
+        </div>
+
+        <!-- 8 Respective Google Drive Folders Grid -->
+        <div class="gdrive-folders-grid" id="gdriveFoldersGrid"></div>
+
+        <!-- Files inside Selected Google Drive Folder -->
+        <div style="background:rgba(255,255,255,0.75); border:2px solid var(--ink-espresso); border-radius:12px; padding:1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+            <strong style="font-family:var(--font-display); font-size:1.05rem;" id="activeGDriveFolderHeading">
+              📂 Showing All Categorized Google Drive Files
+            </strong>
+            <button class="chip-btn" id="showAllGDriveFilesBtn">Show All Folders</button>
+          </div>
+          <div id="gdriveFilesList" style="display:flex; flex-direction:column; gap:0.55rem;"></div>
         </div>
       </div>
     </section>
@@ -672,7 +738,7 @@
           <h2 class="section-title">🏆 Wits Education Campus Amazing Race &amp; Scavenger Hunt</h2>
           <p class="section-subtitle">Solve the 5-leg hybrid Amazing Race across eFundanathi eZone, redeem Scavenger Hunt QR codes, and propel your university up the Game-On Cup Leaderboard!</p>
         </div>
-        <div class="xp-pill" style="font-size:1rem; padding:0.45rem 1rem;">
+        <div class="xp-pill" style="font-size:1rem; padding:0.45rem 1.2rem;">
           <span>⚡ Your Score:</span>
           <strong id="gamificationUserXP">250 XP</strong>
         </div>
@@ -775,16 +841,118 @@
               </select>
             </div>
             <div>
-              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">How would you like to collaborate or showcase at eFundanathi eZone?</label>
-              <textarea id="spNotes" class="textarea-field" rows="3" style="width:100%;" placeholder="Tell us about your demo booth, student prizes, or research collaboration goals..."></textarea>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Upload Sponsor Logo / Brochure (Auto-Routes to /05_Sponsor_Logos_&_Partner_Brochures/)</label>
+              <input type="file" id="spLogoFileInput" class="input-field" style="width:100%;" accept=".png,.jpg,.jpeg,.svg,.pdf" />
             </div>
-            <button type="submit" class="btn btn-primary">🤝 Submit Partnership Pledge &amp; Create Booth</button>
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">How would you like to collaborate or showcase at eFundanathi eZone?</label>
+              <textarea id="spNotes" class="textarea-field" rows="2" style="width:100%;" placeholder="Tell us about your demo booth, student prizes, or research collaboration goals..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">🤝 Submit Partnership Pledge &amp; Add to Sponsor Slider</button>
           </form>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- ==========================================
+       SPONSORS & PARTNERS WIDGET SLIDER CAROUSEL
+       ========================================== -->
+  <section class="sponsor-slider-section" aria-label="Symposium Sponsors and Partners Slider">
+    <div class="sponsor-slider-box">
+      <div class="sponsor-slider-header">
+        <div>
+          <span class="badge badge-mustard">UNIVERSITY &amp; INDUSTRY PARTNERSHIP SHOWCASE</span>
+          <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-top:0.2rem;">
+            🤝 Symposium Sponsors &amp; Partner Placeholders
+          </h3>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <button class="btn btn-outline btn-sm" id="slideSponsorsPrevBtn" aria-label="Slide Sponsors Left">◀ Prev</button>
+          <button class="btn btn-outline btn-sm" id="slideSponsorsNextBtn" aria-label="Slide Sponsors Right">Next ▶</button>
+          <button class="btn btn-accent btn-sm" data-goto-tab="sponsors">+ Become a Sponsor</button>
+        </div>
+      </div>
+
+      <div class="sponsor-carousel-viewport" id="sponsorCarouselViewport">
+        <div class="sponsor-carousel-track" id="sponsorSliderTrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SITE FOOTER WITH EMAILS & QUICK CONTACT
+       ========================================== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <img src="assets/game-on-logo.png" alt="GO Game-On! Symposium 2027" style="height:52px; margin-bottom:0.75rem; background:#fffdf9; padding:0.35rem 0.65rem; border-radius:10px;" />
+        <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:0.85rem;">
+          <strong>GO Game-On! Symposium 2027 (11–12 March 2027)</strong><br/>
+          Theme: <em>Playing Our Stories: Educational, Digital &amp; Traditional Games for Learning, Teaching and Community.</em>
+        </p>
+        <div style="font-size:0.8rem; color:#94a3b8;">
+          📍 <strong>Venue:</strong> eFundanathi eZone, Wits Education Campus, Parktown, Johannesburg &amp; Online (Zoom / Microsoft Teams).
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>📧 Official Contact &amp; Inquiries</h4>
+        <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:0.65rem;">
+          Reach out to the Wits eFundanathi eZone Organizing Committee for abstract, sponsorship, or registration queries:
+        </p>
+
+        <div class="footer-email-box">
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; font-weight:700;">Primary Symposium Desk</div>
+            <a href="mailto:wits.ezone@gmail.com?subject=GO%20Game-On!%20Symposium%202027%20Inquiry" class="footer-email-link">wits.ezone@gmail.com</a>
+          </div>
+          <button class="topbar-btn copy-email-btn" data-email="wits.ezone@gmail.com">Copy</button>
+        </div>
+
+        <div class="footer-email-box">
+          <div>
+            <div style="font-size:0.7rem; text-transform:uppercase; color:#94a3b8; font-weight:700;">Wits eFundanathi eZone</div>
+            <a href="mailto:efundanathi.ezone@wits.ac.za?subject=GO%20Game-On!%20Symposium%202027%20Inquiry" class="footer-email-link">efundanathi.ezone@wits.ac.za</a>
+          </div>
+          <button class="topbar-btn copy-email-btn" data-email="efundanathi.ezone@wits.ac.za">Copy</button>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>🧭 EventHub Quick Navigation</h4>
+        <ul class="footer-links">
+          <li><button data-goto-tab="overview">🏠 Overview &amp; 4 Symposium Tracks</button></li>
+          <li><button data-goto-tab="agenda">📅 Hybrid Agenda &amp; .ICS Calendar</button></li>
+          <li><button data-goto-tab="speakers">🎓 Speakers &amp; University Bios</button></li>
+          <li><button data-goto-tab="abstracts">📄 Submit Abstract &amp; Google Drive</button></li>
+          <li><button data-goto-tab="review">⚖️ Scientific Peer Review Portal</button></li>
+          <li><button data-goto-tab="stream">📡 Zoom &amp; MS Teams Live Stage</button></li>
+          <li><button data-goto-tab="gamification">🏆 Campus Amazing Race &amp; Hunt</button></li>
+          <li><button data-goto-tab="sponsors">🤝 Sponsorship Tiers &amp; Partners</button></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>✉️ Quick Message to Organizers</h4>
+        <form id="footerQuickContactForm" style="display:flex; flex-direction:column; gap:0.5rem;">
+          <input type="email" id="footerSenderEmail" class="input-field" placeholder="Your academic email..." style="padding:0.45rem 0.7rem; font-size:0.82rem;" required />
+          <textarea id="footerSenderMsg" class="textarea-field" rows="2" placeholder="Ask about abstracts, sponsorship, or group registration..." style="padding:0.45rem 0.7rem; font-size:0.82rem;" required></textarea>
+          <button type="submit" class="btn btn-mustard btn-sm" style="width:100%;">📨 Send Email to Wits eZone</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026–2027 <strong>University of the Witwatersrand (Wits)</strong> · <strong>School of Therapeutic Sciences</strong> · <strong>eFundanathi eZone ("Learn with us")</strong>. Powered by <strong>EventHub</strong> (<code>gameon2027.eventhub.wits.ac.za</code>).
+      </div>
+      <div style="display:flex; gap:0.75rem; align-items:center;">
+        <span class="subdomain-badge"><span class="subdomain-dot"></span> Google Drive Auto-Folder Routing Active</span>
+      </div>
+    </div>
+  </footer>
 
   <!-- ==========================================
        MODAL 1: PARTICIPANT LOGIN & REGISTRATION
@@ -947,7 +1115,7 @@
         <button class="btn btn-outline btn-sm" data-close-modal="subdomainModal">✕</button>
       </div>
       <p style="font-size:0.86rem; color:var(--ink-muted); margin-bottom:1rem;">
-        <strong>ImbizoHub · Wits Hybrid Event Cloud</strong> is built as a reusable multi-tenant platform so faculties and schools across Wits can launch dedicated event subdomains (<code>&lt;event&gt;.imbizo.wits.ac.za</code>) with abstract management, peer review, and hybrid streaming built in.
+        <strong>EventHub · Wits Event Cloud</strong> is built as a reusable multi-tenant platform so faculties and schools across Wits can launch dedicated event subdomains (<code>&lt;event&gt;.eventhub.wits.ac.za</code>) with abstract management, Google Drive folder routing, peer review, and hybrid streaming built in.
       </p>
       <form id="newSubdomainForm" style="display:flex; flex-direction:column; gap:0.75rem;">
         <div>
@@ -974,7 +1142,65 @@
   </div>
 
   <!-- ==========================================
-       MODAL 4: POSTER LIGHTBOX VIEWER
+       MODAL 4: GOOGLE DRIVE CLOUD FOLDER SYNC CONFIG
+       ========================================== -->
+  <div class="modal-backdrop" id="gdriveConfigModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-family:var(--font-display); font-size:1.3rem;">☁️ Google Drive Multi-Folder Routing &amp; Sync</h3>
+        <button class="btn btn-outline btn-sm" data-close-modal="gdriveConfigModal">✕</button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--ink-brown); margin-bottom:0.9rem;">
+        EventHub automatically sorts every uploaded file into its own dedicated subfolder under your main Google Drive directory (<strong><code>EventHub_GameOn_Symposium_2027_Uploads</code></strong>):
+      </p>
+      <div style="background:var(--bg-cream-alt); border:1.5px solid var(--ink-espresso); border-radius:10px; padding:0.75rem; font-family:ui-monospace, monospace; font-size:0.76rem; margin-bottom:1rem; line-height:1.5;">
+        📁 EventHub_GameOn_Symposium_2027_Uploads/<br/>
+        ├── 📁 01_Abstracts/Track_1_Playful_Pedagogies/<br/>
+        ├── 📁 01_Abstracts/Track_2_Simulation_XR_AI/<br/>
+        ├── 📁 01_Abstracts/Track_3_Games_Health_Society/<br/>
+        ├── 📁 01_Abstracts/Track_4_Research_Partnerships/<br/>
+        ├── 📁 02_Speaker_Presentations_&_Slide_Decks/<br/>
+        ├── 📁 03_Speaker_&_Participant_Bios_&_Photos/<br/>
+        ├── 📁 04_Playable_Game_Builds_&_Rulebooks/<br/>
+        └── 📁 05_Sponsor_Logos_&_Partner_Brochures/
+      </div>
+
+      <form id="gdriveConfigForm" style="display:flex; flex-direction:column; gap:0.75rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Shared Google Drive Folder URL (wits.ezone@gmail.com)</label>
+          <input type="url" id="gdriveRootUrlInput" class="input-field" style="width:100%;" placeholder="https://drive.google.com/drive/folders/..." />
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Optional: Google Apps Script Web App URL (For Direct Cloud File Uploads from GitHub Pages)</label>
+          <input type="url" id="gdriveWebhookUrlInput" class="input-field" style="width:100%;" placeholder="https://script.google.com/macros/s/.../exec" />
+        </div>
+        <details style="font-size:0.78rem; background:#fff; border:1.5px solid #e4d9c5; border-radius:8px; padding:0.6rem;">
+          <summary style="cursor:pointer; font-weight:700; color:var(--teal-dark);">📋 View Ready-to-Paste Google Apps Script (Auto-Creates Folders in Google Drive)</summary>
+          <pre style="margin-top:0.5rem; white-space:pre-wrap; font-size:0.72rem; background:#1e293b; color:#f8fafc; padding:0.65rem; border-radius:6px; overflow-x:auto;">function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
+  var root = getOrCreateFolder_(DriveApp.getRootFolder(), "EventHub_GameOn_Symposium_2027_Uploads");
+  var target = getOrCreateFolder_(root, data.subfolder || "01_Abstracts");
+  var bytes = Utilities.base64Decode(data.base64Data);
+  var blob = Utilities.newBlob(bytes, data.mimeType || "application/pdf", data.fileName);
+  var file = target.createFile(blob);
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, url: file.getUrl() }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+function getOrCreateFolder_(parent, name) {
+  var iter = parent.getFoldersByName(name);
+  return iter.hasNext() ? iter.next() : parent.createFolder(name);
+}</pre>
+        </details>
+        <div style="display:flex; gap:0.6rem; justify-content:flex-end;">
+          <button type="button" class="btn btn-outline btn-sm" id="jumpToGDriveExplorerBtn">📂 Browse Uploaded Files by Folder</button>
+          <button type="submit" class="btn btn-primary btn-sm">💾 Save Google Drive Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 5: POSTER LIGHTBOX VIEWER
        ========================================== -->
   <div class="modal-backdrop" id="lightboxModal">
     <div class="modal-box" style="max-width:780px; text-align:center;">

@@ -1,10 +1,143 @@
 window.INITIAL_PLATFORM_DATA = {
-  platformName: "ImbizoHub · Wits Hybrid Event Cloud",
-  activeSubdomain: "gameon2027.imbizo.wits.ac.za",
+  platformName: "EventHub · Wits Event Cloud",
+  activeSubdomain: "gameon2027.eventhub.wits.ac.za",
+  googleDriveConfig: {
+    accountEmail: "wits.ezone@gmail.com",
+    rootFolderName: "EventHub_GameOn_Symposium_2027_Uploads",
+    rootFolderUrl: "https://drive.google.com/drive/u/0/my-drive",
+    appsScriptWebhookUrl: "",
+    autoRouteByTrackAndType: true
+  },
+
+  googleDriveFolders: [
+    {
+      id: "gdrive-abs-t1",
+      name: "01_Abstracts / Track 1 (Playful Pedagogies)",
+      path: "/EventHub_GameOn_2027/01_Abstracts/Track_1_Playful_Pedagogies/",
+      category: "Abstracts · Track 1",
+      icon: "📁",
+      description: "Abstracts & papers for Track 1: Educational Games & Playful Pedagogies"
+    },
+    {
+      id: "gdrive-abs-t2",
+      name: "01_Abstracts / Track 2 (Simulation, XR & AI)",
+      path: "/EventHub_GameOn_2027/01_Abstracts/Track_2_Simulation_XR_AI/",
+      category: "Abstracts · Track 2",
+      icon: "📁",
+      description: "Abstracts & papers for Track 2: Simulation, Immersive Technologies & AI"
+    },
+    {
+      id: "gdrive-abs-t3",
+      name: "01_Abstracts / Track 3 (Games, Health & Society)",
+      path: "/EventHub_GameOn_2027/01_Abstracts/Track_3_Games_Health_Society/",
+      category: "Abstracts · Track 3",
+      icon: "📁",
+      description: "Abstracts & papers for Track 3: Games, Health & Society"
+    },
+    {
+      id: "gdrive-abs-t4",
+      name: "01_Abstracts / Track 4 (Research & Partnerships)",
+      path: "/EventHub_GameOn_2027/01_Abstracts/Track_4_Research_Partnerships/",
+      category: "Abstracts · Track 4",
+      icon: "📁",
+      description: "Abstracts & papers for Track 4: Research, Innovation & Partnerships"
+    },
+    {
+      id: "gdrive-presentations",
+      name: "02_Speaker_Presentations_&_Slide_Decks",
+      path: "/EventHub_GameOn_2027/02_Speaker_Presentations_&_Slide_Decks/",
+      category: "Slide Decks & Posters",
+      icon: "📊",
+      description: "Keynote decks, PowerPoint (.pptx), PDF slides & digital posters"
+    },
+    {
+      id: "gdrive-bios",
+      name: "03_Speaker_&_Participant_Bios_&_Photos",
+      path: "/EventHub_GameOn_2027/03_Speaker_&_Participant_Bios_&_Photos/",
+      category: "Speaker Bios & Headshots",
+      icon: "🎓",
+      description: "Speaker profile bios, CVs, and high-res university headshots"
+    },
+    {
+      id: "gdrive-games",
+      name: "04_Playable_Game_Builds_&_Rulebooks",
+      path: "/EventHub_GameOn_2027/04_Playable_Game_Builds_&_Rulebooks/",
+      category: "Game Builds & Rulebooks",
+      icon: "🎲",
+      description: "Print-and-play board game kits, Morabaraba/Mancala rulebooks & ZIP builds"
+    },
+    {
+      id: "gdrive-sponsors",
+      name: "05_Sponsor_Logos_&_Partner_Brochures",
+      path: "/EventHub_GameOn_2027/05_Sponsor_Logos_&_Partner_Brochures/",
+      category: "Sponsor & Partner Assets",
+      icon: "🤝",
+      description: "High-res sponsor logos, booth brochures & partnership agreements"
+    }
+  ],
+
+  googleDriveFiles: [
+    {
+      id: "file-101",
+      folderId: "gdrive-abs-t3",
+      fileName: "Morabaraba_Med_Abstract_and_Rulebook.pdf",
+      fileType: "Abstract + Print-and-Play PDF",
+      uploadedBy: "Dr. Lerato Mthembu (Wits Therapeutic Sciences)",
+      uploadedAt: "2026-11-10 14:20",
+      sizeLabel: "2.4 MB",
+      drivePath: "/EventHub_GameOn_2027/01_Abstracts/Track_3_Games_Health_Society/Morabaraba_Med_Abstract_and_Rulebook.pdf",
+      syncStatus: "Synced to Google Drive Folder"
+    },
+    {
+      id: "file-102",
+      folderId: "gdrive-abs-t2",
+      fileName: "WardTwin_AI_Demo_Slides.pptx",
+      fileType: "Abstract + Slide Deck",
+      uploadedBy: "Prof. Sipho Ndlovu (University of Pretoria)",
+      uploadedAt: "2026-11-10 16:05",
+      sizeLabel: "8.1 MB",
+      drivePath: "/EventHub_GameOn_2027/01_Abstracts/Track_2_Simulation_XR_AI/WardTwin_AI_Demo_Slides.pptx",
+      syncStatus: "Synced to Google Drive Folder"
+    },
+    {
+      id: "file-103",
+      folderId: "gdrive-presentations",
+      fileName: "Dlamini_Mokoena_Keynote_2027.pdf",
+      fileType: "Keynote Presentation",
+      uploadedBy: "Prof. Nomsa Dlamini-Mokoena (Wits University)",
+      uploadedAt: "2026-11-11 08:30",
+      sizeLabel: "5.6 MB",
+      drivePath: "/EventHub_GameOn_2027/02_Speaker_Presentations_&_Slide_Decks/Dlamini_Mokoena_Keynote_2027.pdf",
+      syncStatus: "Synced to Google Drive Folder"
+    },
+    {
+      id: "file-104",
+      folderId: "gdrive-games",
+      fileName: "Escape_Pharmacology_PrintAndPlay_Kit.zip",
+      fileType: "Playable Tabletop Kit",
+      uploadedBy: "Thabo Nkosi (UKZN)",
+      uploadedAt: "2026-11-11 09:10",
+      sizeLabel: "14.2 MB",
+      drivePath: "/EventHub_GameOn_2027/04_Playable_Game_Builds_&_Rulebooks/Escape_Pharmacology_PrintAndPlay_Kit.zip",
+      syncStatus: "Synced to Google Drive Folder"
+    },
+    {
+      id: "file-105",
+      folderId: "gdrive-bios",
+      fileName: "Speaker_Bio_Dr_Tshepo_Khumalo_UCT.pdf",
+      fileType: "Speaker Bio Profile",
+      uploadedBy: "Dr. Tshepo Khumalo (UCT)",
+      uploadedAt: "2026-11-11 09:40",
+      sizeLabel: "640 KB",
+      drivePath: "/EventHub_GameOn_2027/03_Speaker_&_Participant_Bios_&_Photos/Speaker_Bio_Dr_Tshepo_Khumalo_UCT.pdf",
+      syncStatus: "Synced to Google Drive Folder"
+    }
+  ],
+
   universityEvents: [
     {
       id: "gameon2027",
-      subdomain: "gameon2027.imbizo.wits.ac.za",
+      subdomain: "gameon2027.eventhub.wits.ac.za",
       title: "GO Game-On! Symposium 2027",
       dates: "11–12 March 2027",
       host: "Wits Therapeutic Sciences & eFundanathi eZone",
@@ -14,7 +147,7 @@ window.INITIAL_PLATFORM_DATA = {
     },
     {
       id: "healthsim2027",
-      subdomain: "healthsim2027.imbizo.wits.ac.za",
+      subdomain: "healthsim2027.eventhub.wits.ac.za",
       title: "Wits Clinical Simulation & VR Colloquium 2027",
       dates: "19–20 August 2027",
       host: "Faculty of Health Sciences, Wits University",
@@ -24,7 +157,7 @@ window.INITIAL_PLATFORM_DATA = {
     },
     {
       id: "sotl2027",
-      subdomain: "sotl2027.imbizo.wits.ac.za",
+      subdomain: "sotl2027.eventhub.wits.ac.za",
       title: "Southern African Playful Higher Education Summit",
       dates: "14–15 October 2027",
       host: "CLTD & Wits School of Education",
@@ -42,7 +175,7 @@ window.INITIAL_PLATFORM_DATA = {
       subtitle: "Exploring the design and use of games to enhance teaching, learning, and assessment.",
       colorClass: "track-1",
       badgeClass: "badge-mustard",
-      icon: "dice-5",
+      gdriveFolderId: "gdrive-abs-t1",
       topics: [
         "Digital game-based learning",
         "Gamification",
@@ -61,7 +194,7 @@ window.INITIAL_PLATFORM_DATA = {
       subtitle: "Emerging technologies that create authentic, engaging, and transformative learning experiences.",
       colorClass: "track-2",
       badgeClass: "badge-teal",
-      icon: "glasses",
+      gdriveFolderId: "gdrive-abs-t2",
       topics: [
         "Simulation-based education",
         "Virtual, augmented and mixed reality",
@@ -80,7 +213,7 @@ window.INITIAL_PLATFORM_DATA = {
       subtitle: "Examining how games support learning, wellbeing, culture, and social impact within communities and professional practice.",
       colorClass: "track-3",
       badgeClass: "badge-terracotta",
-      icon: "heart-pulse",
+      gdriveFolderId: "gdrive-abs-t3",
       topics: [
         "Health professions education",
         "Healthcare simulations",
@@ -99,7 +232,7 @@ window.INITIAL_PLATFORM_DATA = {
       subtitle: "Advancing evidence, scholarship, and collaboration in educational gaming.",
       colorClass: "track-4",
       badgeClass: "badge-navy",
-      icon: "microscope",
+      gdriveFolderId: "gdrive-abs-t4",
       topics: [
         "Game-based learning research",
         "Design-based research",
@@ -275,6 +408,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Pioneering researcher integrating Southern African board games (Morabaraba, Ncuva, Diketo) into mathematics, health literacy, and teacher education curricula across Gauteng and Limpopo.",
       sessionTitle: "Playing Our Stories — Indigenous African Games & Tabletop Design",
       presentationFile: "Dlamini_Mokoena_Keynote_2027.pdf",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["African Traditional Games", "Decolonial Pedagogy", "Tabletop Design", "Co-Design"]
     },
     {
@@ -290,6 +424,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Designs interprofessional clinical escape rooms, card-based patient triage games, and simulation scenarios for occupational therapy, physiotherapy, and nursing students at Wits.",
       sessionTitle: "Clinical Escape Rooms & Triage Tabletop Games in Therapeutic Sciences",
       presentationFile: "Mthembu_Clinical_Escape_Room_Deck.pptx",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["Clinical Escape Rooms", "Therapeutic Sciences", "Patient Safety", "Simulation"]
     },
     {
@@ -305,6 +440,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Leads cross-university research on generative AI virtual patients, extended reality (XR) anatomy labs, and adaptive telemetry in clinical decision-making.",
       sessionTitle: "Virtual Patients, AI Co-Pilots & Mixed Reality Digital Twins",
       presentationFile: "Ndlovu_XR_Digital_Twins_2027.pdf",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["VR/AR/MR", "Virtual Patients", "AI in Education", "Learning Analytics"]
     },
     {
@@ -320,6 +456,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Creator of three award-winning South African civic and public-health tabletop games used in 14 universities and community health clinics.",
       sessionTitle: "Playing Our Stories — Indigenous African Games & Tabletop Design",
       presentationFile: "Khumalo_Tabletop_Mechanics_2027.pdf",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["Serious Games", "Board Game Mechanics", "Public Health", "Playful Assessment"]
     },
     {
@@ -335,6 +472,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Specializes in design-based research, university-industry game studio spinouts, and impact evaluation of serious games across sub-Saharan Africa.",
       sessionTitle: "From Prototype to Impact — Scaling University Game Innovations",
       presentationFile: "Mensah_DBR_Partnerships_2027.pdf",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["Design-Based Research", "Industry Partnerships", "EdTech Spinouts", "Impact Studies"]
     },
     {
@@ -350,6 +488,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Investigates stealth assessment, Minecraft Education worlds for preservice teachers, and neurodiverse-affirming game interfaces.",
       sessionTitle: "Design-Based Research & Assessment Through Play",
       presentationFile: "VanDerMerwe_Stealth_Assessment.pdf",
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: ["Assessment Through Games", "Minecraft in Education", "Equity & Accessibility"]
     },
     {
@@ -365,6 +504,7 @@ window.INITIAL_PLATFORM_DATA = {
       bio: "Developing 'RxQuest', a bilingual isiZulu/English mobile and card-based pharmacology game improving antimicrobial stewardship among junior clinicians.",
       sessionTitle: "RxQuest: Bilingual Card & Mobile Game for Antimicrobial Stewardship",
       presentationFile: "Nkosi_RxQuest_Playtest_Build.zip",
+      gdriveFolder: "04_Playable_Game_Builds_&_Rulebooks",
       interests: ["Pharmacology Games", "Indigenous Languages", "Health Professions Education"]
     }
   ],
@@ -381,6 +521,7 @@ window.INITIAL_PLATFORM_DATA = {
       presentationType: "Interactive Game Demo & Playtest Table",
       abstractText: "BACKGROUND: Traditional clinical case discussions often struggle to engage students in multi-step strategic reasoning. METHODS: We adapted Morabaraba's three-phase mechanics (placing, moving, and flying 'cows') into a clinical reasoning board game where each mill formed unlocks community rehabilitation interventions. FINDINGS: Across 118 Wits Therapeutic Sciences students, post-game clinical reasoning scores rose by 28% and qualitative reflections highlighted strong cultural resonance. IMPACT: Offers a low-cost, open-access physical & printable board game for African health sciences faculties.",
       presentationFileName: "Morabaraba_Med_Rulebook_and_Slides.pdf",
+      gdriveFolderPath: "/EventHub_GameOn_2027/01_Abstracts/Track_3_Games_Health_Society/",
       status: "Accepted",
       reviews: [
         {
@@ -406,6 +547,7 @@ window.INITIAL_PLATFORM_DATA = {
       presentationType: "Oral Presentation (15 min + 5 min Q&A)",
       abstractText: "BACKGROUND: High-acuity clinical placements are resource-constrained. METHODS: We built WardTwin AI, combining LLM-driven voice virtual patients (speaking English, isiZulu, and Sesotho) with a WebXR digital twin ward. FINDINGS: In a randomized crossover study (n=84), learners demonstrated 34% faster hazard identification and lower clinical anxiety prior to hospital blocks. IMPACT: Deployed as an open-source module compatible with university LMS platforms.",
       presentationFileName: "WardTwin_AI_Demo_Slides.pptx",
+      gdriveFolderPath: "/EventHub_GameOn_2027/01_Abstracts/Track_2_Simulation_XR_AI/",
       status: "Under Review",
       reviews: [
         {
@@ -431,6 +573,7 @@ window.INITIAL_PLATFORM_DATA = {
       presentationType: "Workshop / Hands-On Playtest (45 min)",
       abstractText: "BACKGROUND: Memorizing antibiotic spectra and drug interactions is notoriously dry for 3rd-year students. METHODS: We designed a portable R450 tabletop puzzle box combined with mobile QR audio clues where student teams race to diagnose and treat an outbreak within 40 minutes. FINDINGS: 94% of participants reported higher peer collaboration and scored 19% higher on delayed retention quizzes.",
       presentationFileName: "Escape_Pharmacology_PrintAndPlay.pdf",
+      gdriveFolderPath: "/EventHub_GameOn_2027/01_Abstracts/Track_1_Playful_Pedagogies/",
       status: "Under Review",
       reviews: []
     },
@@ -445,6 +588,7 @@ window.INITIAL_PLATFORM_DATA = {
       presentationType: "Digital & Physical Poster + 5-min Lightning Pitch",
       abstractText: "BACKGROUND: Youth mental health literacy tools rarely reflect township lived experiences. METHODS: Using participatory design-based research over 6 game jams, 45 high-school co-designers created 'Ubuntu Quest', a cooperative narrative board game about peer support and resilience. FINDINGS: Demonstrates how co-design itself serves as a transformative pedagogical intervention.",
       presentationFileName: "Ubuntu_Quest_Poster_2027.pdf",
+      gdriveFolderPath: "/EventHub_GameOn_2027/01_Abstracts/Track_4_Research_Partnerships/",
       status: "Submitted",
       reviews: []
     }
@@ -696,31 +840,53 @@ window.INITIAL_PLATFORM_DATA = {
       name: "Wits eFundanathi eZone",
       tier: "Host & Innovation Hub",
       category: "University Host",
+      logoPlaceholder: "🏛️ WITS · eFundanathi eZone",
       description: "Blended learning, simulation, and educational gaming innovation hub in the School of Therapeutic Sciences at Wits Education Campus.",
       boothQuestStamped: true
     },
     {
       id: "sp-2",
-      name: "Southern African Serious Games & Tabletop Collective",
-      tier: "Gold Playtest Partner",
-      category: "Game Design Studio Guild",
-      description: "Supporting university educators and student teams to manufacture custom educational card, board, and digital games across South Africa.",
+      name: "MedSim XR & Digital Twin Africa",
+      tier: "Platinum Sponsor Placeholder",
+      category: "Clinical VR & Simulation",
+      logoPlaceholder: "🥽 PLATINUM SPONSOR LOGO",
+      description: "Reserved Platinum Partner showcase for XR, clinical simulation, and AI virtual patient platforms.",
       boothQuestStamped: false
     },
     {
       id: "sp-3",
-      name: "MedSim XR & Digital Twin Africa",
-      tier: "Platinum Title Partner",
-      category: "Clinical VR & Simulation",
-      description: "Providing Meta Quest 3, haptic clinical simulators, and multilingual AI virtual patient engines for African health sciences faculties.",
+      name: "Southern African Serious Games & Tabletop Collective",
+      tier: "Gold Sponsor Placeholder",
+      category: "Game Design Studio Guild",
+      logoPlaceholder: "🎲 GOLD PARTNER LOGO",
+      description: "Supporting university educators and student teams to manufacture custom educational card, board, and digital games.",
       boothQuestStamped: false
     },
     {
       id: "sp-4",
-      name: "National Research Foundation (NRF) / DHET SoTL Showcase",
-      tier: "Academic Grant Partner",
+      name: "NRF / DHET Academic Grant Partner",
+      tier: "Grant Partner Placeholder",
       category: "Research & Scholarship",
-      description: "Advancing scholarship of teaching and learning (SoTL), emerging scholar fellowships, and cross-university collaborative grants.",
+      logoPlaceholder: "🎓 ACADEMIC GRANT LOGO",
+      description: "Advancing scholarship of teaching and learning (SoTL), emerging scholar fellowships, and cross-university grants.",
+      boothQuestStamped: false
+    },
+    {
+      id: "sp-5",
+      name: "EdTech & Publishing Partner Slot",
+      tier: "Silver Sponsor Placeholder",
+      category: "Educational Publishing & LMS",
+      logoPlaceholder: "📚 SILVER SPONSOR LOGO",
+      description: "Available Silver Sponsorship slot for educational publishers, LMS providers, and campus technology partners.",
+      boothQuestStamped: false
+    },
+    {
+      id: "sp-6",
+      name: "+ Your Organization Logo Here",
+      tier: "Open 2027 Partner Slot",
+      category: "Click to Partner with Wits",
+      logoPlaceholder: "✨ YOUR LOGO HERE (+)",
+      description: "Partner with Wits University for the GO Game-On! Symposium 2027 — click to view sponsorship tiers & reserve your booth!",
       boothQuestStamped: false
     }
   ]

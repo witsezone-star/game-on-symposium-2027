@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "wits_gameon_2027_state_v1";
+  const STORAGE_KEY = "wits_eventhub_gameon_2027_v2";
 
   function loadState() {
     try {
@@ -13,15 +13,16 @@
     }
     const fresh = structuredClone(window.INITIAL_PLATFORM_DATA);
     fresh.currentUser = {
-      name: "Guest Delegate",
+      name: "Dr. Kabelo Mokoena",
       university: "University of the Witwatersrand (Wits)",
-      role: "Participant",
-      initials: "GD",
-      xp: 250,
-      loggedIn: false
+      role: "Delegate",
+      initials: "KM",
+      xp: 300,
+      loggedIn: true
     };
     fresh.activeDayFilter = "ALL";
     fresh.activeUniFilter = "ALL";
+    fresh.activeGDriveFolderFilter = "ALL";
     fresh.activeReviewAbstractId = fresh.abstracts[0]?.id || "ABS-2027-01";
     fresh.activeStreamRoomId = fresh.streamRooms[0]?.id || "room-plenary";
     fresh.pollVotes = [42, 31, 27];
@@ -51,12 +52,11 @@
       toast.style.transform = "translateY(8px)";
       toast.style.transition = "all 0.25s ease";
       setTimeout(() => toast.remove(), 260);
-    }, 3600);
+    }, 3800);
   }
 
   function addXP(points, reason) {
     state.currentUser.xp = (state.currentUser.xp || 0) + points;
-    // Also credit the user's university on the leaderboard
     const userUni = state.currentUser.university || "University of the Witwatersrand (Wits)";
     const foundUni = state.universityLeaderboard.find(u =>
       u.university.toLowerCase().includes(userUni.toLowerCase().split(" ")[0]) ||
@@ -84,9 +84,9 @@
     if (initEl && nameEl) {
       if (state.currentUser.loggedIn) {
         initEl.textContent = state.currentUser.initials;
-        nameEl.textContent = `${state.currentUser.name.split(" ").slice(0, 2).join(" ")} (${state.currentUser.role})`;
+        nameEl.textContent = `${state.currentUser.name} · ${state.currentUser.role}`;
       } else {
-        initEl.textContent = "LOGIN";
+        initEl.textContent = "GO";
         nameEl.textContent = "Participant Login / Register";
       }
     }
@@ -96,12 +96,14 @@
     const navAbstract = document.getElementById("navAbstractCount");
     const savedCount = document.getElementById("savedAgendaCount");
     const absCount = document.getElementById("submittedAbstractsCount");
+    const topGDriveCount = document.getElementById("topGDriveFileCount");
 
     if (navAgenda) navAgenda.textContent = state.sessions.length;
     if (navSpeaker) navSpeaker.textContent = state.speakers.length;
     if (navAbstract) navAbstract.textContent = state.abstracts.length;
     if (savedCount) savedCount.textContent = state.sessions.filter(s => s.saved).length;
     if (absCount) absCount.textContent = state.abstracts.length;
+    if (topGDriveCount) topGDriveCount.textContent = state.googleDriveFiles.length;
   }
 
   // ==========================================
@@ -123,6 +125,262 @@
 
   document.querySelectorAll("[data-goto-tab]").forEach(el => {
     el.addEventListener("click", () => switchTab(el.dataset.gotoTab));
+  });
+
+  // ==========================================
+  // GOOGLE DRIVE MULTI-FOLDER ROUTING ENGINE
+  // ==========================================
+  function getTrackDriveFolderId(trackNumber) {
+    const map = {
+      "TRACK 1": "gdrive-abs-t1",
+      "TRACK 2": "gdrive-abs-t2",
+      "TRACK 3": "gdrive-abs-t3",
+      "TRACK 4": "gdrive-abs-t4"
+    };
+    return map[trackNumber] || "gdrive-abs-t1";
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes || isNaN(bytes)) return "420 KB";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / 1048576).toFixed(1) + " MB";
+  }
+
+  function routeFileToGoogleDrive({ fileObj, fallbackFileName, folderId, fileType, uploadedBy }) {
+    const folder = state.googleDriveFolders.find(f => f.id === folderId) || state.googleDriveFolders[0];
+    const fileName = (fileObj?.name || fallbackFileName || "Symposium_Upload_2027.pdf").replace(/\s+/g, "_");
+    const sizeLabel = fileObj ? formatBytes(fileObj.size) : "580 KB";
+    const nowStr = new Date().toISOString().slice(0, 16).replace("T", " ");
+    const drivePath = `${folder.path}${fileName}`;
+
+    const newEntry = {
+      id: "file-" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+      folderId: folder.id,
+      fileName,
+      fileType,
+      uploadedBy,
+      uploadedAt: nowStr,
+      sizeLabel,
+      drivePath,
+      syncStatus: state.googleDriveConfig?.appsScriptWebhookUrl
+        ? "Synced to Live Google Drive Webhook"
+        : "Routed to Google Drive Folder",
+      dataUrl: null
+    };
+
+    if (fileObj && fileObj.size <= 3 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        newEntry.dataUrl = evt.target.result;
+        // If organizer configured a live Google Apps Script Webhook, POST to Google Drive
+        if (state.googleDriveConfig?.appsScriptWebhookUrl) {
+          const base64Data = String(evt.target.result).split(",")[1] || "";
+          fetch(state.googleDriveConfig.appsScriptWebhookUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              subfolder: folder.name,
+              fileName,
+              mimeType: fileObj.type || "application/octet-stream",
+              base64Data
+            })
+          }).catch(() => {});
+        }
+        saveState();
+      };
+      reader.readAsDataURL(fileObj);
+    }
+
+    state.googleDriveFiles.unshift(newEntry);
+    saveState();
+    renderGoogleDriveExplorer();
+    return newEntry;
+  }
+
+  function renderGoogleDriveExplorer() {
+    const foldersGrid = document.getElementById("gdriveFoldersGrid");
+    const filesList = document.getElementById("gdriveFilesList");
+    const directSelect = document.getElementById("directGDriveFolderSelect");
+    const headingEl = document.getElementById("activeGDriveFolderHeading");
+
+    if (directSelect && directSelect.options.length === 0) {
+      directSelect.innerHTML = state.googleDriveFolders
+        .map(f => `<option value="${f.id}">${f.icon} ${f.name}</option>`)
+        .join("");
+    }
+
+    if (foldersGrid) {
+      foldersGrid.innerHTML = state.googleDriveFolders
+        .map(folder => {
+          const count = state.googleDriveFiles.filter(f => f.folderId === folder.id).length;
+          const isActive = state.activeGDriveFolderFilter === folder.id;
+          return `
+          <div class="gdrive-folder-tab ${isActive ? "active" : ""}" data-folder-id="${folder.id}">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:1.35rem;">${folder.icon}</span>
+              <span class="badge ${count > 0 ? "badge-teal" : "badge-mustard"}">${count} file${count === 1 ? "" : "s"}</span>
+            </div>
+            <div style="font-family:var(--font-display); font-weight:700; font-size:0.92rem; color:var(--ink-espresso); margin-top:0.2rem;">
+              ${folder.name}
+            </div>
+            <div style="font-size:0.73rem; color:var(--ink-muted); font-family:ui-monospace, monospace; word-break:break-all;">
+              ${folder.path}
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+
+      foldersGrid.querySelectorAll(".gdrive-folder-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          state.activeGDriveFolderFilter = tab.dataset.folderId;
+          renderGoogleDriveExplorer();
+        });
+      });
+    }
+
+    if (filesList) {
+      const filteredFiles =
+        state.activeGDriveFolderFilter === "ALL"
+          ? state.googleDriveFiles
+          : state.googleDriveFiles.filter(f => f.folderId === state.activeGDriveFolderFilter);
+
+      if (headingEl) {
+        if (state.activeGDriveFolderFilter === "ALL") {
+          headingEl.textContent = `📂 All Categorized Google Drive Files (${state.googleDriveFiles.length})`;
+        } else {
+          const activeF = state.googleDriveFolders.find(f => f.id === state.activeGDriveFolderFilter);
+          headingEl.textContent = `${activeF?.icon || "📁"} Folder: ${activeF?.path || ""} (${filteredFiles.length} files)`;
+        }
+      }
+
+      if (filteredFiles.length === 0) {
+        filesList.innerHTML = `
+          <div style="text-align:center; padding:1.2rem; font-size:0.85rem; color:var(--ink-muted);">
+            No files in this Google Drive subfolder yet. Upload an abstract, presentation, or game build above!
+          </div>
+        `;
+      } else {
+        filesList.innerHTML = filteredFiles
+          .map(
+            file => `
+          <div class="gdrive-file-row">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                <strong style="font-size:0.9rem; color:var(--ink-espresso);">📄 ${file.fileName}</strong>
+                <span class="badge badge-teal">${file.fileType}</span>
+                <span class="badge badge-mustard">${file.sizeLabel}</span>
+              </div>
+              <div style="font-size:0.75rem; color:var(--ink-muted); margin-top:0.2rem;">
+                Uploaded by <strong>${file.uploadedBy}</strong> (${file.uploadedAt}) · Drive Path: <code>${file.drivePath}</code>
+              </div>
+            </div>
+            <div style="display:flex; gap:0.45rem; align-items:center;">
+              <button class="btn btn-outline btn-sm download-gdrive-file-btn" data-id="${file.id}">📥 Download File</button>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        filesList.querySelectorAll(".download-gdrive-file-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const f = state.googleDriveFiles.find(item => item.id === btn.dataset.id);
+            if (!f) return;
+            if (f.dataUrl) {
+              const a = document.createElement("a");
+              a.href = f.dataUrl;
+              a.download = f.fileName;
+              a.click();
+            } else {
+              // Generate a summary receipt download for pre-populated demo files
+              const content = `EventHub · Wits University Google Drive File Record\nFile: ${f.fileName}\nFolder Path: ${f.drivePath}\nUploaded By: ${f.uploadedBy}\nTimestamp: ${f.uploadedAt}\nStatus: ${f.syncStatus}\n`;
+              const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = f.fileName + ".txt";
+              a.click();
+              URL.revokeObjectURL(url);
+            }
+            showToast(`Downloaded "${f.fileName}" from ${f.drivePath}`, "☁️");
+          });
+        });
+      }
+    }
+
+    const extBtn = document.getElementById("openExternalGDriveBtn");
+    if (extBtn && state.googleDriveConfig?.rootFolderUrl) {
+      extBtn.href = state.googleDriveConfig.rootFolderUrl;
+    }
+  }
+
+  document.getElementById("showAllGDriveFilesBtn")?.addEventListener("click", () => {
+    state.activeGDriveFolderFilter = "ALL";
+    renderGoogleDriveExplorer();
+  });
+
+  document.getElementById("openGDriveDirectUploadBtn")?.addEventListener("click", () => {
+    const drawer = document.getElementById("directGDriveUploadDrawer");
+    if (drawer) drawer.style.display = drawer.style.display === "none" ? "block" : "none";
+  });
+
+  document.getElementById("directGDriveUploadForm")?.addEventListener("submit", e => {
+    e.preventDefault();
+    const folderId = document.getElementById("directGDriveFolderSelect").value;
+    const uploader = document.getElementById("directGDriveUploader").value.trim();
+    const fileInput = document.getElementById("directGDriveFileInput");
+    const fileObj = fileInput?.files?.[0];
+    if (!fileObj) return;
+
+    const folder = state.googleDriveFolders.find(f => f.id === folderId);
+    routeFileToGoogleDrive({
+      fileObj,
+      fallbackFileName: fileObj.name,
+      folderId,
+      fileType: folder?.category || "Direct Folder Upload",
+      uploadedBy: uploader
+    });
+
+    state.activeGDriveFolderFilter = folderId;
+    renderGoogleDriveExplorer();
+    e.target.reset();
+    document.getElementById("directGDriveUploadDrawer").style.display = "none";
+    addXP(40, `Uploaded "${fileObj.name}" directly to Google Drive folder ${folder?.name}`);
+  });
+
+  // Google Drive Config Modal
+  document.getElementById("openGDriveConfigModalBtn")?.addEventListener("click", () => {
+    document.getElementById("gdriveRootUrlInput").value = state.googleDriveConfig?.rootFolderUrl || "";
+    document.getElementById("gdriveWebhookUrlInput").value = state.googleDriveConfig?.appsScriptWebhookUrl || "";
+    document.getElementById("gdriveConfigModal")?.classList.add("open");
+  });
+
+  document.getElementById("openGDriveModalFromTabBtn")?.addEventListener("click", () => {
+    document.getElementById("gdriveRootUrlInput").value = state.googleDriveConfig?.rootFolderUrl || "";
+    document.getElementById("gdriveWebhookUrlInput").value = state.googleDriveConfig?.appsScriptWebhookUrl || "";
+    document.getElementById("gdriveConfigModal")?.classList.add("open");
+  });
+
+  document.getElementById("jumpToGDriveExplorerBtn")?.addEventListener("click", () => {
+    document.getElementById("gdriveConfigModal")?.classList.remove("open");
+    switchTab("abstracts");
+    setTimeout(() => {
+      document.getElementById("gdriveExplorerSection")?.scrollIntoView({ behavior: "smooth" });
+    }, 120);
+  });
+
+  document.getElementById("gdriveConfigForm")?.addEventListener("submit", e => {
+    e.preventDefault();
+    state.googleDriveConfig.rootFolderUrl =
+      document.getElementById("gdriveRootUrlInput").value.trim() || "https://drive.google.com/drive/u/0/my-drive";
+    state.googleDriveConfig.appsScriptWebhookUrl = document.getElementById("gdriveWebhookUrlInput").value.trim();
+    saveState();
+    renderGoogleDriveExplorer();
+    document.getElementById("gdriveConfigModal")?.classList.remove("open");
+    showToast("Saved Google Drive multi-folder routing & sync settings!", "☁️");
   });
 
   // ==========================================
@@ -151,7 +409,7 @@
       state.activeSubdomain = chosen.subdomain;
       saveState();
       renderUniversityEventsBar();
-      showToast(`Switched active university subdomain to ${chosen.subdomain} (${chosen.title})`, "🏛️");
+      showToast(`Switched active EventHub subdomain to ${chosen.subdomain} (${chosen.title})`, "🏛️");
     }
   });
 
@@ -351,7 +609,7 @@
       const endClean = (sess.endTime || "10:00").replace(":", "") + "00";
       lines.push(
         "BEGIN:VEVENT",
-        `UID:${sess.id}@gameon2027.imbizo.wits.ac.za`,
+        `UID:${sess.id}@gameon2027.eventhub.wits.ac.za`,
         `DTSTAMP:20261111T090000Z`,
         `DTSTART:${datePrefix}T${startClean}`,
         `DTEND:${datePrefix}T${endClean}`,
@@ -444,7 +702,7 @@
           <strong>🎤 Session / Focus:</strong> ${sp.sessionTitle || "Symposium Panel & Networking"}
           ${
             sp.presentationFile
-              ? `<div style="margin-top:0.25rem; color:var(--teal-dark); font-weight:700;">📎 Deck/Build: ${sp.presentationFile}</div>`
+              ? `<div style="margin-top:0.25rem; color:var(--teal-dark); font-weight:700;">☁️ Drive File: ${sp.presentationFile}</div>`
               : ""
           }
         </div>
@@ -472,13 +730,13 @@
 
     container.querySelectorAll(".connect-speaker-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        addXP(25, `Sent Whova-style Inter-University Meetup invite to ${btn.dataset.name} (${btn.dataset.uni})`);
+        addXP(25, `Sent Inter-University Meetup invite to ${btn.dataset.name} (${btn.dataset.uni})`);
       });
     });
 
     container.querySelectorAll(".download-speaker-deck").forEach(btn => {
       btn.addEventListener("click", () => {
-        showToast(`Downloading "${btn.dataset.file}" from ${btn.dataset.name}'s Speaker Repository...`, "📥");
+        showToast(`Downloading "${btn.dataset.file}" from Google Drive folder /02_Speaker_Presentations_&_Slide_Decks/...`, "☁️");
       });
     });
   }
@@ -517,7 +775,8 @@
     const bio = document.getElementById("bioText").value.trim();
     const tagsRaw = document.getElementById("bioTags").value.trim();
     const fileInput = document.getElementById("bioPresentationFile");
-    const fileName = fileInput?.files?.[0]?.name || "Uploaded_Presentation_2027.pdf";
+    const fileObj = fileInput?.files?.[0];
+    const fileName = fileObj?.name || `${name.replace(/\s+/g, "_")}_Presentation_2027.pdf`;
 
     const words = name.replace(/^(Dr\.|Prof\.|Mr\.|Ms\.|Mrs\.)\s*/i, "").split(" ");
     const initials = ((words[0]?.[0] || "U") + (words[1]?.[0] || "D")).toUpperCase();
@@ -536,27 +795,57 @@
       bio,
       sessionTitle,
       presentationFile: fileName,
+      gdriveFolder: "02_Speaker_Presentations_&_Slide_Decks",
       interests: tagsRaw ? tagsRaw.split(",").map(s => s.trim()).filter(Boolean) : ["Playful Pedagogy", "Game-On 2027"]
     };
+
+    // Route Bio PDF record to 03_Speaker_&_Participant_Bios_&_Photos
+    routeFileToGoogleDrive({
+      fileObj: null,
+      fallbackFileName: `Bio_${name.replace(/\s+/g, "_")}_${uni.slice(0, 12).replace(/\s+/g, "_")}.pdf`,
+      folderId: "gdrive-bios",
+      fileType: "Speaker Bio Profile",
+      uploadedBy: `${name} (${uni})`
+    });
+
+    // Route uploaded Presentation Deck/Game Build to respective folder
+    if (fileObj) {
+      const targetFolder = fileObj.name.toLowerCase().endsWith(".zip") ? "gdrive-games" : "gdrive-presentations";
+      routeFileToGoogleDrive({
+        fileObj,
+        fallbackFileName: fileObj.name,
+        folderId: targetFolder,
+        fileType: targetFolder === "gdrive-games" ? "Playable Game Build" : "Speaker Presentation Deck",
+        uploadedBy: `${name} (${uni})`
+      });
+    }
 
     state.speakers.unshift(newSpeaker);
     saveState();
     renderSpeakers();
     e.target.reset();
     document.getElementById("bioCreatorCard").style.display = "none";
-    addXP(50, `Published Speaker/Participant Bio for ${name} (${uni})`);
+    addXP(50, `Published Bio & Routed Files to Google Drive for ${name}`);
   });
 
   // ==========================================
-  // TAB 4: ABSTRACT SUBMISSION & UPLOADS
+  // TAB 4: ABSTRACT SUBMISSION & GOOGLE DRIVE ROUTING
   // ==========================================
   function populateSubTopicsDropdown(trackNumber, selectedTopic = null) {
     const topicSelect = document.getElementById("absTopicSelect");
+    const folderLabel = document.getElementById("liveTargetDriveFolder");
     if (!topicSelect) return;
+
     const foundTrack = state.tracks.find(t => t.number === trackNumber) || state.tracks[0];
     topicSelect.innerHTML = foundTrack.topics
       .map(top => `<option value="${top}" ${top === selectedTopic ? "selected" : ""}>${top}</option>`)
       .join("");
+
+    const folderId = getTrackDriveFolderId(trackNumber);
+    const folderObj = state.googleDriveFolders.find(f => f.id === folderId);
+    if (folderLabel && folderObj) {
+      folderLabel.textContent = folderObj.path;
+    }
   }
 
   document.getElementById("absTrackSelect")?.addEventListener("change", e => {
@@ -593,9 +882,12 @@
             👩‍🏫 ${abs.authors} — <em>${abs.university}</em> (${abs.presentationType})
           </div>
           <p style="font-size:0.82rem; color:var(--ink-brown); margin-bottom:0.6rem;">${abs.abstractText}</p>
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; font-size:0.78rem; background:var(--bg-cream); padding:0.5rem 0.75rem; border-radius:8px; border:1px solid #dccbb1;">
-            <span>📎 <strong>Uploaded File:</strong> ${abs.presentationFileName || "Pending slide upload"}</span>
-            <button class="btn btn-outline btn-sm jump-to-review-btn" data-id="${abs.id}">⚖️ Inspect / Peer Review (${abs.reviews.length})</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; font-size:0.76rem; background:var(--bg-cream); padding:0.55rem 0.75rem; border-radius:8px; border:1px solid #dccbb1;">
+            <div>
+              <div>📎 <strong>File:</strong> ${abs.presentationFileName || "Abstract_Document.pdf"}</div>
+              <div style="color:var(--teal-dark); font-family:ui-monospace, monospace;">☁️ Folder: ${abs.gdriveFolderPath || "/EventHub_GameOn_2027/01_Abstracts/"}</div>
+            </div>
+            <button class="btn btn-outline btn-sm jump-to-review-btn" data-id="${abs.id}">⚖️ Peer Review (${abs.reviews.length})</button>
           </div>
         </div>
       `;
@@ -622,8 +914,33 @@
     const presentationType = document.getElementById("absFormatSelect").value;
     const email = document.getElementById("absEmail").value.trim();
     const abstractText = document.getElementById("absText").value.trim();
-    const fileInput = document.getElementById("absFileInput");
-    const fileName = fileInput?.files?.[0]?.name || "Presentation_Deck_2027.pdf";
+
+    const absFileObj = document.getElementById("absFileInput")?.files?.[0];
+    const slidesFileObj = document.getElementById("absSlidesFileInput")?.files?.[0];
+
+    const trackFolderId = getTrackDriveFolderId(track);
+    const trackFolderObj = state.googleDriveFolders.find(f => f.id === trackFolderId);
+
+    // 1. Route Abstract Document to its Track Subfolder (01_Abstracts/Track_X...)
+    const routedAbstractFile = routeFileToGoogleDrive({
+      fileObj: absFileObj,
+      fallbackFileName: `Abstract_${authors.split(",")[0].trim().replace(/\s+/g, "_")}_${track.replace(/\s+/g, "")}.pdf`,
+      folderId: trackFolderId,
+      fileType: `Abstract (${track})`,
+      uploadedBy: `${authors} (${university})`
+    });
+
+    // 2. If Slide Deck or Playable Game ZIP was also attached, route it to its respective folder!
+    if (slidesFileObj) {
+      const isGameZip = slidesFileObj.name.toLowerCase().endsWith(".zip");
+      routeFileToGoogleDrive({
+        fileObj: slidesFileObj,
+        fallbackFileName: slidesFileObj.name,
+        folderId: isGameZip ? "gdrive-games" : "gdrive-presentations",
+        fileType: isGameZip ? "Playable Game Build (.ZIP)" : "Presentation Slide Deck",
+        uploadedBy: `${authors} (${university})`
+      });
+    }
 
     const newAbs = {
       id: `ABS-2027-0${state.abstracts.length + 1}`,
@@ -635,19 +952,23 @@
       topic,
       presentationType,
       abstractText,
-      presentationFileName: fileName,
+      presentationFileName: slidesFileObj?.name || routedAbstractFile.fileName,
+      gdriveFolderPath: trackFolderObj?.path || "/EventHub_GameOn_2027/01_Abstracts/",
       status: "Under Review",
       reviews: []
     };
 
     state.abstracts.unshift(newAbs);
     state.activeReviewAbstractId = newAbs.id;
+    state.activeGDriveFolderFilter = trackFolderId;
     saveState();
     renderAbstractsList();
+    renderGoogleDriveExplorer();
     renderPeerReviewWorkspace();
     e.target.reset();
+    populateSubTopicsDropdown("TRACK 1");
     document.getElementById("absWordCount").textContent = "0 words";
-    addXP(100, `Submitted Abstract ${newAbs.id} ("${title.slice(0, 32)}...")`);
+    addXP(100, `Submitted Abstract ${newAbs.id} & Routed to Google Drive Folder ${trackFolderObj?.name}`);
   });
 
   // ==========================================
@@ -691,11 +1012,10 @@
       });
     });
 
-    // Populate Right Scorecard
     document.getElementById("reviewTargetAbstractId").value = activeAbs.id;
     document.getElementById("reviewActiveIdBadge").textContent = `${activeAbs.id} · ${activeAbs.track} (${activeAbs.topic})`;
     document.getElementById("reviewActiveTitle").textContent = activeAbs.title;
-    document.getElementById("reviewActiveMeta").textContent = `Authors: ${activeAbs.authors} · ${activeAbs.university} · Format: ${activeAbs.presentationType} · File: ${activeAbs.presentationFileName}`;
+    document.getElementById("reviewActiveMeta").textContent = `Authors: ${activeAbs.authors} · ${activeAbs.university} · Format: ${activeAbs.presentationType} · Drive Folder: ${activeAbs.gdriveFolderPath || "/01_Abstracts/"}`;
     document.getElementById("reviewActiveAbstractText").textContent = activeAbs.abstractText;
 
     const existingReviewsEl = document.getElementById("existingReviewsList");
@@ -769,7 +1089,6 @@
     addXP(75, `Completed Peer Review for ${abs.id} (Avg: ${totalScore}/5.0)`);
   });
 
-  // 1-Click Promote Accepted Abstract to Agenda (Whova Agenda Center workflow!)
   document.getElementById("promoteToAgendaBtn")?.addEventListener("click", () => {
     const targetId = document.getElementById("reviewTargetAbstractId").value;
     const abs = state.abstracts.find(a => a.id === targetId);
@@ -840,7 +1159,6 @@
       launchBtn.textContent = `🎥 Launch in ${activeRoom.platform} (${activeRoom.name.split("·")[0].trim()})`;
     }
 
-    // Render Live Q&A
     const qaBox = document.getElementById("liveQaContainer");
     if (qaBox) {
       const sortedQa = [...state.liveQuestions].sort((a, b) => b.upvotes - a.upvotes);
@@ -899,7 +1217,7 @@
 
   document.getElementById("downloadStageSlidesBtn")?.addEventListener("click", () => {
     const activeRoom = state.streamRooms.find(r => r.id === state.activeStreamRoomId);
-    showToast(`Downloading "${activeRoom?.handoutFile || "Session_Slides_2027.pdf"}"...`, "📥");
+    showToast(`Downloading "${activeRoom?.handoutFile || "Session_Slides_2027.pdf"}" from Google Drive...`, "📥");
   });
 
   document.getElementById("claimStreamAttendanceBtn")?.addEventListener("click", () => {
@@ -1089,11 +1407,12 @@
   });
 
   // ==========================================
-  // TAB 8: UNIVERSITY PARTNERSHIPS & SPONSORS
+  // TAB 8 & BOTTOM WIDGET: SPONSORS & SLIDER
   // ==========================================
   function renderSponsors() {
     const tiersEl = document.getElementById("sponsorTiersContainer");
     const boothsEl = document.getElementById("exhibitorBoothsContainer");
+    const sliderTrack = document.getElementById("sponsorSliderTrack");
 
     if (tiersEl) {
       tiersEl.innerHTML = state.sponsorTiers
@@ -1162,7 +1481,54 @@
         });
       });
     }
+
+    // Render Bottom Sponsors Widget Slider / Carousel
+    if (sliderTrack) {
+      sliderTrack.innerHTML = state.sponsorsList
+        .map(
+          sp => `
+        <div class="sponsor-slide-card" data-id="${sp.id}">
+          <div class="sponsor-logo-placeholder">
+            <span>${sp.logoPlaceholder || "🤝 PARTNER LOGO"}</span>
+          </div>
+          <div>
+            <span class="badge badge-teal" style="font-size:0.66rem;">${sp.tier}</span>
+            <h4 style="font-family:var(--font-display); font-size:1rem; margin-top:0.25rem;">${sp.name}</h4>
+            <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:0.15rem;">${sp.category}</p>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      sliderTrack.querySelectorAll(".sponsor-slide-card").forEach(card => {
+        card.addEventListener("click", () => {
+          switchTab("sponsors");
+          showToast("Viewing Symposium Sponsors & Partnership Tiers", "🤝");
+        });
+      });
+    }
   }
+
+  // Sponsor Slider Prev / Next & Auto-Scroll
+  const sponsorViewport = document.getElementById("sponsorCarouselViewport");
+  document.getElementById("slideSponsorsPrevBtn")?.addEventListener("click", () => {
+    sponsorViewport?.scrollBy({ left: -290, behavior: "smooth" });
+  });
+  document.getElementById("slideSponsorsNextBtn")?.addEventListener("click", () => {
+    sponsorViewport?.scrollBy({ left: 290, behavior: "smooth" });
+  });
+
+  let sponsorAutoScroll = setInterval(() => {
+    if (!sponsorViewport) return;
+    if (sponsorViewport.scrollLeft + sponsorViewport.clientWidth >= sponsorViewport.scrollWidth - 20) {
+      sponsorViewport.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      sponsorViewport.scrollBy({ left: 280, behavior: "smooth" });
+    }
+  }, 4500);
+
+  sponsorViewport?.addEventListener("mouseenter", () => clearInterval(sponsorAutoScroll));
 
   document.getElementById("scrollToSponsorFormBtn")?.addEventListener("click", () => {
     document.getElementById("sponsorInquiryCard")?.scrollIntoView({ behavior: "smooth" });
@@ -1172,21 +1538,56 @@
   document.getElementById("sponsorInquiryForm")?.addEventListener("submit", e => {
     e.preventDefault();
     const org = document.getElementById("spOrgName").value.trim();
+    const contact = document.getElementById("spContactName").value.trim();
     const tier = document.getElementById("spTierSelect").value;
     const notes = document.getElementById("spNotes").value.trim() || "Interactive Playtest & Academic Partnership Showcase at eFundanathi eZone.";
+    const logoFileObj = document.getElementById("spLogoFileInput")?.files?.[0];
+
+    if (logoFileObj) {
+      routeFileToGoogleDrive({
+        fileObj: logoFileObj,
+        fallbackFileName: logoFileObj.name,
+        folderId: "gdrive-sponsors",
+        fileType: "Sponsor Logo / Brochure",
+        uploadedBy: `${contact} (${org})`
+      });
+    }
 
     state.sponsorsList.unshift({
       id: "sp-" + Date.now(),
       name: org,
       tier: tier.split("(")[0].trim(),
-      category: "New Symposium Partner",
+      category: "Confirmed 2027 Partner",
+      logoPlaceholder: `🌟 ${org.toUpperCase().slice(0, 18)}`,
       description: notes,
       boothQuestStamped: false
     });
     saveState();
     renderSponsors();
     e.target.reset();
-    addXP(100, `Registered new Symposium Sponsor/Partner Booth: ${org}`);
+    addXP(100, `Added ${org} to Sponsor Slider & Routed Assets to Google Drive!`);
+  });
+
+  // ==========================================
+  // FOOTER EMAIL COPY & QUICK INQUIRY FORM
+  // ==========================================
+  document.querySelectorAll(".copy-email-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const email = btn.dataset.email;
+      navigator.clipboard?.writeText(email).catch(() => {});
+      showToast(`Copied official symposium email: ${email}`, "📧");
+    });
+  });
+
+  document.getElementById("footerQuickContactForm")?.addEventListener("submit", e => {
+    e.preventDefault();
+    const sender = document.getElementById("footerSenderEmail").value.trim();
+    const msg = document.getElementById("footerSenderMsg").value.trim();
+    const subject = encodeURIComponent(`GO Game-On! Symposium 2027 Inquiry from ${sender}`);
+    const body = encodeURIComponent(`${msg}\n\n---\nSent via EventHub (gameon2027.eventhub.wits.ac.za)\nFrom: ${sender}`);
+    window.location.href = `mailto:wits.ezone@gmail.com?cc=efundanathi.ezone@wits.ac.za&subject=${subject}&body=${body}`;
+    e.target.reset();
+    showToast("Opened email client addressed to wits.ezone@gmail.com!", "📨");
   });
 
   // ==========================================
@@ -1283,7 +1684,7 @@
     const dates = document.getElementById("subDates").value.trim();
     const host = document.getElementById("subHost").value.trim();
 
-    const subdomain = `${slug}.imbizo.wits.ac.za`;
+    const subdomain = `${slug}.eventhub.wits.ac.za`;
     const newEv = {
       id: slug,
       subdomain,
@@ -1301,7 +1702,7 @@
     renderUniversityEventsBar();
     e.target.reset();
     document.getElementById("subdomainModal")?.classList.remove("open");
-    showToast(`Provisioned new Wits event subdomain: ${subdomain}!`, "🏛️");
+    showToast(`Provisioned new Wits EventHub subdomain: ${subdomain}!`, "🏛️");
   });
 
   // Poster Lightbox
@@ -1318,7 +1719,7 @@
     localStorage.removeItem(STORAGE_KEY);
     state = loadState();
     initAll();
-    showToast("Reset platform data to fresh initial state!", "↺");
+    showToast("Reset EventHub platform data to fresh state!", "↺");
   });
 
   function initAll() {
@@ -1329,6 +1730,7 @@
     renderAgenda();
     renderSpeakers();
     renderAbstractsList();
+    renderGoogleDriveExplorer();
     renderPeerReviewWorkspace();
     renderStreamStage();
     renderGamification();
