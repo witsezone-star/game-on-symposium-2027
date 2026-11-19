@@ -786,52 +786,134 @@ window.INITIAL_PLATFORM_DATA = {
 
   sponsorTiers: [
     {
-      tier: "Platinum Title Partner",
-      priceZAR: "R 75,000",
-      slots: "2 Exclusive Slots",
-      accent: "#17787e",
+      tier: "Platinum Sponsor",
+      priceZAR: "R30,000",
+      slots: "Exclusive · 1 Available",
+      accent: "#b37d15",
       perks: [
-        "Co-branded keynote stage & hybrid stream overlay (Zoom & MS Teams)",
-        "Double-island Playtest & XR Innovation Booth at eFundanathi eZone",
-        "Dedicated Scavenger Hunt checkpoint driving 100% delegate foot traffic",
-        "10 Full All-Access Delegate Passes + VIP Speaker Dinner",
-        "Sponsored Innovation Challenge Prize presented at Closing Ceremony"
+        "Recognition as Official Platinum Sponsor & premium logo on all materials",
+        "10-minute address during the Opening Ceremony",
+        "Opportunity to sponsor a Keynote Presentation",
+        "Premium exhibition space + featured sponsor profile on symposium website",
+        "4 complimentary registrations & promotional items in delegate packs",
+        "2 dedicated social media spotlight posts + opening & closing acknowledgement"
       ]
     },
     {
-      tier: "Gold Playtest & XR Partner",
-      priceZAR: "R 45,000",
-      slots: "4 Slots Available",
-      accent: "#eab33e",
+      tier: "Gold Sponsor",
+      priceZAR: "R15,000",
+      slots: "Up to 3 Available",
+      accent: "#1a7d7d",
       perks: [
-        "Branded Playtest Table or VR Demo Pod in eZone Commons",
-        "Virtual Exhibitor Booth with 1-click Lead Retrieval & Brochure Download",
-        "Logo on official Call for Abstracts, Website, and Digital Certificates",
-        "5 Full Delegate Passes + 5-minute Industry Lightning Pitch"
+        "Prominent logo placement on official symposium materials",
+        "Dedicated exhibition space at eFundanathi eZone",
+        "3 complimentary delegate registrations",
+        "Promotional material included in delegate packs",
+        "Sponsor profile in symposium programme, social media & proceedings recognition"
       ]
     },
     {
-      tier: "Silver Academic / Studio Partner",
-      priceZAR: "R 20,000",
-      slots: "8 Slots Available",
-      accent: "#d86838",
+      tier: "Silver Sponsor",
+      priceZAR: "R7,500",
+      slots: "Exhibitor Partner",
+      accent: "#c85d3b",
       perks: [
-        "Tabletop display desk in eFundanathi eZone exhibition corridor",
-        "Interactive Virtual Booth card + Scavenger Hunt passport stamp",
-        "3 Full Delegate Passes + recruitment access to student game designers"
+        "Sponsor logo on official symposium website and programme",
+        "Exhibition space at the Game Showcase floor",
+        "2 complimentary delegate registrations",
+        "Social media acknowledgement & recognition during event"
       ]
     },
     {
-      tier: "Community & Indigenous Games Grant Partner",
-      priceZAR: "In-Kind / Custom Grant",
-      slots: "University / NGO / SETA / NRF",
-      accent: "#2f3b59",
+      tier: "Bronze Sponsor",
+      priceZAR: "R3,500",
+      slots: "Community Supporter",
+      accent: "#353c56",
       perks: [
-        "Sponsor student travel bursaries or printable African board game kits for schools",
-        "Recognition in Track 3 (Games, Health & Society) & Track 4 proceedings",
-        "Joint policy & research brief with Wits Therapeutic Sciences & eFundanathi"
+        "Sponsor logo on official symposium website and programme",
+        "1 complimentary delegate registration",
+        "Sponsor acknowledgement slide during proceedings"
       ]
     }
+  ],
+
+  specialSponsorships: [
+    {
+      name: "Networking Event Sponsor",
+      priceZAR: "R15,000",
+      icon: "🍷",
+      accent: "#353c56",
+      perks: [
+        "Naming rights to the official networking function",
+        "Opportunity to address delegates during the event",
+        "Prominent branding throughout the networking venue"
+      ]
+    },
+    {
+      name: "Volunteer & Event T-Shirt Sponsor",
+      priceZAR: "R12,000",
+      icon: "👕",
+      accent: "#c85d3b",
+      perks: [
+        "Sponsor logo displayed on volunteer and event shirts",
+        "High-visibility brand presence across the venue",
+        "Sponsor acknowledgement during symposium proceedings"
+      ]
+    },
+    {
+      name: "Delegate Pack Sponsor",
+      priceZAR: "R10,000",
+      icon: "🎒",
+      accent: "#1a7d7d",
+      perks: [
+        "Exclusive branding on official delegate bags",
+        "Opportunity to include branded promotional materials",
+        "Recognition during symposium proceedings"
+      ]
+    },
+    {
+      name: "Refreshment Sponsor",
+      priceZAR: "R8,000",
+      icon: "☕",
+      accent: "#b37d15",
+      perks: [
+        "Dedicated branding at all tea and coffee stations",
+        "Recognition in the official symposium programme",
+        "Social media acknowledgement"
+      ]
+    },
+    {
+      name: "Awards Sponsor",
+      priceZAR: "R5,000",
+      icon: "🏆",
+      accent: "#c85d3b",
+      perks: [
+        "Sponsor Best Research, Best Practice, Best Student, or People's Choice Award",
+        "Sponsor logo included on award certificates & announcements"
+      ]
+    },
+    {
+      name: "Digital Participation Sponsor",
+      priceZAR: "R5,000",
+      icon: "🌐",
+      accent: "#1a7d7d",
+      perks: [
+        "Branding across the online platform and livestream",
+        "Recognition of support for virtual participants",
+        "Logo displayed during online sessions"
+      ]
+    }
+  ],
+
+  inKindOpportunities: [
+    "Educational games & resources",
+    "Software licences",
+    "Learning technologies",
+    "Printing services",
+    "Delegate bags",
+    "Competition prizes",
+    "Catering support",
+    "Promotional items"
   ],
 
   sponsorsList: [
@@ -841,52 +923,52 @@ window.INITIAL_PLATFORM_DATA = {
       tier: "Host & Innovation Hub",
       category: "University Host",
       logoPlaceholder: "🏛️ WITS · eFundanathi eZone",
-      description: "Blended learning, simulation, and educational gaming innovation hub in the School of Therapeutic Sciences at Wits Education Campus.",
+      description: "Blended learning, simulation, and educational gaming innovation hub in the Faculty of Health Sciences & School of Therapeutic Sciences at Wits Education Campus.",
       boothQuestStamped: true
     },
     {
       id: "sp-2",
-      name: "MedSim XR & Digital Twin Africa",
-      tier: "Platinum Sponsor Placeholder",
-      category: "Clinical VR & Simulation",
-      logoPlaceholder: "🥽 PLATINUM SPONSOR LOGO",
-      description: "Reserved Platinum Partner showcase for XR, clinical simulation, and AI virtual patient platforms.",
+      name: "ZAG (ZA Game-based Learning Association)",
+      tier: "Supporting Partner",
+      category: "Academic Association",
+      logoPlaceholder: "🎮 ZAG · Game-Based Learning SA",
+      description: "Supporting national collaboration, scholarship, and community practice in game-based learning across South Africa.",
       boothQuestStamped: false
     },
     {
       id: "sp-3",
-      name: "Southern African Serious Games & Tabletop Collective",
-      tier: "Gold Sponsor Placeholder",
-      category: "Game Design Studio Guild",
-      logoPlaceholder: "🎲 GOLD PARTNER LOGO",
-      description: "Supporting university educators and student teams to manufacture custom educational card, board, and digital games.",
+      name: "DiGRA South Africa",
+      tier: "Supporting Partner",
+      category: "Research Community",
+      logoPlaceholder: "🎲 DiGRA South Africa",
+      description: "Digital Games Research Association South Africa chapter advancing critical game studies, playful pedagogy, and African game research.",
       boothQuestStamped: false
     },
     {
       id: "sp-4",
-      name: "NRF / DHET Academic Grant Partner",
-      tier: "Grant Partner Placeholder",
-      category: "Research & Scholarship",
-      logoPlaceholder: "🎓 ACADEMIC GRANT LOGO",
-      description: "Advancing scholarship of teaching and learning (SoTL), emerging scholar fellowships, and cross-university grants.",
+      name: "Platinum Sponsor (R30,000 · Exclusive)",
+      tier: "1 Exclusive Slot Available",
+      category: "Title Partner",
+      logoPlaceholder: "🏆 PLATINUM SPONSOR (R30,000)",
+      description: "Exclusive Platinum partnership featuring a 10-minute opening address, keynote sponsorship opportunity, and premium exhibition stand.",
       boothQuestStamped: false
     },
     {
       id: "sp-5",
-      name: "EdTech & Publishing Partner Slot",
-      tier: "Silver Sponsor Placeholder",
-      category: "Educational Publishing & LMS",
-      logoPlaceholder: "📚 SILVER SPONSOR LOGO",
-      description: "Available Silver Sponsorship slot for educational publishers, LMS providers, and campus technology partners.",
+      name: "Gold & Silver Exhibitor Slots",
+      tier: "Gold R15,000 · Silver R7,500",
+      category: "Game Showcase & EdTech",
+      logoPlaceholder: "✨ GOLD & SILVER PARTNERS",
+      description: "Showcase your educational games, XR simulations, publishing, or EdTech platform directly at eFundanathi eZone.",
       boothQuestStamped: false
     },
     {
       id: "sp-6",
-      name: "+ Your Organization Logo Here",
+      name: "+ Become a 2027 Sponsor",
       tier: "Open 2027 Partner Slot",
-      category: "Click to Partner with Wits",
-      logoPlaceholder: "✨ YOUR LOGO HERE (+)",
-      description: "Partner with Wits University for the GO Game-On! Symposium 2027 — click to view sponsorship tiers & reserve your booth!",
+      category: "help.efundanathi@wits.ac.za",
+      logoPlaceholder: "🤝 PARTNER WITH GAME-ON! 2027",
+      description: "Explore our 6-page Sponsorship Prospectus Flipbook and pledge your partnership or in-kind support for Game-On! 2027.",
       boothQuestStamped: false
     }
   ]

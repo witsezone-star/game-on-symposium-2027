@@ -1365,6 +1365,168 @@ body {
   transform: scale(1.02);
 }
 
+/* ========================================================
+   INTERACTIVE SPONSORSHIP PROSPECTUS FLIPBOOK VIEWER
+   ======================================================== */
+.flipbook-hub {
+  background: linear-gradient(135deg, #2b3248 0%, #1c2233 100%);
+  border: 3px solid var(--ink-espresso);
+  border-radius: var(--radius-lg, 18px);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.flipbook-hub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.flipbook-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.flipbook-stage {
+  background: radial-gradient(circle at center, #3b4460 0%, #191f30 100%);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flipbook-spread {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  max-width: 100%;
+  perspective: 1400px;
+}
+
+.flipbook-page-slot {
+  position: relative;
+  background: #fdf9f1;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  cursor: zoom-in;
+}
+
+.flipbook-page-slot.left-page {
+  border-radius: 6px 0 0 6px;
+  border-right: 1px solid rgba(59, 31, 14, 0.18);
+  box-shadow: -8px 12px 28px rgba(0, 0, 0, 0.42), inset -12px 0 18px -10px rgba(0, 0, 0, 0.16);
+}
+
+.flipbook-page-slot.right-page {
+  border-radius: 0 6px 6px 0;
+  box-shadow: 8px 12px 28px rgba(0, 0, 0, 0.42), inset 12px 0 18px -10px rgba(0, 0, 0, 0.16);
+}
+
+.flipbook-page-slot.single-cover {
+  border-radius: 6px;
+}
+
+.flipbook-page-slot img {
+  display: block;
+  max-height: 540px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.flipbook-page-slot:hover {
+  transform: translateY(-2px);
+}
+
+.flipbook-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.flipbook-indicator {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fdf3da;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+
+.flipbook-dots {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.flipbook-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.flipbook-dot.active {
+  background: #e6a832;
+  transform: scale(1.25);
+}
+
+.special-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.inkind-banner {
+  background: #fdf3da;
+  border: 2.5px solid var(--ink-espresso);
+  border-left: 8px solid #353c56;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card-sm);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inkind-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.inkind-pill {
+  background: #ffffff;
+  border: 1.5px solid var(--ink-espresso);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-espresso);
+}
+
 /* Responsive adjustments */
 @media (max-width: 1120px) {
   .hero-grid,
@@ -1372,6 +1534,9 @@ body {
   .stream-layout,
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+  .special-tiers-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   .session-card {
     grid-template-columns: 1fr;
@@ -1384,5 +1549,14 @@ body {
   }
   .hero-march-title {
     font-size: 1.65rem;
+  }
+  .special-tiers-grid {
+    grid-template-columns: 1fr;
+  }
+  .flipbook-hub {
+    padding: 1rem;
+  }
+  .flipbook-page-slot img {
+    max-height: 400px;
   }
 }

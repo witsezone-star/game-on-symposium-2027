@@ -1,12 +1,17 @@
 (function () {
-  const STORAGE_KEY = "wits_eventhub_gameon_2027_v2";
+  const STORAGE_KEY = "wits_eventhub_gameon_2027_v3";
 
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        return Object.assign(structuredClone(window.INITIAL_PLATFORM_DATA), parsed);
+        const merged = Object.assign(structuredClone(window.INITIAL_PLATFORM_DATA), parsed);
+        // Always keep official sponsorship catalog fresh from data.js
+        merged.sponsorTiers = structuredClone(window.INITIAL_PLATFORM_DATA.sponsorTiers);
+        merged.specialSponsorships = structuredClone(window.INITIAL_PLATFORM_DATA.specialSponsorships);
+        merged.inKindOpportunities = structuredClone(window.INITIAL_PLATFORM_DATA.inKindOpportunities);
+        return merged;
       }
     } catch (e) {
       console.warn("Could not load state from localStorage:", e);
@@ -1447,6 +1452,64 @@
       });
     }
 
+    const specialsEl = document.getElementById("specialSponsorshipsContainer");
+    if (specialsEl && Array.isArray(state.specialSponsorships)) {
+      specialsEl.innerHTML = state.specialSponsorships
+        .map(
+          s => `
+        <div class="card" style="border-top: 5px solid ${s.accent}; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+              <h4 style="font-family:var(--font-display); font-size:1.02rem; margin:0;">${s.icon} ${s.name}</h4>
+            </div>
+            <div style="font-family:var(--font-display); font-size:1.35rem; font-weight:800; color:${s.accent}; margin:0.2rem 0 0.6rem;">
+              ${s.priceZAR}
+            </div>
+            <ul style="font-size:0.8rem; color:var(--ink-brown); padding-left:1.1rem; display:flex; flex-direction:column; gap:0.3rem; margin-bottom:0.85rem;">
+              ${s.perks.map(p => `<li>${p}</li>`).join("")}
+            </ul>
+          </div>
+          <button class="btn btn-outline btn-sm select-special-tier-btn" data-tier="${s.name} (${s.priceZAR})" style="width:100%;">
+            Reserve Opportunity →
+          </button>
+        </div>
+      `
+        )
+        .join("");
+
+      specialsEl.querySelectorAll(".select-special-tier-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const select = document.getElementById("spTierSelect");
+          if (select) select.value = btn.dataset.tier;
+          document.getElementById("sponsorInquiryCard")?.scrollIntoView({ behavior: "smooth" });
+          document.getElementById("spOrgName")?.focus();
+        });
+      });
+    }
+
+    const inKindEl = document.getElementById("inKindContainer");
+    if (inKindEl && Array.isArray(state.inKindOpportunities)) {
+      inKindEl.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+          <div>
+            <span class="badge badge-navy" style="margin-bottom:0.3rem;">IN-KIND SPONSORSHIP OPPORTUNITIES</span>
+            <h4 style="font-family:var(--font-display); font-size:1.18rem; margin:0;">Contribute Products, Services or Expertise</h4>
+            <p style="font-size:0.84rem; color:var(--ink-brown); margin:0.2rem 0 0;">All in-kind sponsors receive recognition commensurate with the value of their contribution.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="selectInKindBtn">Pledge In-Kind Support →</button>
+        </div>
+        <div class="inkind-pills">
+          ${state.inKindOpportunities.map(item => `<span class="inkind-pill">✦ ${item}</span>`).join("")}
+        </div>
+      `;
+      document.getElementById("selectInKindBtn")?.addEventListener("click", () => {
+        const select = document.getElementById("spTierSelect");
+        if (select) select.value = "In-Kind Sponsorship / Bespoke Package";
+        document.getElementById("sponsorInquiryCard")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("spOrgName")?.focus();
+      });
+    }
+
     if (boothsEl) {
       boothsEl.innerHTML = state.sponsorsList
         .map(
@@ -1721,6 +1784,113 @@
     showToast("Reset EventHub platform data to fresh state!", "↺");
   });
 
+  // Interactive 6-Page Portrait Prospectus Flipbook Viewer
+  function initProspectusFlipbook() {
+    const spreadEl = document.getElementById("flipbookSpread");
+    const indicatorEl = document.getElementById("flipPageIndicator");
+    const dotsEl = document.getElementById("flipDotsContainer");
+    const prevBtn = document.getElementById("flipPrevBtn");
+    const nextBtn = document.getElementById("flipNextBtn");
+    if (!spreadEl || !indicatorEl || !dotsEl) return;
+
+    const totalPages = 6;
+    const isMobile = () => window.innerWidth <= 820;
+
+    // Desktop spreads: [1], [2,3], [4,5], [6]; Mobile: [1], [2], [3], [4], [5], [6]
+    const getSpreads = () =>
+      isMobile()
+        ? [[1], [2], [3], [4], [5], [6]]
+        : [[1], [2, 3], [4, 5], [6]];
+
+    let currentIdx = 0;
+
+    function renderFlipbook() {
+      const spreads = getSpreads();
+      if (currentIdx >= spreads.length) currentIdx = spreads.length - 1;
+      if (currentIdx < 0) currentIdx = 0;
+      const pages = spreads[currentIdx];
+
+      spreadEl.innerHTML = pages
+        .map((pg, idx) => {
+          const cls =
+            pages.length === 1
+              ? "single-cover"
+              : idx === 0
+              ? "left-page"
+              : "right-page";
+          const src = `assets/prospectus-pages/page-${pg}.png`;
+          return `
+            <div class="flipbook-page-slot ${cls}" data-zoom-src="${src}" title="Click to zoom Page ${pg} of ${totalPages}">
+              <img src="${src}" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${pg}" loading="eager" />
+            </div>
+          `;
+        })
+        .join("");
+
+      spreadEl.querySelectorAll(".flipbook-page-slot").forEach(slot => {
+        slot.addEventListener("click", () => {
+          const targetImg = document.getElementById("lightboxImage");
+          if (targetImg) targetImg.src = slot.dataset.zoomSrc;
+          document.getElementById("lightboxModal")?.classList.add("open");
+        });
+      });
+
+      if (pages.length === 1) {
+        const label =
+          pages[0] === 1
+            ? `Front Cover (Page 1 of ${totalPages})`
+            : pages[0] === totalPages
+            ? `Back Cover (Page ${totalPages} of ${totalPages})`
+            : `Page ${pages[0]} of ${totalPages}`;
+        indicatorEl.textContent = label;
+      } else {
+        indicatorEl.textContent = `Pages ${pages[0]}–${pages[1]} of ${totalPages}`;
+      }
+
+      if (prevBtn) prevBtn.disabled = currentIdx === 0;
+      if (nextBtn) nextBtn.disabled = currentIdx === spreads.length - 1;
+
+      dotsEl.innerHTML = spreads
+        .map(
+          (_, i) =>
+            `<button type="button" class="flipbook-dot ${i === currentIdx ? "active" : ""}" data-spread="${i}" aria-label="View spread ${i + 1}"></button>`
+        )
+        .join("");
+
+      dotsEl.querySelectorAll(".flipbook-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+          currentIdx = parseInt(dot.dataset.spread, 10);
+          renderFlipbook();
+        });
+      });
+    }
+
+    prevBtn?.addEventListener("click", () => {
+      if (currentIdx > 0) {
+        currentIdx--;
+        renderFlipbook();
+      }
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      const spreads = getSpreads();
+      if (currentIdx < spreads.length - 1) {
+        currentIdx++;
+        renderFlipbook();
+      }
+    });
+
+    window.addEventListener("resize", renderFlipbook);
+    document.addEventListener("keydown", e => {
+      const sponsorsActive = document.getElementById("tab-sponsors")?.classList.contains("active");
+      if (!sponsorsActive) return;
+      if (e.key === "ArrowRight") nextBtn?.click();
+      if (e.key === "ArrowLeft") prevBtn?.click();
+    });
+
+    renderFlipbook();
+  }
+
   function initAll() {
     renderUniversityEventsBar();
     updateHeaderCounters();
@@ -1734,6 +1904,7 @@
     renderStreamStage();
     renderGamification();
     renderSponsors();
+    initProspectusFlipbook();
   }
 
   initAll();

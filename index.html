@@ -104,8 +104,9 @@
             <div class="hero-cta-row">
               <button class="btn btn-primary" id="heroRegisterBtn">🎟️ Register / Participant Login</button>
               <button class="btn btn-accent" data-goto-tab="abstracts">📤 Submit Abstract &amp; Upload Files</button>
-              <button class="btn btn-mustard" data-goto-tab="gamification">🏁 Join Campus Amazing Race</button>
-              <button class="btn btn-outline" data-goto-tab="stream">📡 Enter Hybrid Stream Stage</button>
+              <button class="btn btn-mustard" data-goto-tab="sponsors">📖 Sponsorship Prospectus</button>
+              <button class="btn btn-outline" data-goto-tab="gamification">🏁 Campus Amazing Race</button>
+              <button class="btn btn-outline" data-goto-tab="stream">📡 Hybrid Stream Stage</button>
             </div>
           </div>
 
@@ -137,8 +138,9 @@
         <div class="host-banner-wrap">
           <div class="host-left-credit">
             <img src="assets/morabaraba.svg" alt="Morabaraba Board" style="height:56px; width:auto;" />
-            <div style="font-size:0.9rem; max-width:460px; color:var(--ink-espresso); font-weight:600; line-height:1.4;">
-              Hosted by <strong>Wits University</strong>, <strong>School of Therapeutic Sciences</strong> &amp; <strong>eFundanathi eZone ("Learn with us")</strong>.
+            <div style="font-size:0.88rem; max-width:480px; color:var(--ink-espresso); font-weight:600; line-height:1.45;">
+              Hosted by <strong>Wits University</strong>, <strong>Faculty of Health Sciences</strong>, <strong>School of Therapeutic Sciences</strong> &amp; <strong>eFundanathi eZone</strong>.<br/>
+              <span style="font-size:0.8rem; color:var(--teal-dark);">Supported by <strong>ZAG (ZA Game-based Learning Association)</strong> &amp; <strong>DiGRA South Africa</strong></span>
             </div>
           </div>
           <img src="assets/host-logos.png" alt="Your Host: Wits University, Therapeutic Sciences, eFundanathi Learn with us" class="host-logos-img" />
@@ -231,19 +233,23 @@
         <div class="card">
           <span class="badge badge-mustard" style="margin-bottom:0.5rem;">OFFICIAL ARTWORK GALLERY</span>
           <h3 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.65rem;">Official Symposium Posters (.AI Vector Exports)</h3>
-          <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:0.85rem;">Click any official poster below to inspect full-screen or download for university distribution:</p>
-          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem;">
+          <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:0.85rem;">Click any official poster or our 2027 Sponsorship Prospectus below to inspect full-screen or open the Flipbook:</p>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:0.65rem;">
             <div>
               <img src="assets/save-the-date-latest.png" alt="Save the Date Poster" class="poster-thumb" data-lightbox-src="assets/save-the-date-latest.png" />
-              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Save The Date</div>
+              <div style="font-size:0.72rem; font-weight:700; text-align:center; margin-top:0.3rem;">Save The Date</div>
             </div>
             <div>
               <img src="assets/call-for-abstracts-p1.jpg" alt="Call for Abstracts Page 1" class="poster-thumb" data-lightbox-src="assets/call-for-abstracts-p1.jpg" />
-              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Call for Abstracts (P1)</div>
+              <div style="font-size:0.72rem; font-weight:700; text-align:center; margin-top:0.3rem;">Abstracts (P1)</div>
             </div>
             <div>
               <img src="assets/call-for-abstracts-p2.png" alt="Call for Abstracts Page 2 Tracks" class="poster-thumb" data-lightbox-src="assets/call-for-abstracts-p2.png" />
-              <div style="font-size:0.74rem; font-weight:700; text-align:center; margin-top:0.3rem;">Symposium Tracks (P2)</div>
+              <div style="font-size:0.72rem; font-weight:700; text-align:center; margin-top:0.3rem;">Tracks (P2)</div>
+            </div>
+            <div>
+              <img src="assets/prospectus-pages/page-1.png" alt="2027 Sponsorship Prospectus Flipbook Cover" class="poster-thumb" data-goto-tab="sponsors" title="Open Interactive Sponsorship Prospectus Flipbook" />
+              <div style="font-size:0.72rem; font-weight:700; text-align:center; margin-top:0.3rem; color:var(--teal-dark);">📖 Prospectus</div>
             </div>
           </div>
         </div>
@@ -793,19 +799,69 @@
     <section class="tab-panel" id="tab-sponsors">
       <div class="section-header">
         <div>
-          <h2 class="section-title">🤝 University Partnerships, Sponsors &amp; Exhibitor Portal</h2>
-          <p class="section-subtitle">Co-create impact with Wits University, School of Therapeutic Sciences &amp; eFundanathi eZone through tailored academic-industry sponsorship tiers.</p>
+          <h2 class="section-title">🤝 Sponsorship Prospectus, Tiers &amp; Partner Portal</h2>
+          <p class="section-subtitle">Co-create impact with Wits University, School of Therapeutic Sciences &amp; eFundanathi eZone — supported by ZAG &amp; DiGRA South Africa.</p>
         </div>
         <button class="btn btn-accent btn-sm" id="scrollToSponsorFormBtn">📩 Become a 2027 Sponsor / Partner</button>
       </div>
 
-      <!-- Sponsorship Tiers Grid -->
+      <!-- Interactive Portrait Sponsorship Prospectus Flipbook Hub -->
+      <div class="flipbook-hub" id="prospectusFlipbookHub">
+        <div class="flipbook-hub-header">
+          <div>
+            <span class="badge badge-mustard" style="margin-bottom:0.35rem;">📖 INTERACTIVE PORTRAIT FLIPBOOK · 6 PAGES</span>
+            <h3 style="font-family:var(--font-display); font-size:1.45rem; color:#fff; margin:0;">
+              Game-On! Symposium 2027 — Sponsorship Prospectus
+            </h3>
+            <p style="font-size:0.85rem; color:#d7dfef; margin:0.25rem 0 0;">
+              Browse the full 2-page spread prospectus below, click any page to zoom, or download the Flipbook-ready PDF &amp; editable Word document.
+            </p>
+          </div>
+          <div class="flipbook-actions">
+            <a href="assets/Game-On-Symposium-2027-Sponsorship-Prospectus.pdf" download class="btn btn-mustard btn-sm" style="text-decoration:none;">
+              📥 Download PDF (Flipbook Ready)
+            </a>
+            <a href="assets/Game-On-Symposium-2027-Sponsorship-Prospectus.docx" download class="btn btn-outline btn-sm" style="background:#fff; color:var(--ink-espresso); text-decoration:none;">
+              📝 Download Word (.docx)
+            </a>
+            <a href="mailto:help.efundanathi@wits.ac.za?subject=Game-On!%20Symposium%202027%20Sponsorship%20Enquiry" class="btn btn-primary btn-sm" style="text-decoration:none;">
+              ✉️ Email Sponsor Desk
+            </a>
+          </div>
+        </div>
+
+        <div class="flipbook-stage">
+          <div class="flipbook-spread" id="flipbookSpread" aria-live="polite"></div>
+          <div class="flipbook-controls">
+            <button type="button" class="btn btn-outline btn-sm" id="flipPrevBtn" style="background:#fff; color:var(--ink-espresso);">◀ Previous Spread</button>
+            <div class="flipbook-indicator" id="flipPageIndicator">Front Cover (Page 1 of 6)</div>
+            <div class="flipbook-dots" id="flipDotsContainer"></div>
+            <button type="button" class="btn btn-mustard btn-sm" id="flipNextBtn">Next Spread ▶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Sponsorship Tiers Grid -->
+      <div style="margin-bottom:0.75rem;">
+        <h3 style="font-family:var(--font-display); font-size:1.35rem; margin:0;">🏆 Core Sponsorship Packages</h3>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin:0.2rem 0 0;">Click any tier below to pre-select it in the Partnership Pledge Form.</p>
+      </div>
       <div class="grid-4" id="sponsorTiersContainer" style="margin-bottom:2rem;"></div>
+
+      <!-- Special Sponsorship Opportunities Grid -->
+      <div style="margin-bottom:0.75rem;">
+        <h3 style="font-family:var(--font-display); font-size:1.35rem; margin:0;">✨ Special Sponsorship Opportunities</h3>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin:0.2rem 0 0;">High-impact standalone sponsorships connecting your brand with memorable symposium moments.</p>
+      </div>
+      <div class="special-tiers-grid" id="specialSponsorshipsContainer"></div>
+
+      <!-- In-Kind Sponsorship Banner -->
+      <div class="inkind-banner" id="inKindContainer"></div>
 
       <div class="grid-2">
         <!-- Interactive Exhibitor Booths (with Scavenger Hunt Stamp!) -->
         <div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.75rem;">🎪 Virtual &amp; eZone Exhibitor Booths</h3>
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.75rem;">🎪 Virtual &amp; eZone Exhibitor Booths &amp; Partners</h3>
           <div id="exhibitorBoothsContainer" style="display:flex; flex-direction:column; gap:0.85rem;"></div>
         </div>
 
@@ -814,7 +870,7 @@
           <span class="badge badge-mustard" style="margin-bottom:0.4rem;">PARTNERSHIP &amp; SPONSORSHIP DESK</span>
           <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:0.4rem;">Partner with Wits for Game-On! 2027</h3>
           <p style="font-size:0.84rem; color:var(--ink-muted); margin-bottom:1rem;">
-            Whether you are an EdTech company, board game publisher, healthcare simulation provider, SETA, or NRF/DHET grant partner, pledge your partnership below:
+            Whether you are an EdTech company, board game publisher, healthcare simulation provider, NGO, or corporate partner, pledge your partnership below or email <a href="mailto:help.efundanathi@wits.ac.za" style="color:var(--teal-dark); font-weight:700;">help.efundanathi@wits.ac.za</a>:
           </p>
           <form id="sponsorInquiryForm" style="display:flex; flex-direction:column; gap:0.75rem;">
             <div>
@@ -832,12 +888,25 @@
               </div>
             </div>
             <div>
-              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Sponsorship Tier / Partnership Type *</label>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.2rem;">Sponsorship Tier / Opportunity *</label>
               <select id="spTierSelect" class="select-field" style="width:100%;">
-                <option value="Platinum Title Partner (R 75,000)">Platinum Title Partner (R 75,000)</option>
-                <option value="Gold Playtest & XR Partner (R 45,000)">Gold Playtest &amp; XR Partner (R 45,000)</option>
-                <option value="Silver Academic / Studio Partner (R 20,000)">Silver Academic / Studio Partner (R 20,000)</option>
-                <option value="Community & Indigenous Games Grant Partner">Community &amp; Indigenous Games Grant / In-Kind</option>
+                <optgroup label="Core Sponsorship Packages">
+                  <option value="Platinum Sponsor (R30,000)">Platinum Sponsor (R30,000 · Exclusive, 1 Available)</option>
+                  <option value="Gold Sponsor (R15,000)">Gold Sponsor (R15,000 · Up to 3 Available)</option>
+                  <option value="Silver Sponsor (R7,500)">Silver Sponsor (R7,500)</option>
+                  <option value="Bronze Sponsor (R3,500)">Bronze Sponsor (R3,500)</option>
+                </optgroup>
+                <optgroup label="Special Sponsorship Opportunities">
+                  <option value="Networking Event Sponsor (R15,000)">Networking Event Sponsor (R15,000)</option>
+                  <option value="Volunteer & Event T-Shirt Sponsor (R12,000)">Volunteer &amp; Event T-Shirt Sponsor (R12,000)</option>
+                  <option value="Delegate Pack Sponsor (R10,000)">Delegate Pack Sponsor (R10,000)</option>
+                  <option value="Refreshment Sponsor (R8,000)">Refreshment Sponsor (R8,000)</option>
+                  <option value="Awards Sponsor (R5,000)">Awards Sponsor (R5,000)</option>
+                  <option value="Digital Participation Sponsor (R5,000)">Digital Participation Sponsor (R5,000)</option>
+                </optgroup>
+                <optgroup label="In-Kind & Custom">
+                  <option value="In-Kind Sponsorship / Bespoke Package">In-Kind Sponsorship / Bespoke Package</option>
+                </optgroup>
               </select>
             </div>
             <div>
