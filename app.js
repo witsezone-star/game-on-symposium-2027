@@ -1784,111 +1784,313 @@
     showToast("Reset EventHub platform data to fresh state!", "↺");
   });
 
-  // Interactive 6-Page Portrait Prospectus Flipbook Viewer
+  // Interactive 3D 6-Page Portrait Prospectus Flipbook Viewer + Paper Page-Turn SFX
   function initProspectusFlipbook() {
-    const spreadEl = document.getElementById("flipbookSpread");
+    const bookEl = document.getElementById("flipbookBook");
+    const mobileCardEl = document.getElementById("flipbookMobileCard");
+    const mobileImgEl = document.getElementById("flipbookMobileImg");
     const indicatorEl = document.getElementById("flipPageIndicator");
     const dotsEl = document.getElementById("flipDotsContainer");
     const prevBtn = document.getElementById("flipPrevBtn");
     const nextBtn = document.getElementById("flipNextBtn");
-    if (!spreadEl || !indicatorEl || !dotsEl) return;
+    const zoomBtn = document.getElementById("flipZoomBtn");
+    const soundBtn = document.getElementById("flipSoundBtn");
+    if (!bookEl || !indicatorEl || !dotsEl) return;
 
     const totalPages = 6;
-    const isMobile = () => window.innerWidth <= 820;
+    const sheetsConfig = [
+      { front: 1, back: 2 },
+      { front: 3, back: 4 },
+      { front: 5, back: 6 }
+    ];
 
-    // Desktop spreads: [1], [2,3], [4,5], [6]; Mobile: [1], [2], [3], [4], [5], [6]
-    const getSpreads = () =>
-      isMobile()
-        ? [[1], [2], [3], [4], [5], [6]]
-        : [[1], [2, 3], [4, 5], [6]];
+    let soundEnabled = true;
+    let audioCtx = null;
 
-    let currentIdx = 0;
+    // Synthesize a realistic soft magazine paper page-flip sound via Web Audio API
+    function playPageFlipSound(direction = "next") {
+      if (!soundEnabled) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!audioCtx) audioCtx = new AudioContextClass();
+        if (audioCtx.state === "suspended") audioCtx.resume();
 
-    function renderFlipbook() {
-      const spreads = getSpreads();
-      if (currentIdx >= spreads.length) currentIdx = spreads.length - 1;
-      if (currentIdx < 0) currentIdx = 0;
-      const pages = spreads[currentIdx];
+        const now = audioCtx.currentTime;
+        const duration = 0.30;
+        const bufferSize = Math.floor(audioCtx.sampleRate * duration);
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
 
-      spreadEl.innerHTML = pages
-        .map((pg, idx) => {
-          const cls =
-            pages.length === 1
-              ? "single-cover"
-              : idx === 0
-              ? "left-page"
-              : "right-page";
-          const src = `assets/prospectus-pages/page-${pg}.png`;
-          return `
-            <div class="flipbook-page-slot ${cls}" data-zoom-src="${src}" title="Click to zoom Page ${pg} of ${totalPages}">
-              <img src="${src}" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${pg}" loading="eager" />
-            </div>
-          `;
-        })
-        .join("");
+        // Soft pink-ish filtered noise with natural paper rustle envelope
+        let b0 = 0, b1 = 0, b2 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.997 * b0 + white * 0.029;
+          b1 = 0.985 * b1 + white * 0.032;
+          b2 = 0.950 * b2 + white * 0.048;
+          const t = i / bufferSize;
+          // Two-phase paper curve: crisp lift + smooth sweep + soft settle
+          const env =
+            t < 0.14
+              ? Math.sin((t / 0.14) * (Math.PI / 2)) * 0.85
+              : t < 0.65
+              ? 0.85 - (t - 0.14) * 0.45
+              : Math.pow(1 - (t - 0.65) / 0.35, 1.8) * 0.62;
+          data[i] = (b0 + b1 + b2 + white * 0.14) * env;
+        }
 
-      spreadEl.querySelectorAll(".flipbook-page-slot").forEach(slot => {
-        slot.addEventListener("click", () => {
-          const targetImg = document.getElementById("lightboxImage");
-          if (targetImg) targetImg.src = slot.dataset.zoomSrc;
-          document.getElementById("lightboxModal")?.classList.add("open");
-        });
-      });
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
 
-      if (pages.length === 1) {
-        const label =
-          pages[0] === 1
-            ? `Front Cover (Page 1 of ${totalPages})`
-            : pages[0] === totalPages
-            ? `Back Cover (Page ${totalPages} of ${totalPages})`
-            : `Page ${pages[0]} of ${totalPages}`;
-        indicatorEl.textContent = label;
-      } else {
-        indicatorEl.textContent = `Pages ${pages[0]}–${pages[1]} of ${totalPages}`;
+        const bandpass = audioCtx.createBiquadFilter();
+        bandpass.type = "bandpass";
+        bandpass.Q.setValueAtTime(1.15, now);
+        if (direction === "next") {
+          bandpass.frequency.setValueAtTime(1050, now);
+          bandpass.frequency.exponentialRampToValueAtTime(2450, now + 0.11);
+          bandpass.frequency.exponentialRampToValueAtTime(780, now + duration);
+        } else {
+          bandpass.frequency.setValueAtTime(1250, now);
+          bandpass.frequency.exponentialRampToValueAtTime(2100, now + 0.12);
+          bandpass.frequency.exponentialRampToValueAtTime(700, now + duration);
+        }
+
+        const highshelf = audioCtx.createBiquadFilter();
+        highshelf.type = "highshelf";
+        highshelf.frequency.setValueAtTime(3200, now);
+        highshelf.gain.setValueAtTime(-5, now);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.24, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        noise.connect(bandpass);
+        bandpass.connect(highshelf);
+        highshelf.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start(now);
+        noise.stop(now + duration);
+      } catch (err) {
+        // Ignore audio errors if blocked by browser policy
+      }
+    }
+
+    // Build the 3 double-sided physical sheets once for silky-smooth 3D transitions
+    bookEl.innerHTML = sheetsConfig
+      .map(
+        (s, idx) => `
+      <div class="flipbook-sheet" data-sheet="${idx}" style="z-index:${sheetsConfig.length - idx};">
+        <div class="flipbook-face front" data-page="${s.front}" title="Click to turn to next page">
+          <img src="assets/prospectus-pages/page-${s.front}.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${s.front}" loading="eager" />
+          <span class="flipbook-corner-hint"></span>
+        </div>
+        <div class="flipbook-face back" data-page="${s.back}" title="Click to turn to previous page">
+          <img src="assets/prospectus-pages/page-${s.back}.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${s.back}" loading="eager" />
+          <span class="flipbook-corner-hint"></span>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+
+    const sheetEls = Array.from(bookEl.querySelectorAll(".flipbook-sheet"));
+    let desktopStep = 0; // 0 = Cover (P1), 1 = Spread (P2-3), 2 = Spread (P4-5), 3 = Back Cover (P6)
+    let mobilePage = 1;  // 1..6
+
+    const isMobile = () => window.innerWidth <= 860;
+
+    function updateDesktopBook(prevStep = desktopStep, withSound = false) {
+      bookEl.classList.remove("pos-front", "pos-open", "pos-back");
+      if (desktopStep === 0) bookEl.classList.add("pos-front");
+      else if (desktopStep === sheetsConfig.length) bookEl.classList.add("pos-back");
+      else bookEl.classList.add("pos-open");
+
+      const direction = desktopStep >= prevStep ? "next" : "prev";
+      if (withSound && desktopStep !== prevStep) {
+        playPageFlipSound(direction);
       }
 
-      if (prevBtn) prevBtn.disabled = currentIdx === 0;
-      if (nextBtn) nextBtn.disabled = currentIdx === spreads.length - 1;
+      sheetEls.forEach((sheet, idx) => {
+        const shouldBeFlipped = idx < desktopStep;
+        const isTurning = (idx >= Math.min(prevStep, desktopStep) && idx < Math.max(prevStep, desktopStep));
 
-      dotsEl.innerHTML = spreads
+        if (isTurning) {
+          sheet.classList.add("turning");
+          sheet.style.zIndex = 20 + (direction === "next" ? sheetsConfig.length - idx : idx);
+          setTimeout(() => {
+            sheet.classList.remove("turning");
+            sheet.style.zIndex = idx < desktopStep ? idx + 1 : sheetsConfig.length - idx;
+          }, 740);
+        } else {
+          sheet.style.zIndex = shouldBeFlipped ? idx + 1 : sheetsConfig.length - idx;
+        }
+
+        sheet.classList.toggle("flipped", shouldBeFlipped);
+      });
+
+      const labels = [
+        `Front Cover (Page 1 of ${totalPages})`,
+        `Pages 2–3 of ${totalPages}`,
+        `Pages 4–5 of ${totalPages}`,
+        `Back Cover (Page ${totalPages} of ${totalPages})`
+      ];
+      indicatorEl.textContent = labels[desktopStep];
+      if (prevBtn) prevBtn.disabled = desktopStep === 0;
+      if (nextBtn) nextBtn.disabled = desktopStep === sheetsConfig.length;
+
+      dotsEl.innerHTML = labels
         .map(
-          (_, i) =>
-            `<button type="button" class="flipbook-dot ${i === currentIdx ? "active" : ""}" data-spread="${i}" aria-label="View spread ${i + 1}"></button>`
+          (lbl, i) =>
+            `<button type="button" class="flipbook-dot ${i === desktopStep ? "active" : ""}" data-step="${i}" title="${lbl}" aria-label="${lbl}"></button>`
         )
         .join("");
 
       dotsEl.querySelectorAll(".flipbook-dot").forEach(dot => {
         dot.addEventListener("click", () => {
-          currentIdx = parseInt(dot.dataset.spread, 10);
-          renderFlipbook();
+          const target = parseInt(dot.dataset.step, 10);
+          if (target !== desktopStep) {
+            const old = desktopStep;
+            desktopStep = target;
+            updateDesktopBook(old, true);
+          }
         });
       });
     }
 
-    prevBtn?.addEventListener("click", () => {
-      if (currentIdx > 0) {
-        currentIdx--;
-        renderFlipbook();
+    function updateMobileBook(direction = null) {
+      if (mobileImgEl) {
+        mobileImgEl.src = `assets/prospectus-pages/page-${mobilePage}.png`;
+        mobileImgEl.alt = `Game-On! Symposium 2027 Sponsorship Prospectus — Page ${mobilePage}`;
       }
+      if (direction && mobileCardEl) {
+        playPageFlipSound(direction);
+        mobileCardEl.classList.remove("flip-next", "flip-prev");
+        void mobileCardEl.offsetWidth;
+        mobileCardEl.classList.add(direction === "next" ? "flip-next" : "flip-prev");
+      }
+
+      indicatorEl.textContent =
+        mobilePage === 1
+          ? `Front Cover (Page 1 of ${totalPages})`
+          : mobilePage === totalPages
+          ? `Back Cover (Page ${totalPages} of ${totalPages})`
+          : `Page ${mobilePage} of ${totalPages}`;
+
+      if (prevBtn) prevBtn.disabled = mobilePage === 1;
+      if (nextBtn) nextBtn.disabled = mobilePage === totalPages;
+
+      dotsEl.innerHTML = Array.from({ length: totalPages }, (_, i) => {
+        const pg = i + 1;
+        return `<button type="button" class="flipbook-dot ${pg === mobilePage ? "active" : ""}" data-pg="${pg}" aria-label="Page ${pg}"></button>`;
+      }).join("");
+
+      dotsEl.querySelectorAll(".flipbook-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+          const target = parseInt(dot.dataset.pg, 10);
+          if (target !== mobilePage) {
+            const dir = target > mobilePage ? "next" : "prev";
+            mobilePage = target;
+            updateMobileBook(dir);
+          }
+        });
+      });
+    }
+
+    function goNext() {
+      if (isMobile()) {
+        if (mobilePage < totalPages) {
+          mobilePage++;
+          updateMobileBook("next");
+        }
+      } else {
+        if (desktopStep < sheetsConfig.length) {
+          const old = desktopStep;
+          desktopStep++;
+          updateDesktopBook(old, true);
+        }
+      }
+    }
+
+    function goPrev() {
+      if (isMobile()) {
+        if (mobilePage > 1) {
+          mobilePage--;
+          updateMobileBook("prev");
+        }
+      } else {
+        if (desktopStep > 0) {
+          const old = desktopStep;
+          desktopStep--;
+          updateDesktopBook(old, true);
+        }
+      }
+    }
+
+    // Click right-hand sheet to flip forward, left-hand flipped sheet to flip back (like Heyzine!)
+    sheetEls.forEach((sheet, idx) => {
+      sheet.addEventListener("click", () => {
+        if (idx < desktopStep) goPrev();
+        else goNext();
+      });
     });
 
-    nextBtn?.addEventListener("click", () => {
-      const spreads = getSpreads();
-      if (currentIdx < spreads.length - 1) {
-        currentIdx++;
-        renderFlipbook();
+    // Zoom button opens current primary page in full-screen Lightbox
+    function openCurrentZoom() {
+      let pageNum = 1;
+      if (isMobile()) {
+        pageNum = mobilePage;
+      } else {
+        pageNum = desktopStep === 0 ? 1 : desktopStep === 1 ? 2 : desktopStep === 2 ? 4 : 6;
       }
+      const targetImg = document.getElementById("lightboxImage");
+      if (targetImg) targetImg.src = `assets/prospectus-pages/page-${pageNum}.png`;
+      document.getElementById("lightboxModal")?.classList.add("open");
+    }
+
+    zoomBtn?.addEventListener("click", openCurrentZoom);
+    mobileCardEl?.addEventListener("click", openCurrentZoom);
+
+    // Sound toggle button
+    soundBtn?.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      soundBtn.setAttribute("aria-pressed", String(soundEnabled));
+      soundBtn.textContent = soundEnabled ? "🔊 Sound On" : "🔇 Sound Off";
+      soundBtn.style.background = soundEnabled ? "rgba(230,168,50,0.22)" : "rgba(255,255,255,0.08)";
+      soundBtn.style.borderColor = soundEnabled ? "#e6a832" : "rgba(255,255,255,0.25)";
+      if (soundEnabled) playPageFlipSound("next");
     });
 
-    window.addEventListener("resize", renderFlipbook);
+    prevBtn?.addEventListener("click", goPrev);
+    nextBtn?.addEventListener("click", goNext);
+
+    // Touch swipe support for mobile/tablet
+    let touchStartX = 0;
+    const stageEl = document.querySelector(".flipbook-stage");
+    stageEl?.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0]?.screenX || 0;
+    }, { passive: true });
+    stageEl?.addEventListener("touchend", e => {
+      const dx = (e.changedTouches[0]?.screenX || 0) - touchStartX;
+      if (dx < -45) goNext();
+      else if (dx > 45) goPrev();
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      if (isMobile()) updateMobileBook(null);
+      else updateDesktopBook(desktopStep, false);
+    });
+
     document.addEventListener("keydown", e => {
       const sponsorsActive = document.getElementById("tab-sponsors")?.classList.contains("active");
       if (!sponsorsActive) return;
-      if (e.key === "ArrowRight") nextBtn?.click();
-      if (e.key === "ArrowLeft") prevBtn?.click();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
     });
 
-    renderFlipbook();
+    if (isMobile()) updateMobileBook(null);
+    else updateDesktopBook(0, false);
   }
 
   function initAll() {
