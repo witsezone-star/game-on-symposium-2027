@@ -1398,31 +1398,178 @@ body {
   background: radial-gradient(circle at center, #3b4460 0%, #191f30 100%);
   border: 2px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
-  padding: 1.65rem 1rem 1.25rem;
+  padding: 1.5rem 1rem 1.2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.15rem;
   overflow: hidden;
+  position: relative;
+}
+
+/* Maximized / Fullscreen Mode — Entire Flipbook Interaction Lives Here */
+.flipbook-stage.is-maximized {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  border-radius: 0;
+  border: none;
+  padding: 1rem 1.5rem 1.25rem;
+  background: radial-gradient(circle at center, #2d3550 0%, #111624 100%);
+  justify-content: space-between;
+  gap: 0.75rem;
+  animation: flipbookFadeIn 0.25s ease;
+}
+
+@keyframes flipbookFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.flipbook-max-topbar {
+  display: none;
+  width: 100%;
+  max-width: 1280px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.5rem;
+  z-index: 40;
+}
+
+.flipbook-stage.is-maximized .flipbook-max-topbar {
+  display: flex;
+}
+
+.flipbook-max-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fdf9f1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flipbook-max-close {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.flipbook-max-close:hover {
+  background: #c85d3b;
+  border-color: #fff;
+  transform: scale(1.03);
+}
+
+/* Center Stage Wrapper with Side Flip Arrows */
+.flipbook-stage-body {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 500px;
+}
+
+.flipbook-stage.is-maximized .flipbook-stage-body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Floating Side Arrows (Heyzine-style) */
+.flipbook-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(20, 26, 42, 0.72);
+  color: #fff;
+  font-size: 1.7rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  backdrop-filter: blur(6px);
+}
+
+.flipbook-side-arrow:hover:not(:disabled) {
+  background: #e6a832;
+  color: #1c2233;
+  border-color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.flipbook-side-arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.flipbook-side-arrow.prev { left: 10px; }
+.flipbook-side-arrow.next { right: 10px; }
+
+/* Zoomable Interactive Viewport */
+.flipbook-zoom-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  cursor: zoom-in;
+  position: relative;
+}
+
+.flipbook-stage.is-maximized .flipbook-zoom-wrap.is-zoomed {
+  cursor: zoom-out;
+}
+
+.flipbook-zoom-canvas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center center;
+  will-change: transform;
 }
 
 /* 3D Magazine Book Viewport */
 .flipbook-viewport {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 2200px;
-  min-height: 540px;
+  perspective: 2400px;
   position: relative;
 }
 
 .flipbook-book {
   position: relative;
-  width: 760px;
-  height: 538px;
+  width: 700px;
+  height: 495px;
   transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: transform 0.68s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Larger book in Maximum Fullscreen Mode */
+.flipbook-stage.is-maximized .flipbook-book {
+  height: min(76vh, 720px);
+  width: calc(min(76vh, 720px) * 1.414);
+  max-width: 88vw;
 }
 
 /* Center cover cleanly when closed front or closed back */
@@ -1445,8 +1592,7 @@ body {
   height: 100%;
   transform-origin: left center;
   transform-style: preserve-3d;
-  transition: transform 0.75s cubic-bezier(0.645, 0.045, 0.355, 1);
-  cursor: pointer;
+  transition: transform 0.68s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .flipbook-sheet.flipped {
@@ -1495,22 +1641,22 @@ body {
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.32s ease;
 }
 
 .flipbook-face.front::after {
-  background: linear-gradient(90deg, rgba(0,0,0,0.16) 0%, rgba(255,255,255,0.12) 18%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.08) 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,0.16) 0%, rgba(255,255,255,0.14) 18%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.08) 100%);
 }
 
 .flipbook-face.back::after {
-  background: linear-gradient(270deg, rgba(0,0,0,0.16) 0%, rgba(255,255,255,0.12) 18%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.08) 100%);
+  background: linear-gradient(270deg, rgba(0,0,0,0.16) 0%, rgba(255,255,255,0.14) 18%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.08) 100%);
 }
 
 .flipbook-sheet.turning .flipbook-face::after {
   opacity: 1;
 }
 
-/* Subtle interactive corner curl hint on hover */
+/* Subtle corner curl hint */
 .flipbook-corner-hint {
   position: absolute;
   bottom: 0;
@@ -1518,7 +1664,7 @@ body {
   height: 44px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity 0.22s ease;
 }
 
 .flipbook-face.front .flipbook-corner-hint {
@@ -1535,24 +1681,58 @@ body {
   opacity: 1;
 }
 
+/* Inline hover prompt pill */
+.flipbook-inline-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 26, 42, 0.85);
+  color: #fdf3da;
+  border: 1.5px solid #e6a832;
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  pointer-events: none;
+  opacity: 0.92;
+  z-index: 35;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.flipbook-stage:not(.is-maximized) .flipbook-zoom-wrap:hover .flipbook-inline-badge {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.04);
+}
+
+.flipbook-stage.is-maximized .flipbook-inline-badge {
+  display: none;
+}
+
 /* Mobile single-page flip mode */
 .flipbook-mobile-view {
   display: none;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
 .flipbook-mobile-card {
   position: relative;
-  width: min(92vw, 390px);
+  width: min(86vw, 370px);
   aspect-ratio: 1241 / 1754;
   background: #fdf9f1;
   border-radius: 7px;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
   overflow: hidden;
-  cursor: pointer;
   transform-style: preserve-3d;
+}
+
+.flipbook-stage.is-maximized .flipbook-mobile-card {
+  width: min(92vw, calc(74vh * 0.707));
 }
 
 .flipbook-mobile-card img {
@@ -1560,14 +1740,15 @@ body {
   height: 100%;
   object-fit: contain;
   display: block;
+  pointer-events: none;
 }
 
 .flipbook-mobile-card.flip-next {
-  animation: mobileFlipNext 0.48s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation: mobileFlipNext 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 .flipbook-mobile-card.flip-prev {
-  animation: mobileFlipPrev 0.48s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation: mobileFlipPrev 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 @keyframes mobileFlipNext {
@@ -1588,6 +1769,7 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.65rem;
+  z-index: 40;
 }
 
 .flipbook-indicator {
@@ -1625,8 +1807,9 @@ body {
 
 .flipbook-hint-bar {
   font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.74);
   text-align: center;
+  z-index: 40;
 }
 
 @media (max-width: 860px) {
@@ -1635,6 +1818,11 @@ body {
   }
   .flipbook-mobile-view {
     display: flex;
+  }
+  .flipbook-side-arrow {
+    width: 38px;
+    height: 38px;
+    font-size: 1.35rem;
   }
 }
 

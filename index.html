@@ -814,7 +814,7 @@
               Game-On! Symposium 2027 — Sponsorship Prospectus
             </h3>
             <p style="font-size:0.85rem; color:#d7dfef; margin:0.25rem 0 0;">
-              Browse the full 2-page spread prospectus below, click any page to zoom, or download the Flipbook-ready PDF &amp; editable Word document.
+              Click the prospectus below to launch Fullscreen Flipbook Mode with realistic 3D page turns and magnifying zoom.
             </p>
           </div>
           <div class="flipbook-actions">
@@ -830,17 +830,39 @@
           </div>
         </div>
 
-        <div class="flipbook-stage">
-          <!-- Desktop 3D Physical Page-Turn Book -->
-          <div class="flipbook-viewport" aria-live="polite">
-            <div class="flipbook-book pos-front" id="flipbookBook"></div>
+        <div class="flipbook-stage" id="flipbookStage">
+          <!-- Fullscreen Maximum Mode Top Bar -->
+          <div class="flipbook-max-topbar">
+            <div class="flipbook-max-title">
+              📖 Game-On! Symposium 2027 — Sponsorship Prospectus
+            </div>
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <a href="assets/Game-On-Symposium-2027-Sponsorship-Prospectus.pdf" download class="btn btn-mustard btn-sm" style="text-decoration:none;">📥 Download PDF</a>
+              <button type="button" class="flipbook-max-close" id="flipMaxCloseBtn" aria-label="Exit Fullscreen Flipbook">✕ Exit Fullscreen</button>
+            </div>
           </div>
 
-          <!-- Mobile Single-Page Flip View -->
-          <div class="flipbook-mobile-view" id="flipbookMobileView">
-            <div class="flipbook-mobile-card" id="flipbookMobileCard" title="Tap to zoom page">
-              <img id="flipbookMobileImg" src="assets/prospectus-pages/page-1.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus" />
+          <div class="flipbook-stage-body">
+            <button type="button" class="flipbook-side-arrow prev" id="flipSidePrevBtn" aria-label="Previous page">&#8249;</button>
+
+            <div class="flipbook-zoom-wrap" id="flipbookZoomWrap" title="Click to maximize into Fullscreen Flipbook">
+              <div class="flipbook-zoom-canvas" id="flipbookZoomCanvas">
+                <!-- Desktop 3D Physical Page-Turn Book -->
+                <div class="flipbook-viewport" aria-live="polite">
+                  <div class="flipbook-book pos-front" id="flipbookBook"></div>
+                </div>
+
+                <!-- Mobile Single-Page Flip View -->
+                <div class="flipbook-mobile-view" id="flipbookMobileView">
+                  <div class="flipbook-mobile-card" id="flipbookMobileCard">
+                    <img id="flipbookMobileImg" src="assets/prospectus-pages/page-1.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus" />
+                  </div>
+                </div>
+              </div>
+              <div class="flipbook-inline-badge">🔍 Click prospectus to open Fullscreen Flipbook</div>
             </div>
+
+            <button type="button" class="flipbook-side-arrow next" id="flipSideNextBtn" aria-label="Next page">&#8250;</button>
           </div>
 
           <div class="flipbook-controls">
@@ -848,11 +870,9 @@
             <div class="flipbook-indicator" id="flipPageIndicator">Front Cover (Page 1 of 6)</div>
             <div class="flipbook-dots" id="flipDotsContainer"></div>
             <button type="button" class="btn btn-mustard btn-sm" id="flipNextBtn">Next ▶</button>
-            <button type="button" class="btn btn-outline btn-sm" id="flipZoomBtn" style="background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.35);">🔍 Zoom</button>
-            <button type="button" class="btn btn-outline btn-sm" id="flipSoundBtn" aria-pressed="true" style="background:rgba(230,168,50,0.22); color:#fdf3da; border-color:#e6a832;">🔊 Sound On</button>
           </div>
-          <div class="flipbook-hint-bar">
-            💡 Click a page edge, swipe, or use <strong>← / →</strong> arrow keys to flip pages with 3D paper-turn sound.
+          <div class="flipbook-hint-bar" id="flipbookHintBar">
+            💡 Click the prospectus to enter Fullscreen Flipbook Mode · Use <strong>‹ / ›</strong> or <strong>← / →</strong> keys to flip pages.
           </div>
         </div>
       </div>

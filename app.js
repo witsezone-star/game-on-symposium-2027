@@ -1784,8 +1784,11 @@
     showToast("Reset EventHub platform data to fresh state!", "↺");
   });
 
-  // Interactive 3D 6-Page Portrait Prospectus Flipbook Viewer + Paper Page-Turn SFX
+  // Interactive 3D 6-Page Portrait Prospectus Flipbook Viewer + Uploaded MP3 Flip Sound + Fullscreen Magnifier
   function initProspectusFlipbook() {
+    const stageEl = document.getElementById("flipbookStage");
+    const zoomWrapEl = document.getElementById("flipbookZoomWrap");
+    const zoomCanvasEl = document.getElementById("flipbookZoomCanvas");
     const bookEl = document.getElementById("flipbookBook");
     const mobileCardEl = document.getElementById("flipbookMobileCard");
     const mobileImgEl = document.getElementById("flipbookMobileImg");
@@ -1793,9 +1796,11 @@
     const dotsEl = document.getElementById("flipDotsContainer");
     const prevBtn = document.getElementById("flipPrevBtn");
     const nextBtn = document.getElementById("flipNextBtn");
-    const zoomBtn = document.getElementById("flipZoomBtn");
-    const soundBtn = document.getElementById("flipSoundBtn");
-    if (!bookEl || !indicatorEl || !dotsEl) return;
+    const sidePrevBtn = document.getElementById("flipSidePrevBtn");
+    const sideNextBtn = document.getElementById("flipSideNextBtn");
+    const closeMaxBtn = document.getElementById("flipMaxCloseBtn");
+    const hintBarEl = document.getElementById("flipbookHintBar");
+    if (!stageEl || !bookEl || !indicatorEl || !dotsEl) return;
 
     const totalPages = 6;
     const sheetsConfig = [
@@ -1804,74 +1809,18 @@
       { front: 5, back: 6 }
     ];
 
-    let soundEnabled = true;
-    let audioCtx = null;
+    // Preload the user's attached real page-flip MP3 sound effect
+    const baseFlipAudio = new Audio("assets/page-flip.mp3");
+    baseFlipAudio.preload = "auto";
+    baseFlipAudio.volume = 0.85;
 
-    // Synthesize a realistic soft magazine paper page-flip sound via Web Audio API
-    function playPageFlipSound(direction = "next") {
-      if (!soundEnabled) return;
+    function playPageFlipSound() {
       try {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        if (!audioCtx) audioCtx = new AudioContextClass();
-        if (audioCtx.state === "suspended") audioCtx.resume();
-
-        const now = audioCtx.currentTime;
-        const duration = 0.30;
-        const bufferSize = Math.floor(audioCtx.sampleRate * duration);
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-
-        // Soft pink-ish filtered noise with natural paper rustle envelope
-        let b0 = 0, b1 = 0, b2 = 0;
-        for (let i = 0; i < bufferSize; i++) {
-          const white = Math.random() * 2 - 1;
-          b0 = 0.997 * b0 + white * 0.029;
-          b1 = 0.985 * b1 + white * 0.032;
-          b2 = 0.950 * b2 + white * 0.048;
-          const t = i / bufferSize;
-          // Two-phase paper curve: crisp lift + smooth sweep + soft settle
-          const env =
-            t < 0.14
-              ? Math.sin((t / 0.14) * (Math.PI / 2)) * 0.85
-              : t < 0.65
-              ? 0.85 - (t - 0.14) * 0.45
-              : Math.pow(1 - (t - 0.65) / 0.35, 1.8) * 0.62;
-          data[i] = (b0 + b1 + b2 + white * 0.14) * env;
-        }
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-
-        const bandpass = audioCtx.createBiquadFilter();
-        bandpass.type = "bandpass";
-        bandpass.Q.setValueAtTime(1.15, now);
-        if (direction === "next") {
-          bandpass.frequency.setValueAtTime(1050, now);
-          bandpass.frequency.exponentialRampToValueAtTime(2450, now + 0.11);
-          bandpass.frequency.exponentialRampToValueAtTime(780, now + duration);
-        } else {
-          bandpass.frequency.setValueAtTime(1250, now);
-          bandpass.frequency.exponentialRampToValueAtTime(2100, now + 0.12);
-          bandpass.frequency.exponentialRampToValueAtTime(700, now + duration);
-        }
-
-        const highshelf = audioCtx.createBiquadFilter();
-        highshelf.type = "highshelf";
-        highshelf.frequency.setValueAtTime(3200, now);
-        highshelf.gain.setValueAtTime(-5, now);
-
-        const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.linearRampToValueAtTime(0.24, now + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-        noise.connect(bandpass);
-        bandpass.connect(highshelf);
-        highshelf.connect(gain);
-        gain.connect(audioCtx.destination);
-        noise.start(now);
-        noise.stop(now + duration);
+        const sfx = baseFlipAudio.cloneNode();
+        sfx.volume = 0.85;
+        sfx.currentTime = 0;
+        const p = sfx.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
       } catch (err) {
         // Ignore audio errors if blocked by browser policy
       }
@@ -1882,11 +1831,11 @@
       .map(
         (s, idx) => `
       <div class="flipbook-sheet" data-sheet="${idx}" style="z-index:${sheetsConfig.length - idx};">
-        <div class="flipbook-face front" data-page="${s.front}" title="Click to turn to next page">
+        <div class="flipbook-face front" data-page="${s.front}">
           <img src="assets/prospectus-pages/page-${s.front}.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${s.front}" loading="eager" />
           <span class="flipbook-corner-hint"></span>
         </div>
-        <div class="flipbook-face back" data-page="${s.back}" title="Click to turn to previous page">
+        <div class="flipbook-face back" data-page="${s.back}">
           <img src="assets/prospectus-pages/page-${s.back}.png" alt="Game-On! Symposium 2027 Sponsorship Prospectus — Page ${s.back}" loading="eager" />
           <span class="flipbook-corner-hint"></span>
         </div>
@@ -1898,10 +1847,91 @@
     const sheetEls = Array.from(bookEl.querySelectorAll(".flipbook-sheet"));
     let desktopStep = 0; // 0 = Cover (P1), 1 = Spread (P2-3), 2 = Spread (P4-5), 3 = Back Cover (P6)
     let mobilePage = 1;  // 1..6
+    let isMaximized = false;
+    let isZoomedIn = false;
 
     const isMobile = () => window.innerWidth <= 860;
 
+    function resetPageZoom() {
+      isZoomedIn = false;
+      zoomWrapEl?.classList.remove("is-zoomed");
+      if (zoomCanvasEl) {
+        zoomCanvasEl.style.transformOrigin = "center center";
+        zoomCanvasEl.style.transform = "scale(1)";
+      }
+      if (zoomWrapEl && isMaximized) {
+        zoomWrapEl.title = "Click page to magnify in";
+      }
+    }
+
+    function setMaximized(maximize) {
+      isMaximized = maximize;
+      resetPageZoom();
+      stageEl.classList.toggle("is-maximized", isMaximized);
+      document.body.style.overflow = isMaximized ? "hidden" : "";
+      if (zoomWrapEl) {
+        zoomWrapEl.title = isMaximized
+          ? "Click page to magnify in"
+          : "Click to maximize into Fullscreen Flipbook";
+      }
+      if (hintBarEl) {
+        hintBarEl.innerHTML = isMaximized
+          ? "🔍 Click any page to <strong>magnify in / out</strong> · Move cursor to pan when zoomed · Use <strong>‹ / ›</strong> or <strong>← / →</strong> to flip · <strong>Esc</strong> to exit."
+          : "💡 Click the prospectus to enter Fullscreen Flipbook Mode · Use <strong>‹ / ›</strong> or <strong>← / →</strong> keys to flip pages.";
+      }
+    }
+
+    function applyMagnifierAt(clientX, clientY) {
+      if (!zoomWrapEl || !zoomCanvasEl) return;
+      const rect = zoomWrapEl.getBoundingClientRect();
+      const xPct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      const yPct = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
+      zoomCanvasEl.style.transformOrigin = `${xPct}% ${yPct}%`;
+      zoomCanvasEl.style.transform = "scale(1.85)";
+    }
+
+    // Clicking the PDF viewer:
+    // - When inline -> maximizes the entire Flipbook into Fullscreen Mode!
+    // - When already in Fullscreen Mode -> magnifying glass toggles Zoom In (1.85x) / Zoom Out (full page view)!
+    zoomWrapEl?.addEventListener("click", e => {
+      if (!isMaximized) {
+        setMaximized(true);
+        // If user clicks cover from inline mode, also open the book immediately with flip sound!
+        if (!isMobile() && desktopStep === 0) {
+          setTimeout(() => {
+            if (isMaximized && desktopStep === 0) goNext();
+          }, 220);
+        }
+        return;
+      }
+
+      if (!isZoomedIn) {
+        isZoomedIn = true;
+        zoomWrapEl.classList.add("is-zoomed");
+        zoomWrapEl.title = "Click to zoom back out to full page view";
+        applyMagnifierAt(e.clientX, e.clientY);
+      } else {
+        resetPageZoom();
+      }
+    });
+
+    // Smooth pan while magnified inside Fullscreen Mode
+    zoomWrapEl?.addEventListener("mousemove", e => {
+      if (!isMaximized || !isZoomedIn) return;
+      applyMagnifierAt(e.clientX, e.clientY);
+    });
+
+    closeMaxBtn?.addEventListener("click", () => setMaximized(false));
+
+    function syncNavDisabled(isFirst, isLast) {
+      if (prevBtn) prevBtn.disabled = isFirst;
+      if (nextBtn) nextBtn.disabled = isLast;
+      if (sidePrevBtn) sidePrevBtn.disabled = isFirst;
+      if (sideNextBtn) sideNextBtn.disabled = isLast;
+    }
+
     function updateDesktopBook(prevStep = desktopStep, withSound = false) {
+      resetPageZoom();
       bookEl.classList.remove("pos-front", "pos-open", "pos-back");
       if (desktopStep === 0) bookEl.classList.add("pos-front");
       else if (desktopStep === sheetsConfig.length) bookEl.classList.add("pos-back");
@@ -1909,12 +1939,12 @@
 
       const direction = desktopStep >= prevStep ? "next" : "prev";
       if (withSound && desktopStep !== prevStep) {
-        playPageFlipSound(direction);
+        playPageFlipSound();
       }
 
       sheetEls.forEach((sheet, idx) => {
         const shouldBeFlipped = idx < desktopStep;
-        const isTurning = (idx >= Math.min(prevStep, desktopStep) && idx < Math.max(prevStep, desktopStep));
+        const isTurning = idx >= Math.min(prevStep, desktopStep) && idx < Math.max(prevStep, desktopStep);
 
         if (isTurning) {
           sheet.classList.add("turning");
@@ -1922,7 +1952,7 @@
           setTimeout(() => {
             sheet.classList.remove("turning");
             sheet.style.zIndex = idx < desktopStep ? idx + 1 : sheetsConfig.length - idx;
-          }, 740);
+          }, 700);
         } else {
           sheet.style.zIndex = shouldBeFlipped ? idx + 1 : sheetsConfig.length - idx;
         }
@@ -1937,8 +1967,7 @@
         `Back Cover (Page ${totalPages} of ${totalPages})`
       ];
       indicatorEl.textContent = labels[desktopStep];
-      if (prevBtn) prevBtn.disabled = desktopStep === 0;
-      if (nextBtn) nextBtn.disabled = desktopStep === sheetsConfig.length;
+      syncNavDisabled(desktopStep === 0, desktopStep === sheetsConfig.length);
 
       dotsEl.innerHTML = labels
         .map(
@@ -1960,12 +1989,13 @@
     }
 
     function updateMobileBook(direction = null) {
+      resetPageZoom();
       if (mobileImgEl) {
         mobileImgEl.src = `assets/prospectus-pages/page-${mobilePage}.png`;
         mobileImgEl.alt = `Game-On! Symposium 2027 Sponsorship Prospectus — Page ${mobilePage}`;
       }
       if (direction && mobileCardEl) {
-        playPageFlipSound(direction);
+        playPageFlipSound();
         mobileCardEl.classList.remove("flip-next", "flip-prev");
         void mobileCardEl.offsetWidth;
         mobileCardEl.classList.add(direction === "next" ? "flip-next" : "flip-prev");
@@ -1978,8 +2008,7 @@
           ? `Back Cover (Page ${totalPages} of ${totalPages})`
           : `Page ${mobilePage} of ${totalPages}`;
 
-      if (prevBtn) prevBtn.disabled = mobilePage === 1;
-      if (nextBtn) nextBtn.disabled = mobilePage === totalPages;
+      syncNavDisabled(mobilePage === 1, mobilePage === totalPages);
 
       dotsEl.innerHTML = Array.from({ length: totalPages }, (_, i) => {
         const pg = i + 1;
@@ -2028,54 +2057,36 @@
       }
     }
 
-    // Click right-hand sheet to flip forward, left-hand flipped sheet to flip back (like Heyzine!)
-    sheetEls.forEach((sheet, idx) => {
-      sheet.addEventListener("click", () => {
-        if (idx < desktopStep) goPrev();
-        else goNext();
-      });
-    });
-
-    // Zoom button opens current primary page in full-screen Lightbox
-    function openCurrentZoom() {
-      let pageNum = 1;
-      if (isMobile()) {
-        pageNum = mobilePage;
-      } else {
-        pageNum = desktopStep === 0 ? 1 : desktopStep === 1 ? 2 : desktopStep === 2 ? 4 : 6;
-      }
-      const targetImg = document.getElementById("lightboxImage");
-      if (targetImg) targetImg.src = `assets/prospectus-pages/page-${pageNum}.png`;
-      document.getElementById("lightboxModal")?.classList.add("open");
-    }
-
-    zoomBtn?.addEventListener("click", openCurrentZoom);
-    mobileCardEl?.addEventListener("click", openCurrentZoom);
-
-    // Sound toggle button
-    soundBtn?.addEventListener("click", () => {
-      soundEnabled = !soundEnabled;
-      soundBtn.setAttribute("aria-pressed", String(soundEnabled));
-      soundBtn.textContent = soundEnabled ? "🔊 Sound On" : "🔇 Sound Off";
-      soundBtn.style.background = soundEnabled ? "rgba(230,168,50,0.22)" : "rgba(255,255,255,0.08)";
-      soundBtn.style.borderColor = soundEnabled ? "#e6a832" : "rgba(255,255,255,0.25)";
-      if (soundEnabled) playPageFlipSound("next");
-    });
-
     prevBtn?.addEventListener("click", goPrev);
     nextBtn?.addEventListener("click", goNext);
+    sidePrevBtn?.addEventListener("click", e => {
+      e.stopPropagation();
+      goPrev();
+    });
+    sideNextBtn?.addEventListener("click", e => {
+      e.stopPropagation();
+      goNext();
+    });
 
     // Touch swipe support for mobile/tablet
     let touchStartX = 0;
-    const stageEl = document.querySelector(".flipbook-stage");
-    stageEl?.addEventListener("touchstart", e => {
-      touchStartX = e.changedTouches[0]?.screenX || 0;
-    }, { passive: true });
-    stageEl?.addEventListener("touchend", e => {
-      const dx = (e.changedTouches[0]?.screenX || 0) - touchStartX;
-      if (dx < -45) goNext();
-      else if (dx > 45) goPrev();
-    }, { passive: true });
+    stageEl.addEventListener(
+      "touchstart",
+      e => {
+        touchStartX = e.changedTouches[0]?.screenX || 0;
+      },
+      { passive: true }
+    );
+    stageEl.addEventListener(
+      "touchend",
+      e => {
+        if (isZoomedIn) return;
+        const dx = (e.changedTouches[0]?.screenX || 0) - touchStartX;
+        if (dx < -45) goNext();
+        else if (dx > 45) goPrev();
+      },
+      { passive: true }
+    );
 
     window.addEventListener("resize", () => {
       if (isMobile()) updateMobileBook(null);
@@ -2084,7 +2095,12 @@
 
     document.addEventListener("keydown", e => {
       const sponsorsActive = document.getElementById("tab-sponsors")?.classList.contains("active");
-      if (!sponsorsActive) return;
+      if (e.key === "Escape" && isMaximized) {
+        if (isZoomedIn) resetPageZoom();
+        else setMaximized(false);
+        return;
+      }
+      if (!sponsorsActive && !isMaximized) return;
       if (e.key === "ArrowRight") goNext();
       if (e.key === "ArrowLeft") goPrev();
     });
